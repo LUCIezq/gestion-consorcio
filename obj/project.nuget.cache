@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "tIEUzDMv4qc=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mlord\\OneDrive\\Escritorio\\Practica-Parcial\\PracticaParcial\\PracticaParcial.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mlord\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.extensions\\6.0.0\\microsoft.aspnetcore.mvc.razor.extensions.6.0.0.nupkg.sha512",
+    "C:\\Users\\mlord\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.runtimecompilation\\10.0.8\\microsoft.aspnetcore.mvc.razor.runtimecompilation.10.0.8.nupkg.sha512",
+    "C:\\Users\\mlord\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\6.0.0\\microsoft.aspnetcore.razor.language.6.0.0.nupkg.sha512",
+    "C:\\Users\\mlord\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.2\\microsoft.codeanalysis.analyzers.3.3.2.nupkg.sha512",
+    "C:\\Users\\mlord\\.nuget\\packages\\microsoft.codeanalysis.common\\4.0.0\\microsoft.codeanalysis.common.4.0.0.nupkg.sha512",
+    "C:\\Users\\mlord\\.nuget\\packages\\microsoft.codeanalysis.csharp\\4.0.0\\microsoft.codeanalysis.csharp.4.0.0.nupkg.sha512",
+    "C:\\Users\\mlord\\.nuget\\packages\\microsoft.codeanalysis.razor\\6.0.0\\microsoft.codeanalysis.razor.6.0.0.nupkg.sha512",
+    "C:\\Users\\mlord\\.nuget\\packages\\microsoft.extensions.dependencymodel\\10.0.8\\microsoft.extensions.dependencymodel.10.0.8.nupkg.sha512"
+  ],
+  "logs": []
+}

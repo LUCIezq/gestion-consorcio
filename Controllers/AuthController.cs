@@ -1,0 +1,99 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using PracticaParcial.Models;
+using PracticaParcial.Models.Auth;
+using PracticaParcial.Models.Auth.Login;
+using PracticaParcial.Models.Auth.Register;
+using PracticaParcial.Filters;
+namespace PracticaParcial.Controllers
+{
+    public class AuthController : Controller
+    {
+        private readonly IAuthService _service;
+
+        public AuthController(IAuthService service)
+        {
+            this._service = service;
+        }
+
+        [RedirectIfAuthenticatedFilter]
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            RegisterResponse response = _service.Register(model);
+
+            if (response.Success)
+            {
+                TempData["SuccessMessage"] = response.Message;
+                return RedirectToAction("Login", "Auth");
+            }
+
+            ModelState.AddModelError(string.Empty, response.Message);
+            return View(model);
+        }
+
+        [RedirectIfAuthenticatedFilter]
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            LoginResponse response = _service.Login(model);
+
+            if (!response.Success)
+            {
+                ModelState.AddModelError(string.Empty, response.Message);
+                return View(model);
+            }
+
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, response.User!.Id.ToString()),
+                new(ClaimTypes.Email, response.User.Email)
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                principal,
+                new AuthenticationProperties
+                {
+                    IsPersistent = model.RememberMe,
+                    ExpiresUtc = model.RememberMe ? DateTime.UtcNow.AddDays(7) : DateTime.UtcNow.AddHours(1)
+                }
+            );
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Auth");
+        }
+    }
+}

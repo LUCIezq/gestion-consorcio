@@ -1,0 +1,12 @@
+@using System.Security.Claims
+@model PracticaParcial.Views.User.Profile
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h2>
+    Bienvenido, @User.FindFirstValue(ClaimTypes.Email);
+</h2>
+
