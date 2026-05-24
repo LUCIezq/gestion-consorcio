@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PracticaParcial")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed09661637c9979365ac9d04a4153a9f3634c5e7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ff742095bfe13075ea330d1117ec2bdb8496dd1")]
 [assembly: System.Reflection.AssemblyProductAttribute("PracticaParcial")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PracticaParcial")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
