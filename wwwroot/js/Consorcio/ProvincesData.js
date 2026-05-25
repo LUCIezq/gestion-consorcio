@@ -1,7 +1,7 @@
-const URL = "https://apis.datos.gob.ar/georef/api/provincias?campos=id,nombre";
+import { URLS } from "../env/urls.js";
+
 const provinciaSelect = document.getElementById('provinciaSelect');
 const ciudadesSelect = document.getElementById('ciudadSelect');
-
 
 loadProvincesToSelect();
 
@@ -20,13 +20,15 @@ async function loadProvincesToSelect() {
 
 function createElement(e, node) {
     const option = document.createElement('option');
+
     option.value = e.id;
     option.textContent = e.nombre;
+
     node.appendChild(option);
 }
 
 async function getProvinces() {
-    const response = await fetch(URL);
+    const response = await fetch(URLS.provincias);
 
     if (!response.ok) {
         throw new Error(`Error al obtener las provincias: ${response.status} ${response.statusText}`);
@@ -35,17 +37,18 @@ async function getProvinces() {
 }
 
 async function obtenerCantidadCiudadesPorProvincia(id, max = 1) {
-    const URL_CIUDADES = `https://apis.datos.gob.ar/georef/api/localidades?provincia=${id}&campos=id,nombre&max=${max}`;
+    const URL_CIUDADES = URLS.municipios(id, max);
 
     const data = await fetch(URL_CIUDADES);
 
     if (!data.ok) {
-        throw new Error(`Error al obtener las provincias":${data.status} ${data.statusText}`);
+        throw new Error(`Error al obtener las ciudades: ${data.status} ${data.statusText}`);
     }
 
     return await data.json();
 
 }
+
 function clearSelect(select) {
     while (select.options.length > 1) {
         select.remove(1);
@@ -61,7 +64,7 @@ provinciaSelect.addEventListener('change', async e => {
 
     const dataJSON = await obtenerCantidadCiudadesPorProvincia(id, total);
 
-    dataJSON.localidades.forEach(e => {
+    dataJSON.municipios.forEach(e => {
         createElement(e, ciudadesSelect);
     })
 })

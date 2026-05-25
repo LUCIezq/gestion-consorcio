@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PracticaParcial.Models.Consorcio;
 
 namespace PracticaParcial.Controllers
 {
     [Authorize]
-    [Route("consorcio")]
     public class ConsorcioController : Controller
     {
 
@@ -13,14 +13,25 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-        [Route("nuevo-consorcio")]
         public IActionResult Create()
         {
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(CreateConsorcioViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction("Create", "Consorcio");
+        }
+
         [HttpGet]
-        [Route("consorcios")]
         public IActionResult Index()
         {
             return View();
