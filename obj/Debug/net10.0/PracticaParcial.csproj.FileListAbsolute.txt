@@ -439,3 +439,4 @@ C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\ne
 C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\Practica.67E623D7.Up2Date
 C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\f6yy6vhwhy-{0}-7byjt09pib-7byjt09pib.gz
 C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\PracticaParcial.sourcelink.json
+C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\4c0r20u55i-{0}-2b6l9jd3xb-2b6l9jd3xb.gz

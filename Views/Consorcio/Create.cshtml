@@ -1,0 +1,83 @@
+@model PracticaParcial.Models.Consorcio.CreateConsorcioViewModel
+
+@{
+    ViewData["Title"] = "Nuevo Consorcio";
+}
+
+<div class="container mt-4">
+    <!-- Breadcrumb o Navegación -->
+    <div class="d-flex align-items-center mb-4">
+        <a asp-action="Index" class="text-decoration-none fw-semibold">Mis Consorcios</a>
+        <span class="mx-2 text-muted">&gt;</span>
+        <span class="text-muted fw-bold">Nuevo Consorcio</span>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <h2 class="text-center fw-bold mb-4">@ViewData["Title"]</h2>
+
+            <!-- Tarjeta del formulario -->
+            <div class="card shadow-sm border-0 bg-white">
+                <div class="card-body p-4 p-md-5">
+                    <form asp-action="Create" method="post">
+                        
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label fw-bold">Nombre (*)</label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Nombre" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <!-- Provincia -->
+                        <div class="mb-3">
+                            <label asp-for="ProvinciaId" class="form-label fw-bold">Provincia (*)</label>
+                            <select asp-for="ProvinciaId" class="form-select" id="provinciaSelect">
+                                <option disabled selected value="">Seleccione una provincia...</option>
+                            </select>
+                            <span asp-validation-for="ProvinciaId" class="text-danger"></span>
+                        </div>
+
+                        <!-- Ciudad -->
+                        <div class="mb-3">
+                            <label asp-for="CiudadId" class="form-label fw-bold">Ciudad (*)</label>
+                            <select asp-for="CiudadId" class="form-select" id="ciudadSelect">
+                                <option id='defaultCity' disabled selected value="">Seleccione una ciudad...</option>
+                            </select>
+                            <span asp-validation-for="CiudadId" class="text-danger"></span>
+                        </div>
+
+                        <!-- Calle -->
+                        <div class="mb-3">
+                            <label asp-for="Calle" class="form-label fw-bold">Calle (*)</label>
+                            <input asp-for="Calle" class="form-control" placeholder="Calle" />
+                            <span asp-validation-for="Calle" class="text-danger"></span>
+                        </div>
+
+                        <!-- Altura -->
+                        <div class="mb-3">
+                            <label asp-for="Altura" class="form-label fw-bold">Altura (*)</label>
+                            <input asp-for="Altura" type="number" class="form-control" placeholder="Altura" />
+                            <span asp-validation-for="Altura" class="text-danger"></span>
+                        </div>
+
+                        <!-- Dia Vencimiento Expensas -->
+                        <div class="mb-4">
+                            <label asp-for="DiaVencimientoExpensas" class="form-label fw-bold">Dia Venc. Expensas (*)</label>
+                            <input asp-for="DiaVencimientoExpensas" type="number" min="1" max="31" class="form-control" value="1" />
+                            <span asp-validation-for="DiaVencimientoExpensas" class="text-danger"></span>
+                        </div>
+                        <!-- Botones -->
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary fw-bold rounded-pill">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Consorcio/ProvincesData.js"></script>
+}
