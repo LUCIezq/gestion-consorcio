@@ -1,0 +1,62 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model IEnumerable<Consorcio.Entidades.Unidad>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Unidades del Consorcio</h2>
+        <a asp-action="Crear" class="btn btn-success">
+            Nueva Unidad
+        </a>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-striped table-hover table-bordered mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th>Unidad</th>
+                    <th>Apellido</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Superficie (m²)</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="align-middle"><strong>@item.Nombre</strong></td>
+                            <td class="align-middle">@item.ApellidoPropietario</td>
+                            <td class="align-middle">@item.NombrePropietario</td>
+                            <td class="align-middle">@item.EmailPropietario</td>
+                            <td class="align-middle">@item.Superficie</td>
+                            <td class="text-center align-middle">
+                                <a asp-action="Editar" asp-route-id="@item.IdUnidad" class="btn btn-sm btn-outline-primary">
+                                    Editar
+                                </a>
+                                <a asp-action="Eliminar" asp-route-id="@item.IdUnidad" class="btn btn-sm btn-outline-danger">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            No hay unidades registradas en este consorcio actualmente.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
