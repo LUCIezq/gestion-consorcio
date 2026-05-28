@@ -1,11 +1,16 @@
+using Consorcio.Entidades;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Users;
 using PracticaParcial.Repository;
 using PracticaParcial.Repository.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
+
+using var db = new UnidadDbContext();
+db.Database.Migrate();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
