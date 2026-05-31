@@ -1,4 +1,5 @@
 using Consorcio.Entidades;
+using Logica;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 using var db = new UnidadDbContext();
 db.Database.Migrate();
 
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IUnidadLogica, UnidadLogica>();
+
+builder.Services.AddDbContext<UnidadDbContext>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
