@@ -887,7 +887,9 @@ C:\Users\Sebastian\source\repos\gestion-consorcio\bin\Debug\net10.0\runtimes\win
 C:\Users\Sebastian\source\repos\gestion-consorcio\bin\Debug\net10.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\Sebastian\source\repos\gestion-consorcio\bin\Debug\net10.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\Sebastian\source\repos\gestion-consorcio\bin\Debug\net10.0\Consorcio.Entidades.dll
+C:\Users\Sebastian\source\repos\gestion-consorcio\bin\Debug\net10.0\UnidadLogica.dll
 C:\Users\Sebastian\source\repos\gestion-consorcio\bin\Debug\net10.0\Consorcio.Entidades.pdb
+C:\Users\Sebastian\source\repos\gestion-consorcio\bin\Debug\net10.0\UnidadLogica.pdb
 C:\Users\Sebastian\source\repos\gestion-consorcio\obj\Debug\net10.0\PracticaParcial.csproj.AssemblyReference.cache
 C:\Users\Sebastian\source\repos\gestion-consorcio\obj\Debug\net10.0\rpswa.dswa.cache.json
 C:\Users\Sebastian\source\repos\gestion-consorcio\obj\Debug\net10.0\PracticaParcial.GeneratedMSBuildEditorConfig.editorconfig

@@ -1,87 +1,44 @@
 ﻿using Consorcio.Entidades;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Logica;
+using PracticaParcial.Models.Unidades;
 
 namespace PracticaParcial.Controllers
 {
     public class UnidadesController : Controller
     {
-        // GET: UnidadesController
+        private readonly IUnidadLogica unidadLogica;
+
+
+        public UnidadesController(IUnidadLogica unidadLogica)
+        {
+            this.unidadLogica = unidadLogica;
+        }
+
         public ActionResult Index()
         {
-            var db = new UnidadDbContext();
-            var unidades = db.Unidades.ToList();
             
+            var unidades = unidadLogica.ObtenerUnidades();
             return View(unidades);
         }
 
-        // GET: UnidadesController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Agregar()
         {
             return View();
         }
 
-        // GET: UnidadesController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UnidadesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Agregar(UnidadViewModel unidadVM)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            if (!ModelState.IsValid)
+                return View(unidadVM);
+
+            unidadLogica.AgregarUnidad(unidadVM.ToEntity());
+            return RedirectToAction("Index");
+            
+           
         }
 
-        // GET: UnidadesController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: UnidadesController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UnidadesController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UnidadesController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
