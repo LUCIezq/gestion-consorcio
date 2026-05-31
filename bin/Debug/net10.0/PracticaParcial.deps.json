@@ -44,6 +44,7 @@
           "Microsoft.EntityFrameworkCore.Design": "10.0.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "10.0.8",
           "Microsoft.EntityFrameworkCore.Tools": "10.0.8",
+          "UnidadLogica": "1.0.0",
           "Microsoft.AspNetCore.Antiforgery": "10.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "10.0.0.0",
           "Microsoft.AspNetCore.Authentication.BearerToken": "10.0.0.0",
@@ -1246,6 +1247,21 @@
         },
         "compile": {
           "Consorcio.Entidades.dll": {}
+        }
+      },
+      "UnidadLogica/1.0.0": {
+        "dependencies": {
+          "Consorcio.Entidades": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "10.0.8"
+        },
+        "runtime": {
+          "UnidadLogica.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        },
+        "compile": {
+          "UnidadLogica.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/10.0.0.0": {
@@ -3446,6 +3462,11 @@
       "hashPath": "system.security.cryptography.protecteddata.9.0.4.nupkg.sha512"
     },
     "Consorcio.Entidades/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnidadLogica/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1109,6 +1109,20 @@
         "runtime": {
           "bin/placeholder/Consorcio.Entidades.dll": {}
         }
+      },
+      "UnidadLogica/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Consorcio.Entidades": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "10.0.8"
+        },
+        "compile": {
+          "bin/placeholder/UnidadLogica.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UnidadLogica.dll": {}
+        }
       }
     }
   },
@@ -3216,8 +3230,13 @@
     },
     "Consorcio.Entidades/1.0.0": {
       "type": "project",
-      "path": "../Consorcio.Entidades/Consorcio.Entidades.csproj",
-      "msbuildProject": "../Consorcio.Entidades/Consorcio.Entidades.csproj"
+      "path": "Consorcio.Entidades/Consorcio.Entidades.csproj",
+      "msbuildProject": "Consorcio.Entidades/Consorcio.Entidades.csproj"
+    },
+    "UnidadLogica/1.0.0": {
+      "type": "project",
+      "path": "UnidadLogica/UnidadLogica.csproj",
+      "msbuildProject": "UnidadLogica/UnidadLogica.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3227,7 +3246,8 @@
       "Microsoft.EntityFrameworkCore >= 10.0.8",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.8",
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.8",
-      "Microsoft.EntityFrameworkCore.Tools >= 10.0.8"
+      "Microsoft.EntityFrameworkCore.Tools >= 10.0.8",
+      "UnidadLogica >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3263,8 +3283,11 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\Sebastian\\source\\repos\\Consorcio.Entidades\\Consorcio.Entidades.csproj": {
-              "projectPath": "C:\\Users\\Sebastian\\source\\repos\\Consorcio.Entidades\\Consorcio.Entidades.csproj"
+            "C:\\Users\\Sebastian\\source\\repos\\gestion-consorcio\\Consorcio.Entidades\\Consorcio.Entidades.csproj": {
+              "projectPath": "C:\\Users\\Sebastian\\source\\repos\\gestion-consorcio\\Consorcio.Entidades\\Consorcio.Entidades.csproj"
+            },
+            "C:\\Users\\Sebastian\\source\\repos\\gestion-consorcio\\UnidadLogica\\UnidadLogica.csproj": {
+              "projectPath": "C:\\Users\\Sebastian\\source\\repos\\gestion-consorcio\\UnidadLogica\\UnidadLogica.csproj"
             }
           }
         }

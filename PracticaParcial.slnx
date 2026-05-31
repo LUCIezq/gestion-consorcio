@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Consorcio.Entidades/Consorcio.Entidades.csproj" />
+  <Project Path="PracticaParcial.csproj" />
+  <Project Path="UnidadLogica/UnidadLogica.csproj" />
+</Solution>

@@ -1,0 +1,34 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Consorcio.Entidades
+{
+    public class Unidad
+    {
+        [Key] // Le indica a la BD que esta es la clave primaria
+        public int IdUnidad { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Nombre { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string NombrePropietario { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string ApellidoPropietario { get; set; }
+
+        [Required]
+        [StringLength(100)] 
+        public string EmailPropietario { get; set; }
+
+        [Required]
+        public int Superficie { get; set; }
+
+        [Required]
+        public DateOnly FechaCreacion { get; set; }
+
+        
+    }
+}
