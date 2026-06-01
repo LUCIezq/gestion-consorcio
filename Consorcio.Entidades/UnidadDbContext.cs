@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Consorcio.Entidades
 {
@@ -9,10 +6,10 @@ namespace Consorcio.Entidades
     {
 
         public DbSet<Unidad> Unidades { get; set; }
-
+        public DbSet<ReservaSUM> ReservasSUM { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS02;Database=ConsorcioUnidadDb;Trusted_Connection=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=ConsorcioUnidadDb;Trusted_Connection=True;TrustServerCertificate=True");
         }
     }
 }

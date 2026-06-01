@@ -2,17 +2,17 @@
 
 namespace Logica
 {
-    public interface IUnidadLogica
+    public interface IUnidadesLogica
     {
         void AgregarUnidad(Unidad unidad);
         List<Unidad> ObtenerUnidades();
     }
 
-    public class UnidadLogica : IUnidadLogica
+    public class UnidadesLogica : IUnidadesLogica
     {
         private readonly UnidadDbContext db;
 
-        public UnidadLogica(UnidadDbContext db)
+        public UnidadesLogica(UnidadDbContext db)
         {
             this.db = db;
         }
