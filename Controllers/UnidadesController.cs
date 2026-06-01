@@ -1,17 +1,16 @@
 ﻿using Consorcio.Entidades;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Logica;
+using Microsoft.AspNetCore.Mvc;
 using PracticaParcial.Models.Unidades;
 
 namespace PracticaParcial.Controllers
 {
     public class UnidadesController : Controller
     {
-        private readonly IUnidadLogica unidadLogica;
+        private readonly IUnidadesLogica unidadLogica;
 
 
-        public UnidadesController(IUnidadLogica unidadLogica)
+        public UnidadesController(IUnidadesLogica unidadLogica)
         {
             this.unidadLogica = unidadLogica;
         }

@@ -1,0 +1,28 @@
+﻿@model Consorcio.Entidades.ReservaSUM
+
+<form asp-action="Agregar" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <label asp-for="Fecha">Fecha</label>
+    <input asp-for="Fecha" type="date" class="form-control" />
+
+    <label asp-for="Turno">Turno</label>
+    <select asp-for="Turno" class="form-control">
+        <option value="1">Mediodia</option>
+        <option value="2">Noche</option>
+    </select>
+
+    <label asp-for="UnidadId">Unidad</label>
+    <select asp-for="UnidadId" class="form-control">
+        @foreach (var unidad in ViewBag.Unidades)
+        {
+            <option value="@unidad.IdUnidad">@unidad.Nombre</option>
+        }
+    </select>
+
+    <label asp-for="Observaciones">Observaciones</label>
+    <textarea asp-for="Observaciones" class="form-control"></textarea>
+    
+    <button type="submit" class="btn btn-success mt-3">
+        Guardar
+    </button>
+</form>

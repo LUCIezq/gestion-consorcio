@@ -29,6 +29,6 @@ namespace Consorcio.Entidades
         [Required]
         public DateOnly FechaCreacion { get; set; }
 
-        
+        public ICollection<ReservaSUM> Reservas { get; set; } = new List<ReservaSUM>();
     }
 }

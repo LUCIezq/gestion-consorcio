@@ -7,6 +7,7 @@ using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Users;
 using PracticaParcial.Repository;
 using PracticaParcial.Repository.Auth;
+using UnidadLogica;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,8 @@ db.Database.Migrate();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IUnidadLogica, UnidadLogica>();
+builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
+builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
 
 builder.Services.AddDbContext<UnidadDbContext>();
 
