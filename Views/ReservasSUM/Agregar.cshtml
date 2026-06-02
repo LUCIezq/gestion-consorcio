@@ -1,5 +1,8 @@
 ﻿@model Consorcio.Entidades.ReservaSUM
-
+@{
+    Layout = "_UsuarioLayout";
+    ViewData["Title"] = "Agregar Reserva de SUM";
+}
 <form asp-action="Agregar" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
     <label asp-for="Fecha">Fecha</label>

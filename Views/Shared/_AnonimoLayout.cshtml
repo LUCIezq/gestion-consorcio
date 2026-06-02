@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "BaseLayout";
+}
+@section Menu {
+    <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom shadow-sm py-3 mb-4">
+        <ul class="navbar-nav ms-auto align-items-center gap-2">
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Register">Registrarse</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+            </li>
+        </ul>
+    </nav>
+}
+
+@RenderBody();
+@await RenderSectionAsync("Scripts", required: false)
