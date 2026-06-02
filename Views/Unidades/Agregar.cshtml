@@ -14,6 +14,14 @@
                 </div>
                 <div class="card-body p-4">
 
+                    @if (TempData["MensajeExito"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["MensajeExito"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
                     <form asp-action="Agregar" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
@@ -59,9 +67,14 @@
 
                         <div class="d-flex justify-content-between border-top pt-3">
                             <a asp-action="Index" class="btn btn-outline-secondary">
-                                Volver al Listado
+                                Cancelar
                             </a>
-                            <button type="submit" class="btn btn-success px-4">
+
+                            <button type="submit" name="accionBoton" value="guardar_nuevo" class="btn btn-outline-secondary">
+                                Guardar y Crear otra Unidad
+                            </button>
+
+                            <button type="submit" name="accionBoton" value="guardar_salir" class="btn btn-success px-4">
                                 Guardar Unidad
                             </button>
                         </div>

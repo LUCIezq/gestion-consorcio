@@ -4,7 +4,7 @@ namespace Consorcio.Entidades
 {
     public class Unidad
     {
-        [Key] // Le indica a la BD que esta es la clave primaria
+        [Key]
         public int IdUnidad { get; set; }
 
         [Required]
