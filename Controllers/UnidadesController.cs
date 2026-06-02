@@ -17,7 +17,6 @@ namespace PracticaParcial.Controllers
 
         public ActionResult Index()
         {
-            
             var unidades = unidadLogica.ObtenerUnidades();
             return View(unidades);
         }
@@ -35,9 +34,12 @@ namespace PracticaParcial.Controllers
 
             unidadLogica.AgregarUnidad(unidadVM.ToEntity());
             return RedirectToAction("Index");
-            
-           
         }
-
+    
+        public IActionResult Eliminar(int id)
+        {
+            unidadLogica.EliminarUnidad(id);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace Logica
     public interface IUnidadesLogica
     {
         void AgregarUnidad(Unidad unidad);
+        void EliminarUnidad(int id);
         List<Unidad> ObtenerUnidades();
     }
 
@@ -26,6 +27,16 @@ namespace Logica
         {
             db.Unidades.Add(unidad);
             db.SaveChanges();
+        }
+
+        public void EliminarUnidad(int id)
+        {
+            var unidad = ObtenerUnidades().FirstOrDefault(u => u.IdUnidad == id);
+            if (unidad != null)
+            {
+                db.Unidades.Remove(unidad);
+                db.SaveChanges();
+            }
         }
     }
 
