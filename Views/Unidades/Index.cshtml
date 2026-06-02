@@ -1,11 +1,9 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Consorcio.Entidades.Unidad>
+
 @{
+    Layout = "_UsuarioLayout";
+    ViewData["Title"] = "Unidades del Consorcio";
 }
-
-@model IEnumerable<Consorcio.Entidades.Unidad>
-
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Unidades del Consorcio</h2>
