@@ -143,7 +143,10 @@
                 </div>
 
                 @section Scripts {
-                    <partial name="_ValidationScriptsPartial" />
+                    @{
+                        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                    }
+
                     <script id="search-js" defer src="https://api.mapbox.com/search-js/v1.5.0/web.js"></script>
                     <script src="~/js/Consorcio/MapBox.js"></script>
                     <script>
