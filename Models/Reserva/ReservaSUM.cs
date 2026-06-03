@@ -1,13 +1,10 @@
-﻿using Consorcio.Entidades.Enum;
+﻿using PracticaParcial.Models.Reserva.Enum;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.Contracts;
-using System.Text;
+using PracticaParcial.Models.Unidades;
 
-namespace Consorcio.Entidades;
+namespace PracticaParcial.Models.Reserva;
 
 public class ReservaSUM
 {
@@ -22,8 +19,8 @@ public class ReservaSUM
     [ForeignKey(nameof(UnidadId))]
     [ValidateNever]
     public Unidad Unidad { get; set; }
-    [StringLength(maximumLength:500)]
+    [StringLength(maximumLength: 500)]
     public string? Observaciones { get; set; }
     public bool EntregoCorrectamente { get; set; }
-    
+
 }

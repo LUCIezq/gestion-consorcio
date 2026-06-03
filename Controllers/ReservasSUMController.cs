@@ -1,7 +1,6 @@
 ﻿using Consorcio.Entidades;
 using Logica;
 using Microsoft.AspNetCore.Mvc;
-using UnidadLogica;
 
 namespace PracticaParcial.Controllers
 {

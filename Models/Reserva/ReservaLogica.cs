@@ -1,8 +1,7 @@
-﻿using Consorcio.Entidades;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+namespace PracticaParcial.Models.Reserva;
 
-namespace UnidadLogica;
-
+using PracticaParcial.Persistence;
 public interface IReservaLogica
 {
     List<ReservaSUM> ObtenerReservas();
@@ -51,14 +50,14 @@ public class ReservaLogica : IReservaLogica
     public ReservaSUM ObtenerPorId(int id)
     {
         return db.ReservasSUM
-            .Include (r => r.Unidad)
+            .Include(r => r.Unidad)
             .FirstOrDefault(r => r.Id == id);
     }
     public void ActualizarReserva(ReservaSUM reserva)
     {
         bool existe = db.ReservasSUM
             .Any(r => r.Id != reserva.Id && r.Fecha == reserva.Fecha && r.Turno == reserva.Turno);
-        
+
         if (existe)
         {
             throw new Exception("Ya existe una reserva para ese turno.");

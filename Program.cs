@@ -1,5 +1,6 @@
 using Consorcio.Entidades;
-using Logica;
+using PracticaParcial.Models.Unidades;
+using PracticaParcial.Models.Reserva;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,6 @@ using PracticaParcial.Models.Consorcio;
 using PracticaParcial.Models.Users;
 using PracticaParcial.Repository;
 using PracticaParcial.Repository.Auth;
-using UnidadLogica;
 
 var builder = WebApplication.CreateBuilder(args);
 

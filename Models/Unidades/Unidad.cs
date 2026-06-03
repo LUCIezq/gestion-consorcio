@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using PracticaParcial.Models.Reserva;
 
-namespace Consorcio.Entidades
+namespace PracticaParcial.Models.Unidades
 {
     public class Unidad
     {
@@ -20,7 +21,7 @@ namespace Consorcio.Entidades
         public string ApellidoPropietario { get; set; }
 
         [Required]
-        [StringLength(100)] 
+        [StringLength(100)]
         public string EmailPropietario { get; set; }
 
         [Required]

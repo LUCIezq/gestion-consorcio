@@ -1,6 +1,5 @@
-﻿using Consorcio.Entidades;
-
-namespace Logica
+﻿using PracticaParcial.Persistence;
+namespace PracticaParcial.Models.Unidades
 {
     public interface IUnidadesLogica
     {
