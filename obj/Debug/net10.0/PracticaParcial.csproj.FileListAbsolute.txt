@@ -439,5 +439,8 @@ C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\ne
 C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\Practica.67E623D7.Up2Date
 C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\f6yy6vhwhy-{0}-7byjt09pib-7byjt09pib.gz
 C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\PracticaParcial.sourcelink.json
-C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\4c0r20u55i-{0}-dh4xh6fdte-dh4xh6fdte.gz
 C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\mada8jufbu-{0}-394bhfmqcz-394bhfmqcz.gz
+C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\bjeuz1z1vk-{0}-znw8cb3ko9-znw8cb3ko9.gz
+C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\cr011zn9ss-{0}-r1oxdqe4lw-r1oxdqe4lw.gz
+C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\0mi8vf6zs1-{0}-32ui09azvh-32ui09azvh.gz
+C:\Users\mlord\OneDrive\Escritorio\Practica-Parcial\PracticaParcial\obj\Debug\net10.0\compressed\4c0r20u55i-{0}-svxtbma03l-svxtbma03l.gz

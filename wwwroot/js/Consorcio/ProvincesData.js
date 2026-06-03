@@ -1,7 +1,7 @@
 import { URLS } from "../env/urls.js";
 
-const provinciaSelect = document.getElementById('provinciaSelect');
-const ciudadesSelect = document.getElementById('ciudadSelect');
+const provinciaSelect = document.getElementById('ProvinciaId');
+const ciudadesSelect = document.getElementById('PartidoId');
 
 loadProvincesToSelect();
 
@@ -21,7 +21,8 @@ async function loadProvincesToSelect() {
 function createElement(e, node) {
     const option = document.createElement('option');
 
-    option.value = e.id;
+    option.value = e.nombre;
+    option.dataset.id = e.id;
     option.textContent = e.nombre;
 
     node.appendChild(option);
@@ -58,7 +59,11 @@ function clearSelect(select) {
 provinciaSelect.addEventListener('change', async e => {
     clearSelect(ciudadesSelect);
 
-    const id = provinciaSelect.value;
+    const selectedOption = provinciaSelect.options[provinciaSelect.selectedIndex];
+    const id = selectedOption.dataset.id;
+
+    if (!id) return;
+
     const data = await obtenerCantidadCiudadesPorProvincia(id);
     const total = data.total;
 

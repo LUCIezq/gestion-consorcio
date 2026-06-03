@@ -1,0 +1,156 @@
+@model PracticaParcial.Models.Consorcio.CreateConsorcioViewModel
+
+@{
+    ViewData["Title"] = "Nuevo Consorcio";
+}
+<div class="main-wrapper">
+
+    <main class="canvas-area">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb mb-0" style="font-size: 12px; font-weight: 500;">
+                <li class="breadcrumb-item"><a class="text-decoration-none text-muted" asp-action="Index"
+                                                   asp-controller="Consorcio">Consorcios</a></li>
+                    <li aria-current="page" class="breadcrumb-item active text-primary fw-bold">Nuevo Consorcio</li>
+                </ol>
+            </nav>
+            <div class="mb-4">
+                <h2 class="fw-bold">Crear Nuevo Consorcio</h2>
+                <p class="text-muted mb-0">Complete los detalles a continuación para registrar una nueva entidad en la
+                    plataforma.</p>
+                </div>
+                <form method="post" id="form" novalidate>
+                    <!-- Section 1: Información Básica -->
+                    <div class="card p-4">
+
+                        <div class="d-flex gap-3 mb-4">
+                            <div class="card-header-icon">
+                                <span class="material-symbols-outlined">info</span>
+                            </div>
+                            <div>
+                                <h5 class="m-0 fw-bold">Información Básica</h5>
+                                <small class="text-muted">Identificación principal del consorcio para su
+                                    administración.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label-custom" asp-for="Nombre">Nombre del Consorcio</label>
+                                <input class="form-control form-control-lg fs-6" placeholder="Ej: Edificio Central Park I"
+                                       asp-for="Nombre" />
+                                <span asp-validation-for="Nombre" class="text-danger small"></span>
+                            </div>
+                        </div>
+                        <!-- Section 2: Dirección -->
+                        <div class="card p-4">
+                            <div class="d-flex gap-3 mb-4">
+                                <div class="card-header-icon">
+                                    <span class="material-symbols-outlined">location_on</span>
+                                </div>
+                                <div>
+                                    <h5 class="m-0 fw-bold">Dirección</h5>
+                                    <small class="text-muted">Ubicación física y datos geográficos del complejo.</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label-custom">Buscar dirección</label>
+
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <span class="material-symbols-outlined text-muted">search</span>
+                                    </span>
+                                    <input class="form-control" placeholder="Escriba la calle y altura para autocompletar..."
+                                           type="text" autocomplete="address-line1" id="select-address" />
+                                </div>
+                            </div>
+
+                            <input type="hidden" asp-for="Latitud" id="latitud">
+                            <input type="hidden" asp-for="Longitud" id="longitud">
+
+                            <div class="row g-4">
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" placeholder=" " asp-for="Calle" />
+                                        <label asp-for="Calle">Calle</label>
+                                        <span asp-validation-for="Calle" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" placeholder=" " asp-for="Provincia"
+                                               autocomplete="address-level1" />
+                                        <label asp-for="Provincia">Provincia</label>
+                                        <span asp-validation-for="Provincia" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" placeholder=" " asp-for="Ciudad"
+                                               autocomplete="address-level2" />
+                                        <label asp-for="Ciudad">Partido / Ciudad</label>
+                                        <span asp-validation-for="Ciudad" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input class="form-control" placeholder=" " autocomplete="postal-code"
+                                               asp-for="CodigoPostal" />
+                                        <label asp-for="CodigoPostal">Código Postal</label>
+                                        <span asp-validation-for="CodigoPostal" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Section 3: Ajustes Generales -->
+                        <div class="card p-4">
+                            <div class="d-flex gap-3 mb-4">
+                                <div class="card-header-icon">
+                                    <span class="material-symbols-outlined">tune</span>
+                                </div>
+                                <div>
+                                    <h5 class="m-0 fw-bold">Ajustes Generales</h5>
+                                    <small class="text-muted">Configure las reglas básicas de facturación y plazos.</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-2" style="max-width: 320px;">
+                                <label class="form-label-custom" asp-for="DiaVencimientoExpensas">Vencimiento de Expensas</label>
+                                <input class="form-control form-control-lg fs-6" type="number" asp-for="DiaVencimientoExpensas"
+                                       placeholder="1" />
+                                <div class="form-text fst-italic" style="font-size: 11px;">Día del mes en que vencen
+                                    habitualmente las cuotas.</div>
+                                </div>
+                                <span asp-validation-for="DiaVencimientoExpensas" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-flex justify-content-start align-items-center gap-3 pt-4 border-top">
+                                <button class="btn btn-outline-primary fw-bold shadow-sm" type="submit"
+                                        formaction="@Url.Action("Guardar", "Consorcio")">
+                                    Guardar
+                                </button>
+
+                                <button class="btn btn-outline-primary fw-bold shadow-sm" type="submit"
+                                        formaction="@Url.Action("GuardarYCrearOtro", "Consorcio")">
+                                    Guardar y crear otro consorcio
+                                </button>
+
+                                <button class="btn btn-outline-primary fw-bold shadow-sm" type="submit"
+                                        formaction="@Url.Action("GuardarYCrearUnidad", "Consorcio")">
+                                    Guardar y crear unidad
+                                </button>
+
+                                <a asp-action="Index" asp-controller="Consorcio"
+                                   class="btn btn-link text-decoration-none text-muted fw-bold hover-danger">Cancelar</a>
+                            </div>
+                        </form>
+                    </main>
+                </div>
+
+                @section Scripts {
+                    <partial name="_ValidationScriptsPartial" />
+                    <script id="search-js" defer src="https://api.mapbox.com/search-js/v1.5.0/web.js"></script>
+                    <script src="~/js/Consorcio/MapBox.js"></script>
+                }
