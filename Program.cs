@@ -9,6 +9,7 @@ using PracticaParcial.Models.Consorcio;
 using PracticaParcial.Models.Users;
 using PracticaParcial.Repository;
 using PracticaParcial.Repository.Auth;
+using PracticaParcial.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 

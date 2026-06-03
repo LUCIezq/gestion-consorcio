@@ -1,8 +1,6 @@
-﻿using Consorcio.Entidades;
-using Logica;
-using Microsoft.AspNetCore.Mvc;
+﻿
 using PracticaParcial.Models.Unidades;
-
+using Microsoft.AspNetCore.Mvc;
 namespace PracticaParcial.Controllers
 {
     public class UnidadesController : Controller
@@ -18,7 +16,12 @@ namespace PracticaParcial.Controllers
         public ActionResult Index()
         {
             var unidades = unidadLogica.ObtenerUnidades();
-            return View(unidades);
+
+            var viewModels = unidades
+                .Select(UnidadViewModel.FromEntity)
+                .ToList();
+
+            return View(viewModels);
         }
 
         public IActionResult Agregar()
@@ -37,7 +40,7 @@ namespace PracticaParcial.Controllers
             nuevaUnidad.FechaCreacion = DateOnly.FromDateTime(DateTime.Now);
 
             unidadLogica.AgregarUnidad(unidadVM.ToEntity());
-        
+
 
             if (accionBoton == "guardar_nuevo")
             {
