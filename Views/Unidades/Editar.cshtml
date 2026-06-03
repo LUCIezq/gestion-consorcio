@@ -2,7 +2,7 @@
 
 @{
     Layout = "_UsuarioLayout";
-    ViewData["Title"] = "Nueva Unidad";
+    ViewData["Title"] = "Editar Unidad";
 }
 
 <div class="container mt-4">
@@ -10,21 +10,15 @@
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0">Registrar Nueva Unidad</h3>
+                    <h3 class="card-title mb-0">Editar Unidad</h3>
                 </div>
                 <div class="card-body p-4">
 
-                    @if (TempData["MensajeExito"] != null)
-                    {
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            @TempData["MensajeExito"]
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    }
-
-                    <form asp-action="Agregar" method="post">
+                    <form asp-action="Editar" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
+                        <input type="hidden" asp-for="IdUnidad" />
+                      
                         <div class="mb-3">
                             <label asp-for="Nombre" class="form-label fw-bold">Identificador de la Unidad</label>
                             <input asp-for="Nombre" class="form-control" placeholder="Ej: Depto 1° A o Local 2" />
@@ -59,17 +53,15 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between border-top pt-3">
-                            <a asp-action="Index" class="btn btn-outline-secondary">
+                        <div class="d-flex justify-content-between align-items-center border-top pt-4 mt-4">
+                            <a asp-action="Index" class="btn btn-secondary px-4 border border-dark">
                                 Cancelar
                             </a>
-
-                            <button type="submit" name="accionBoton" value="guardar_nuevo" class="btn btn-outline-secondary">
-                                Guardar y Crear otra Unidad
-                            </button>
-
-                            <button type="submit" name="accionBoton" value="guardar_salir" class="btn btn-success px-4">
-                                Guardar Unidad
+                            <a asp-action="Eliminar" asp-route-id="@Model.IdUnidad" class="btn btn-danger px-4 fw-bold border border-dark">
+                                Eliminar Unidad
+                            </a>
+                            <button type="submit" class="btn btn-success px-4 border border-dark">
+                                Guardar
                             </button>
                         </div>
                     </form>
@@ -83,4 +75,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-

@@ -27,7 +27,6 @@ namespace PracticaParcial.Models.Unidades
         [Required(ErrorMessage = "La superficie es obligatoria.")]
         public int? Superficie { get; set; }
 
-        [Required(ErrorMessage = "La fecha de alta es obligatoria.")]
         public DateOnly? FechaCreacion { get; set; }
 
         public Unidad ToEntity()
@@ -40,7 +39,19 @@ namespace PracticaParcial.Models.Unidades
                 ApellidoPropietario = this.ApellidoPropietario,
                 EmailPropietario = this.EmailPropietario,
                 Superficie = this.Superficie.Value,
-                FechaCreacion = this.FechaCreacion.Value
+            };
+        }
+
+        public static UnidadViewModel FromEntity(Unidad unidad)
+        {
+            return new UnidadViewModel
+            {
+                IdUnidad = unidad.IdUnidad,
+                Nombre = unidad.Nombre,
+                NombrePropietario = unidad.NombrePropietario,
+                ApellidoPropietario = unidad.ApellidoPropietario,
+                EmailPropietario = unidad.EmailPropietario,
+                Superficie = unidad.Superficie,
             };
         }
     }

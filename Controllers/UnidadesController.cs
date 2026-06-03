@@ -32,12 +32,17 @@ namespace PracticaParcial.Controllers
             if (!ModelState.IsValid)
                 return View(unidadVM);
 
+
+            var nuevaUnidad = unidadVM.ToEntity();
+            nuevaUnidad.FechaCreacion = DateOnly.FromDateTime(DateTime.Now);
+
             unidadLogica.AgregarUnidad(unidadVM.ToEntity());
+        
 
             if (accionBoton == "guardar_nuevo")
             {
                 TempData["MensajeExito"] = $"Unidad {unidadVM.Nombre} creada con éxito";
-                ModelState.Clear(); 
+                ModelState.Clear();
                 return View(new UnidadViewModel());
             }
             return RedirectToAction("Index");
@@ -58,6 +63,33 @@ namespace PracticaParcial.Controllers
         {
             unidadLogica.EliminarUnidad(id);
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Editar(int id)
+        {
+            var unidad = unidadLogica.ObtenerUnidadPorId(id);
+            if (unidad == null)
+                return NotFound();
+
+            return View(UnidadViewModel.FromEntity(unidad));
+        }
+
+        [HttpPost]
+        public IActionResult Editar(UnidadViewModel unidadVM)
+        {
+            if (!ModelState.IsValid)
+                return View(unidadVM);
+            var unidadExistente = unidadLogica.ObtenerUnidadPorId(unidadVM.IdUnidad);
+            if (unidadExistente == null)
+                return NotFound();
+            unidadExistente.Nombre = unidadVM.Nombre;
+            unidadExistente.NombrePropietario = unidadVM.NombrePropietario;
+            unidadExistente.ApellidoPropietario = unidadVM.ApellidoPropietario;
+            unidadExistente.EmailPropietario = unidadVM.EmailPropietario;
+            unidadExistente.Superficie = unidadVM.Superficie.Value;
+            unidadLogica.ActualizarUnidad(unidadExistente);
+            return RedirectToAction("Index");
+
         }
     }
 }
