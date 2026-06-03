@@ -24,9 +24,7 @@
                     <div class="card p-4">
 
                         <div class="d-flex gap-3 mb-4">
-                            <div class="card-header-icon">
-                                <span class="material-symbols-outlined">info</span>
-                            </div>
+
                             <div>
                                 <h5 class="m-0 fw-bold">Información Básica</h5>
                                 <small class="text-muted">Identificación principal del consorcio para su
@@ -43,9 +41,6 @@
                         <!-- Section 2: Dirección -->
                         <div class="card p-4">
                             <div class="d-flex gap-3 mb-4">
-                                <div class="card-header-icon">
-                                    <span class="material-symbols-outlined">location_on</span>
-                                </div>
                                 <div>
                                     <h5 class="m-0 fw-bold">Dirección</h5>
                                     <small class="text-muted">Ubicación física y datos geográficos del complejo.</small>
@@ -108,9 +103,6 @@
                         <!-- Section 3: Ajustes Generales -->
                         <div class="card p-4">
                             <div class="d-flex gap-3 mb-4">
-                                <div class="card-header-icon">
-                                    <span class="material-symbols-outlined">tune</span>
-                                </div>
                                 <div>
                                     <h5 class="m-0 fw-bold">Ajustes Generales</h5>
                                     <small class="text-muted">Configure las reglas básicas de facturación y plazos.</small>
@@ -154,4 +146,7 @@
                     <partial name="_ValidationScriptsPartial" />
                     <script id="search-js" defer src="https://api.mapbox.com/search-js/v1.5.0/web.js"></script>
                     <script src="~/js/Consorcio/MapBox.js"></script>
+                    <script>
+                        const mapboxAccessToken = '@Configuration["Mapbox:AccessToken"]';
+                    </script>
                 }
