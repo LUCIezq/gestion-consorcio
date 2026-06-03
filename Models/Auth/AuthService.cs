@@ -39,14 +39,14 @@ namespace PracticaParcial.Repository.Auth
             return new RegisterResponse { Success = true, Message = "Usuario registrado exitosamente." };
         }
 
-        public LoginResponse Login(LoginViewModel model)
+        public async Task<LoginResponse> Login(LoginViewModel model)
         {
             if (model == null)
             {
                 return new LoginResponse { Success = false, Message = "Informacion de login invalida." };
             }
 
-            User? user = _authRepository.GetUserByEmail(model.Email);
+            User? user = await _authRepository.GetUserByEmail(model.Email);
 
             if (user == null)
             {

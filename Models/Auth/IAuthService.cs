@@ -14,6 +14,6 @@ namespace PracticaParcial.Models.Auth
 
         Task<RegisterResponse> Register(RegisterViewModel model);
 
-        LoginResponse Login(LoginViewModel model);
+        Task<LoginResponse> Login(LoginViewModel model);
     }
 }

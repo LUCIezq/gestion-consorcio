@@ -62,7 +62,7 @@ namespace PracticaParcial.Controllers
                 return View(model);
             }
 
-            LoginResponse response = _service.Login(model);
+            LoginResponse response = await _service.Login(model);
 
             if (!response.Success)
             {
