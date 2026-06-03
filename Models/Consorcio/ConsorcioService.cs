@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace PracticaParcial.Models.Consorcio
 {
-    public class ConsorcioService
+    public class ConsorcioService : IConsorcioService
     {
-        
+
     }
 }

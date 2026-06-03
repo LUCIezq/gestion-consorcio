@@ -1,6 +1,6 @@
 window.addEventListener('load', () => {
     const collection = mapboxsearch.autofill({
-        accessToken: ACCESS_TOKEN,
+        accessToken: mapboxAccessToken,
         options: {
             country: 'AR',
             language: 'es',

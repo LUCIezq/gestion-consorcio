@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Auth;
+using PracticaParcial.Models.Consorcio;
 using PracticaParcial.Models.Users;
 using PracticaParcial.Repository;
 using PracticaParcial.Repository.Auth;
@@ -21,6 +22,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
 builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
+builder.Services.AddScoped<IConsorcioService, ConsorcioService>();
+
 
 builder.Services.AddDbContext<UnidadDbContext>();
 
