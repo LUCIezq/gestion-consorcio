@@ -12,7 +12,7 @@ namespace PracticaParcial.Models.Auth
         //Este metodo deberia funcionar con la base de datos, pero por ahora lo dejaremos asi
         // Task<bool> RegisterAsync(string email, string password);
 
-        RegisterResponse Register(RegisterViewModel model);
+        Task<RegisterResponse> Register(RegisterViewModel model);
 
         LoginResponse Login(LoginViewModel model);
     }

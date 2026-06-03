@@ -27,14 +27,14 @@ namespace PracticaParcial.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            RegisterResponse response = _service.Register(model);
+            RegisterResponse response = await _service.Register(model);
 
             if (response.Success)
             {
