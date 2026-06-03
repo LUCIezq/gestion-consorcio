@@ -1,0 +1,162 @@
+:root { 
+        --bs-primary: #004ac6;
+        --bs-primary-rgb: 0, 74, 198;
+        --sidebar-width: 280px;
+        --surface: #f7f9fb;
+        --outline-variant: #c3c6d7;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--surface);
+        color: #191c1e;
+        overflow-x: hidden;
+    }
+
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+    }
+
+    .sidebar {
+        width: var(--sidebar-width);
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: #f2f4f6;
+        border-right: 1px solid var(--outline-variant);
+        padding: 1.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+    }
+
+    .sidebar .nav-link {
+        color: #434655;
+        font-weight: 500;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .sidebar .nav-link:hover {
+        background-color: #e6e8ea;
+    }
+
+    .sidebar .nav-link.active {
+        background-color: #d0e1fb;
+        color: #0b1c30;
+        font-weight: 700;
+    }
+
+    /* Main Content area */
+    .main-wrapper {
+        margin-left: var(--sidebar-width);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .top-navbar {
+        height: 64px;
+        background: #ffffff;
+        border-bottom: 1px solid var(--outline-variant);
+        padding: 0 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    }
+
+    .canvas-area {
+        flex-grow: 1;
+        padding: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    /* Card Customization */
+    .card {
+        border: 1px solid var(--outline-variant);
+        border-radius: 0.75rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        margin-bottom: 1.5rem;
+    }
+
+    .card-header-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #d0e1fb;
+        color: var(--bs-primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .form-label-custom {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #434655;
+        margin-bottom: 0.25rem;
+    }
+
+    .btn-primary {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        padding: 0.625rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+    }
+
+    .btn-primary:hover {
+        background-color: #003ea8;
+        border-color: #003ea8;
+    }
+
+    /* Responsive Mobile Styles */
+     @media
+    (max-width: 768px) {
+        .sidebar {
+            display: none;
+        }
+
+        .main-wrapper {
+            margin-left: 0;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            border-top: 1px solid var(--outline-variant);
+            display: flex;
+            justify-content: space-around;
+            padding: 0.5rem 0;
+            z-index: 1001;
+        }
+    }
+
+    @media
+    (min-width: 769px) {
+        .mobile-nav {
+            display: none;
+        }
+    }
+
+    .breadcrumb-item+.breadcrumb-item::before {
+        content: "\e5cc";
+        font-family: 'Material Symbols Outlined';
+        font-size: 14px;
+        vertical-align: middle;
+    }

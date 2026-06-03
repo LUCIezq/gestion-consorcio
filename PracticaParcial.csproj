@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>0875d27f-95ab-4781-9164-06b836dac758</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Consorcio.Entidades\**" />

@@ -7,20 +7,22 @@ namespace PracticaParcial.Controllers
     [Authorize]
     public class ConsorcioController : Controller
     {
+        private readonly IConsorcioService _consorcioService;
 
-        public ConsorcioController()
+        public ConsorcioController(IConsorcioService consorcioService)
         {
+            _consorcioService = consorcioService;
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Guardar()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateConsorcioViewModel model)
+        public IActionResult Guardar(CreateConsorcioViewModel model)
         {
 
             if (!ModelState.IsValid)
@@ -28,7 +30,23 @@ namespace PracticaParcial.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Create", "Consorcio");
+            return RedirectToAction("Guardar", "Consorcio");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GuardarYCrearOtro(CreateConsorcioViewModel model)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GuardarYCrearUnidad(CreateConsorcioViewModel model)
+        {
+
+            return View();
         }
 
         [HttpGet]

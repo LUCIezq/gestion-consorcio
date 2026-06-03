@@ -35,3 +35,7 @@ body {
     padding-left: 0;
     margin-bottom: 0;
 }
+.hover-danger:hover {
+    transition: color 0.3s ease;
+    color: #dc3545 !important;
+}
