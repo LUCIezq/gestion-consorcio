@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PracticaParcial.Models.Consorcio
+namespace PracticaParcial.Models.Consorcios.DTOs
 {
     public class CreateConsorcioViewModel
     {

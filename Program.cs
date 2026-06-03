@@ -1,14 +1,11 @@
-using Consorcio.Entidades;
 using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Reserva;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Auth;
-using PracticaParcial.Models.Consorcio;
+using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Users;
-using PracticaParcial.Repository;
-using PracticaParcial.Repository.Auth;
 using PracticaParcial.Persistence;
 using PracticaParcial.Persistence.Auth;
 

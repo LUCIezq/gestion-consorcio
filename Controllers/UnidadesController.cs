@@ -1,6 +1,7 @@
 ﻿
 using PracticaParcial.Models.Unidades;
 using Microsoft.AspNetCore.Mvc;
+using PracticaParcial.Models.Unidades.DTOs;
 namespace PracticaParcial.Controllers
 {
     public class UnidadesController : Controller

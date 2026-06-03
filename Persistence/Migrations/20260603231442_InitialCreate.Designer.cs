@@ -9,11 +9,11 @@ using PracticaParcial.Persistence;
 
 #nullable disable
 
-namespace Consorcio.Entidades.Migrations
+namespace PracticaParcial.Persistence.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
-    [Migration("20260603205012_CreacionDeTablaUsuario")]
-    partial class CreacionDeTablaUsuario
+    [Migration("20260603231442_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

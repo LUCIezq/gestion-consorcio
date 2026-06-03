@@ -2,11 +2,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using PracticaParcial.Models;
 using PracticaParcial.Models.Auth;
-using PracticaParcial.Models.Auth.Login;
-using PracticaParcial.Models.Auth.Register;
 using PracticaParcial.Filters;
+using PracticaParcial.Models.Auth.Register.DTOs;
+using PracticaParcial.Models.Auth.Login.DTOs;
 namespace PracticaParcial.Controllers
 {
     public class AuthController : Controller

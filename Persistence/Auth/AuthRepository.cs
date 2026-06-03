@@ -4,7 +4,7 @@ using PracticaParcial.Models.Users;
 using PracticaParcial.Persistence;
 using PracticaParcial.Persistence.Auth;
 
-namespace PracticaParcial.Repository.Auth
+namespace PracticaParcial.Persistence.Auth
 {
     public class AuthRepository : IAuthRepository
     {

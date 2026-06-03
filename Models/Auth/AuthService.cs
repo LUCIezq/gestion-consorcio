@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Identity;
 using PracticaParcial.Models;
 using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Auth.Login;
+using PracticaParcial.Models.Auth.Login.DTOs;
 using PracticaParcial.Models.Auth.Register;
+using PracticaParcial.Models.Auth.Register.DTOs;
 using PracticaParcial.Models.Users;
 using PracticaParcial.Persistence.Auth;
 using PracticaParcial.shared;
 
-namespace PracticaParcial.Repository.Auth
+namespace PracticaParcial.Models.Auth
 {
     public class AuthService : IAuthService
     {

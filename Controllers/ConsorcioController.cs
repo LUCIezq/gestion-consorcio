@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PracticaParcial.Models.Consorcio;
+using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Consorcios.DTOs;
 
 namespace PracticaParcial.Controllers
 {

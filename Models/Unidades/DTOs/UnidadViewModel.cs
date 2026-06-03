@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Consorcio.Entidades;
 
-namespace PracticaParcial.Models.Unidades
+namespace PracticaParcial.Models.Unidades.DTOs
 {
     public class UnidadViewModel
     {

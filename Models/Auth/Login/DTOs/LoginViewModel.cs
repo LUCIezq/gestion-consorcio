@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PracticaParcial.Models.Auth.Login
+namespace PracticaParcial.Models.Auth.Login.DTOs
 {
     public record LoginViewModel
     {

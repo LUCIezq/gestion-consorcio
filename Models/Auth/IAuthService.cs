@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using PracticaParcial.Models.Auth.Login;
+using PracticaParcial.Models.Auth.Login.DTOs;
 using PracticaParcial.Models.Auth.Register;
+using PracticaParcial.Models.Auth.Register.DTOs;
 
 namespace PracticaParcial.Models.Auth
 {

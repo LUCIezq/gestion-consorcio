@@ -8,7 +8,7 @@ using PracticaParcial.Persistence;
 
 #nullable disable
 
-namespace Consorcio.Entidades.Migrations
+namespace PracticaParcial.Persistence.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
     partial class UnidadDbContextModelSnapshot : ModelSnapshot

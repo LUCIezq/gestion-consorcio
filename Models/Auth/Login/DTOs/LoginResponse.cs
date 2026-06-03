@@ -1,5 +1,5 @@
 using PracticaParcial.Models.Users;
-namespace PracticaParcial.Models.Auth.Login
+namespace PracticaParcial.Models.Auth.Login.DTOs
 
 {
     public class LoginResponse

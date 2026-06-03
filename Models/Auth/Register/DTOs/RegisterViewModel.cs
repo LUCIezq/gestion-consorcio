@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PracticaParcial.Models
+namespace PracticaParcial.Models.Auth.Register.DTOs
 {
     public record RegisterViewModel
     {
