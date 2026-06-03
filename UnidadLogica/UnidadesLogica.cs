@@ -4,9 +4,11 @@ namespace Logica
 {
     public interface IUnidadesLogica
     {
+        void ActualizarUnidad(Unidad unidadExistente);
         void AgregarUnidad(Unidad unidad);
         void EliminarUnidad(int id);
         List<Unidad> ObtenerUnidades();
+        public Unidad? ObtenerUnidadPorId(int id);
     }
 
     public class UnidadesLogica : IUnidadesLogica
@@ -23,6 +25,11 @@ namespace Logica
             return db.Unidades.ToList();
         }
 
+        public Unidad? ObtenerUnidadPorId(int id)
+        {
+            return db.Unidades.FirstOrDefault(u => u.IdUnidad == id);
+        }
+
         public void AgregarUnidad(Unidad unidad)
         {
             db.Unidades.Add(unidad);
@@ -31,12 +38,18 @@ namespace Logica
 
         public void EliminarUnidad(int id)
         {
-            var unidad = ObtenerUnidades().FirstOrDefault(u => u.IdUnidad == id);
+            var unidad = ObtenerUnidadPorId(id);
             if (unidad != null)
             {
                 db.Unidades.Remove(unidad);
                 db.SaveChanges();
             }
+        }
+
+        public void ActualizarUnidad(Unidad unidadExistente)
+        {
+            db.Unidades.Update(unidadExistente);
+            db.SaveChanges();
         }
     }
 
