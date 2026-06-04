@@ -92,5 +92,14 @@ namespace PracticaParcial.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerCoordenadas()
+        {
+            var resultado = await _consorcioService.ObtenerCoordenadas();
+            return Ok(
+                resultado
+            );
+        }
     }
 }

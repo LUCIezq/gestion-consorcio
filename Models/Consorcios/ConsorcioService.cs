@@ -32,7 +32,7 @@ namespace PracticaParcial.Models.Consorcios
                 ;
             }
 
-            Consorcio nuevoConsorcio = new Consorcio
+            Consorcio nuevoConsorcio = new()
             {
                 Nombre = model.Nombre,
                 Calle = model.Calle,
@@ -53,6 +53,11 @@ namespace PracticaParcial.Models.Consorcios
                 Message = "Consorcio guardado exitosamente.",
                 IdConsorcio = consorcioGuardado.Id
             };
+        }
+
+        public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas()
+        {
+            return await _consorcioRepository.ObtenerCoordenadas();
         }
     }
 }

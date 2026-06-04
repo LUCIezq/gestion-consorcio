@@ -1,4 +1,5 @@
 using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Consorcios.DTOs;
 
 namespace PracticaParcial.Persistence.Consorcios
 {
@@ -7,5 +8,7 @@ namespace PracticaParcial.Persistence.Consorcios
         Task<Consorcio?> BuscarConsorcioPorDireccion(string calle, string ciudad, string provincia, string codigoPostal);
 
         Task<Consorcio> GuardarConsorcio(Consorcio consorcio);
+
+        Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas();
     }
 }
