@@ -4,6 +4,8 @@ window.addEventListener('load', () => {
         options: {
             country: 'AR',
             language: 'es',
+            types: ['address', 'poi', 'place'],
+            limit: 5
         }
     });
 
@@ -20,14 +22,14 @@ window.addEventListener('load', () => {
     });
 });
 
-document.getElementById("form").addEventListener("submit", function (e) {
-    e.preventDefault();
+// document.getElementById("form").addEventListener("submit", function (e) {
+//     e.preventDefault();
 
-    const data = new FormData(this);
-    const obj = Object.fromEntries(data.entries());
+//     const data = new FormData(this);
+//     const obj = Object.fromEntries(data.entries());
 
-    console.log(obj);
-});
+//     console.log(obj);
+// });
 
 
 

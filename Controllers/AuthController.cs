@@ -2,11 +2,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using PracticaParcial.Models;
 using PracticaParcial.Models.Auth;
-using PracticaParcial.Models.Auth.Login;
-using PracticaParcial.Models.Auth.Register;
 using PracticaParcial.Filters;
+using PracticaParcial.Models.Auth.Register.DTOs;
+using PracticaParcial.Models.Auth.Login.DTOs;
 namespace PracticaParcial.Controllers
 {
     public class AuthController : Controller
@@ -27,14 +26,14 @@ namespace PracticaParcial.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            RegisterResponse response = _service.Register(model);
+            RegisterResponse response = await _service.Register(model);
 
             if (response.Success)
             {
@@ -62,7 +61,7 @@ namespace PracticaParcial.Controllers
                 return View(model);
             }
 
-            LoginResponse response = _service.Login(model);
+            LoginResponse response = await _service.Login(model);
 
             if (!response.Success)
             {

@@ -2,28 +2,31 @@ using Microsoft.AspNetCore.Identity;
 using PracticaParcial.Models;
 using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Auth.Login;
+using PracticaParcial.Models.Auth.Login.DTOs;
 using PracticaParcial.Models.Auth.Register;
+using PracticaParcial.Models.Auth.Register.DTOs;
 using PracticaParcial.Models.Users;
+using PracticaParcial.Persistence.Auth;
 using PracticaParcial.shared;
 
-namespace PracticaParcial.Repository.Auth
+namespace PracticaParcial.Models.Auth
 {
     public class AuthService : IAuthService
     {
-        private readonly AuthRepository _authRepository;
+        private readonly IAuthRepository _authRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AuthService(AuthRepository authRepository, IPasswordHasher<User> passwordHasher)
+        public AuthService(IAuthRepository authRepository, IPasswordHasher<User> passwordHasher)
         {
-            this._authRepository = authRepository;
-            this._passwordHasher = passwordHasher;
+            _authRepository = authRepository;
+            _passwordHasher = passwordHasher;
         }
 
-        public RegisterResponse Register(RegisterViewModel model)
+        public async Task<RegisterResponse> Register(RegisterViewModel model)
         {
             if (model == null) return new RegisterResponse { Success = false, Message = "Informacion de registro invalida." };
 
-            if (_authRepository.GetUserByEmail(model.Email) != null) return new RegisterResponse { Success = false, Message = "El mail ya se encuentra en uso, pruebe utilizando otro" };
+            if (await _authRepository.GetUserByEmail(model.Email) != null) return new RegisterResponse { Success = false, Message = "El mail ya se encuentra en uso, pruebe utilizando otro" };
 
             User user = new User
             {
@@ -34,18 +37,18 @@ namespace PracticaParcial.Repository.Auth
 
             user.Password = _passwordHasher.HashPassword(user, model.Password);
 
-            _authRepository.Register(user);
+            await _authRepository.GuardarUsuario(user);
             return new RegisterResponse { Success = true, Message = "Usuario registrado exitosamente." };
         }
 
-        public LoginResponse Login(LoginViewModel model)
+        public async Task<LoginResponse> Login(LoginViewModel model)
         {
             if (model == null)
             {
                 return new LoginResponse { Success = false, Message = "Informacion de login invalida." };
             }
 
-            User? user = _authRepository.GetUserByEmail(model.Email);
+            User? user = await _authRepository.GetUserByEmail(model.Email);
 
             if (user == null)
             {

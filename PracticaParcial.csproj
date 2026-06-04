@@ -28,8 +28,4 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Consorcio.Entidades\Consorcio.Entidades.csproj" />
-    <ProjectReference Include="UnidadLogica\UnidadLogica.csproj" />
-  </ItemGroup>
 </Project>

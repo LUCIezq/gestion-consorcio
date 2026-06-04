@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using PracticaParcial.Models.Auth.Login;
+using PracticaParcial.Models.Auth.Login.DTOs;
 using PracticaParcial.Models.Auth.Register;
+using PracticaParcial.Models.Auth.Register.DTOs;
 
 namespace PracticaParcial.Models.Auth
 {
@@ -12,8 +11,8 @@ namespace PracticaParcial.Models.Auth
         //Este metodo deberia funcionar con la base de datos, pero por ahora lo dejaremos asi
         // Task<bool> RegisterAsync(string email, string password);
 
-        RegisterResponse Register(RegisterViewModel model);
+        Task<RegisterResponse> Register(RegisterViewModel model);
 
-        LoginResponse Login(LoginViewModel model);
+        Task<LoginResponse> Login(LoginViewModel model);
     }
 }

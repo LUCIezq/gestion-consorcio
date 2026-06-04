@@ -5,6 +5,23 @@
 
 <h1>@ViewData["Title"]</h1>
 
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+        <div class="toast show align-items-center text-bg-success border-0 shadow">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    @TempData["SuccessMessage"]
+                </div>
+
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+}
+
 <div>
     <a class="btn btn-primary mb-3" asp-action="Guardar">Crear nuevo consorcio</a>
 </div>

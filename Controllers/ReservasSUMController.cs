@@ -1,7 +1,6 @@
-﻿using Consorcio.Entidades;
-using Logica;
+﻿using PracticaParcial.Models.Unidades;
+using PracticaParcial.Models.Reserva;
 using Microsoft.AspNetCore.Mvc;
-using UnidadLogica;
 
 namespace PracticaParcial.Controllers
 {
