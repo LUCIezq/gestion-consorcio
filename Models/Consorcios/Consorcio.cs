@@ -2,7 +2,7 @@ namespace PracticaParcial.Models.Consorcios
 {
     public class Consorcio
     {
-        public required int Id { get; set; }
+        public int Id { get; set; }
         public required string Nombre { get; set; }
         public required string Calle { get; set; }
         public required string Ciudad { get; set; }

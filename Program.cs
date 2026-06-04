@@ -8,6 +8,7 @@ using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Users;
 using PracticaParcial.Persistence;
 using PracticaParcial.Persistence.Auth;
+using PracticaParcial.Persistence.Consorcios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
 builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IConsorcioService, ConsorcioService>();
+builder.Services.AddScoped<IConsorcioRepository, ConsorcioRepository>();
 
 builder.Services.AddDbContext<UnidadDbContext>();
 

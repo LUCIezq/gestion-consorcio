@@ -5,6 +5,6 @@ namespace PracticaParcial.Models.Consorcios.DTOs
     {
         public required bool Success { get; set; }
         public required string Message { get; set; }
-        public Consorcio? Consorcio { get; set; }
+        public int? IdConsorcio { get; set; }
     }
 }

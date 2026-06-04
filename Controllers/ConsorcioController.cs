@@ -23,7 +23,7 @@ namespace PracticaParcial.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Guardar(CreateConsorcioViewModel model)
+        public async Task<IActionResult> Guardar(CreateConsorcioViewModel model)
         {
 
             if (!ModelState.IsValid)
@@ -31,23 +31,60 @@ namespace PracticaParcial.Controllers
                 return View(model);
             }
 
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
+
+            if (!response.Success)
+            {
+                ModelState.AddModelError(string.Empty, response.Message);
+                return View(model);
+            }
+
+            TempData["SuccessMessage"] = response.Message;
+            return RedirectToAction("Index", "Consorcio");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> GuardarYCrearOtro(CreateConsorcioViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
+
+            if (!response.Success)
+            {
+                ModelState.AddModelError(string.Empty, response.Message);
+                return View(model);
+            }
+
+            TempData["SuccessMessage"] = response.Message;
             return RedirectToAction("Guardar", "Consorcio");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult GuardarYCrearOtro(CreateConsorcioViewModel model)
+        public async Task<IActionResult> GuardarYCrearUnidad(CreateConsorcioViewModel model)
         {
 
-            return View();
-        }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult GuardarYCrearUnidad(CreateConsorcioViewModel model)
-        {
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
 
-            return View();
+            if (!response.Success)
+            {
+                ModelState.AddModelError(string.Empty, response.Message);
+                return View(model);
+            }
+
+            TempData["SuccessMessage"] = response.Message;
+            return RedirectToAction("Agregar", "Unidades", new { consorcioId = response.IdConsorcio });
         }
 
         [HttpGet]
