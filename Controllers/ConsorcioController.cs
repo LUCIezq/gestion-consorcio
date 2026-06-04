@@ -50,7 +50,7 @@ namespace PracticaParcial.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Guardar", model);
             }
 
             GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
@@ -58,7 +58,7 @@ namespace PracticaParcial.Controllers
             if (!response.Success)
             {
                 ModelState.AddModelError(string.Empty, response.Message);
-                return View(model);
+                return View("Guardar", model);
             }
 
             TempData["SuccessMessage"] = response.Message;
@@ -72,7 +72,7 @@ namespace PracticaParcial.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Guardar", model);
             }
 
             GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
@@ -80,7 +80,7 @@ namespace PracticaParcial.Controllers
             if (!response.Success)
             {
                 ModelState.AddModelError(string.Empty, response.Message);
-                return View(model);
+                return View("Guardar", model);
             }
 
             TempData["SuccessMessage"] = response.Message;
