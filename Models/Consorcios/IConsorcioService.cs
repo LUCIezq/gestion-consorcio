@@ -8,5 +8,7 @@ namespace PracticaParcial.Models.Consorcios
         Task<Consorcio?> BuscarConsorcioPorDireccion(string calle, string ciudad, string provincia, string codigoPostal);
 
         Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas();
+
+        Task<EliminarConsorcioResponse> EliminarConsorcio(int id);
     }
 }

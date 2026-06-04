@@ -6,5 +6,6 @@ namespace PracticaParcial.Models.Users
         public required string Email { get; set; }
         public string? Password { get; set; }
         public required DateTime CreatedAt { get; set; }
+        public DateTime? UltimoLogin { get; set; }
     }
 }

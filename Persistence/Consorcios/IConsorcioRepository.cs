@@ -10,5 +10,10 @@ namespace PracticaParcial.Persistence.Consorcios
         Task<Consorcio> GuardarConsorcio(Consorcio consorcio);
 
         Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas();
+
+        Task<Consorcio?> BuscarConsorcioPorId(int id);
+
+        Task EliminarConsorcio(Consorcio consorcio);
+
     }
 }
