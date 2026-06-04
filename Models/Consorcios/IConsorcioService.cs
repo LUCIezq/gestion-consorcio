@@ -6,5 +6,7 @@ namespace PracticaParcial.Models.Consorcios
     {
         Task<GuardarConsorcioResponse> GuardarConsorcio(CreateConsorcioViewModel model);
         Task<Consorcio?> BuscarConsorcioPorDireccion(string calle, string ciudad, string provincia, string codigoPostal);
+
+        Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas();
     }
 }
