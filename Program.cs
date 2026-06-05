@@ -1,10 +1,11 @@
-using PracticaParcial.Models.Unidades;
-using PracticaParcial.Models.Reserva;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Gastos;
+using PracticaParcial.Models.Reserva;
+using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Users;
 using PracticaParcial.Persistence;
 using PracticaParcial.Persistence.Auth;
@@ -25,6 +26,10 @@ builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IConsorcioService, ConsorcioService>();
 builder.Services.AddScoped<IConsorcioRepository, ConsorcioRepository>();
+builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
+builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
+builder.Services.AddScoped<IGastosLogica, GastosLogica>();
+builder.Services.AddScoped<IGuardarArchivoLogica, GuardarArchivoLogica>();
 
 builder.Services.AddDbContext<UnidadDbContext>();
 
