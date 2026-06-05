@@ -51,7 +51,7 @@ namespace PracticaParcial.Models.Gastos
         {
             var gastosEntidad= _db.Gastos.Where(g => g.IdConsorcio == idConsorcio).ToList();
 
-            // 2. Mapeamos de forma segura fila por fila
+  
             var gastosViewModel = gastosEntidad
                                    .Select(g => GastoViewModel.FromEntity(g))
                                    .ToList();

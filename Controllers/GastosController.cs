@@ -36,7 +36,6 @@ namespace PracticaParcial.Controllers
         {
             try
             {
-                // si usas validación en el ViewModel y no quieres validar el archivo:
                 ModelState.Remove("ArchivoComprobante");
 
                 if (!ModelState.IsValid)
@@ -71,7 +70,6 @@ namespace PracticaParcial.Controllers
             }
             catch (Exception ex)
             {
-                // Mejor registrar el error; por ahora devolver mensaje simple para debug
                 return Content(ex.ToString());
             }
         }
