@@ -78,8 +78,11 @@
                            autocomplete="address-line1" id="select-address" />
                 </div>
 
-                <input type="hidden" asp-for="Latitud" id="latitud">
-                <input type="hidden" asp-for="Longitud" id="longitud">
+                <input type="hidden" asp-for="Latitud">
+                <input type="hidden" asp-for="Longitud">
+
+                <span asp-validation-for="Latitud" class="text-danger small"></span>
+                <span asp-validation-for="Longitud" class="text-danger small"></span>
 
                 <div class="row g-4">
 
@@ -180,7 +183,7 @@
     }
 
     <script id="search-js" defer src="https://api.mapbox.com/search-js/v1.5.0/web.js"></script>
-    <script src="~/js/Consorcio/MapBox.js"></script>
+    <script type="module" src="~/js/Consorcio/MapBox.js"></script>
     <script>
         const mapboxAccessToken = '@Configuration["Mapbox:AccessToken"]';
     </script>

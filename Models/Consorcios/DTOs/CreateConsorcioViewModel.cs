@@ -6,7 +6,7 @@ namespace PracticaParcial.Models.Consorcios.DTOs
     {
         [Required(ErrorMessage = "El campo nombre es obligatorio.")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre debe tener entre 3 y 100 caracteres.")]
-        [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "El nombre solo puede contener letras y espacios.")]
+        [RegularExpression(@"^[a-zA-Z0-9\s]+$", ErrorMessage = "El nombre solo puede contener letras, números y espacios.")]
         public required string Nombre { get; set; }
 
         [Required(ErrorMessage = "El campo dirección es obligatorio.")]
