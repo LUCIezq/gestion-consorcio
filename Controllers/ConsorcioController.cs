@@ -50,7 +50,7 @@ namespace PracticaParcial.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Guardar", model);
             }
 
             GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
@@ -58,7 +58,7 @@ namespace PracticaParcial.Controllers
             if (!response.Success)
             {
                 ModelState.AddModelError(string.Empty, response.Message);
-                return View(model);
+                return View("Guardar", model);
             }
 
             TempData["SuccessMessage"] = response.Message;
@@ -72,7 +72,7 @@ namespace PracticaParcial.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Guardar", model);
             }
 
             GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
@@ -80,17 +80,42 @@ namespace PracticaParcial.Controllers
             if (!response.Success)
             {
                 ModelState.AddModelError(string.Empty, response.Message);
-                return View(model);
+                return View("Guardar", model);
             }
 
             TempData["SuccessMessage"] = response.Message;
             return RedirectToAction("Agregar", "Unidades", new { consorcioId = response.IdConsorcio });
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            EliminarConsorcioResponse resultado = await _consorcioService.EliminarConsorcio(id);
+
+            // if (!resultado.Success)
+            // {
+            //     ModelState.AddModelError(string.Empty, resultado.Message);
+            //     return View("Index");
+            // }
+            // TempData["SuccessMessage"] = resultado.Message;
+            // return RedirectToAction("Index", "Consorcio");
+
+            return Ok(resultado);
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerCoordenadas()
+        {
+            var resultado = await _consorcioService.ObtenerCoordenadas();
+            return Ok(
+                resultado
+            );
         }
     }
 }

@@ -18,6 +18,27 @@ namespace PracticaParcial.Models.Consorcios
             return await _consorcioRepository.BuscarConsorcioPorDireccion(calle, ciudad, provincia, codigoPostal);
         }
 
+        public async Task<EliminarConsorcioResponse> EliminarConsorcio(int id)
+        {
+            Consorcio? buscado = await _consorcioRepository.BuscarConsorcioPorId(id);
+
+            if (buscado == null)
+            {
+                return new EliminarConsorcioResponse
+                {
+                    Success = false,
+                    Message = "No se encontró el consorcio a eliminar."
+                };
+            }
+
+            await _consorcioRepository.EliminarConsorcio(buscado);
+            return new EliminarConsorcioResponse
+            {
+                Success = true,
+                Message = "Consorcio eliminado exitosamente."
+            };
+        }
+
         public async Task<GuardarConsorcioResponse> GuardarConsorcio(CreateConsorcioViewModel model)
         {
             Consorcio? buscado = await BuscarConsorcioPorDireccion(model.Calle, model.Ciudad, model.Provincia, model.CodigoPostal);
@@ -32,7 +53,7 @@ namespace PracticaParcial.Models.Consorcios
                 ;
             }
 
-            Consorcio nuevoConsorcio = new Consorcio
+            Consorcio nuevoConsorcio = new()
             {
                 Nombre = model.Nombre,
                 Calle = model.Calle,
@@ -53,6 +74,11 @@ namespace PracticaParcial.Models.Consorcios
                 Message = "Consorcio guardado exitosamente.",
                 IdConsorcio = consorcioGuardado.Id
             };
+        }
+
+        public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas()
+        {
+            return await _consorcioRepository.ObtenerCoordenadas();
         }
     }
 }
