@@ -20,8 +20,6 @@ window.addEventListener('load', () => {
         const calleInput = document.getElementById('Calle');
         calleInput.value = e.detail.features[0].properties.address_line1 || '';
 
-        console.log(e)
-
         latitudInput.value = lat.toString().replace('.', ',');
         longitudInput.value = lng.toString().replace('.', ',');
     });
@@ -37,7 +35,7 @@ document.getElementById("form").addEventListener("submit", async function (e) {
         formulario.submit();
         return;
     }
-    
+
     const calle = document.getElementById('Calle');
     const ciudad = document.getElementById('Ciudad');
     const provincia = document.getElementById('Provincia');

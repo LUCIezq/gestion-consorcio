@@ -39,14 +39,30 @@ namespace PracticaParcial.Persistence.Consorcios
             return consorcio;
         }
 
-        public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas()
+        public async Task<ICollection<ConsorcioDetailViewModel>> ObtenerConsorcios()
         {
             return await _dbContext.Consorcios.Select(c => new ConsorcioDetailViewModel
             {
                 Id = c.Id,
                 Nombre = c.Nombre,
+                Calle = c.Calle,
+                Ciudad = c.Ciudad,
+                Provincia = c.Provincia,
                 Latitud = c.Latitud.ToString(),
                 Longitud = c.Longitud.ToString()
+            }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas()
+        {
+            return await _dbContext.Consorcios.Select(c => new ConsorcioCoordenadaViewModel
+            {
+                Id = c.Id,
+                Nombre = c.Nombre,
+                Latitud = c.Latitud.ToString(),
+                Longitud = c.Longitud.ToString(),
+                Calle = c.Calle,
+                Ciudad = c.Ciudad
             }).ToListAsync();
         }
     }

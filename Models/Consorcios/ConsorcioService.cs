@@ -78,7 +78,17 @@ namespace PracticaParcial.Models.Consorcios
             };
         }
 
-        public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas()
+        public async Task<Consorcio?> ObtenerConsorcioPorId(int id)
+        {
+            return await _consorcioRepository.BuscarConsorcioPorId(id);
+        }
+
+        public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerConsorcios()
+        {
+            return await _consorcioRepository.ObtenerConsorcios();
+        }
+
+        public async Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas()
         {
             return await _consorcioRepository.ObtenerCoordenadas();
         }
