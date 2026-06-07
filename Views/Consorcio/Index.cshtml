@@ -1,7 +1,11 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 @{
     Layout = "_UsuarioLayout";
     ViewData["Title"] = "Index";
 }
+
+@model IEnumerable<PracticaParcial.Models.Consorcios.DTOs.ConsorcioDetailViewModel>
 
 <h1>@ViewData["Title"]</h1>
 
@@ -22,6 +26,182 @@
     </div>
 }
 
-<div>
-    <a class="btn btn-primary mb-3" asp-action="Guardar">Crear nuevo consorcio</a>
+
+<style>
+    .consorcios-panel {
+        position: fixed;
+
+        top: 90px;
+        right: 24px;
+
+        width: 450px;
+        height: calc(100vh - 120px);
+
+        background: rgba(255, 255, 255, .95);
+        backdrop-filter: blur(12px);
+
+        border: 1px solid rgba(0, 0, 0, .06);
+        border-radius: 20px;
+
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, .08);
+
+        display: flex;
+        flex-direction: column;
+
+        overflow: hidden;
+        z-index: 1000;
+    }
+
+    .panel-header {
+        padding: 24px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        border-bottom: 1px solid #f1f3f5;
+    }
+
+    .panel-header h5 {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .panel-header span {
+        font-size: .85rem;
+        color: #6c757d;
+    }
+
+    .consorcio-card {
+        padding: 18px 24px;
+
+        border-bottom: 1px solid #f5f5f5;
+
+        transition: all .2s ease;
+    }
+
+    .consorcio-card:hover {
+        background: #fafafa;
+        cursor: pointer;
+    }
+
+    .consorcio-card h6 {
+        margin: 0 0 6px 0;
+        font-weight: 600;
+    }
+
+    .consorcio-card p {
+        margin: 0;
+        color: #6c757d;
+        font-size: .9rem;
+    }
+
+    .nuevo-btn {
+        margin: auto 20px 20px;
+
+        height: 48px;
+
+        border: none;
+        border-radius: 12px;
+
+        font-weight: 600;
+
+        background: #111827;
+        color: white;
+
+        transition: .2s;
+    }
+
+    .nuevo-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .marker {
+        background-image: url('https://docs.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png');
+        background-size: cover;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup {
+        max-width: 280px;
+    }
+
+    .mapboxgl-popup-content {
+        padding: 16px;
+        border-radius: 16px;
+
+        background: rgba(255, 255, 255, 0.98);
+
+        box-shadow:
+            0 10px 30px rgba(0, 0, 0, 0.08),
+            0 2px 8px rgba(0, 0, 0, 0.04);
+
+        border: 1px solid rgba(0, 0, 0, 0.06);
+
+        font-family: Inter, system-ui, sans-serif;
+
+        text-align: left;
+    }
+
+    .mapboxgl-popup-close-button {
+        font-size: 18px;
+        color: #6b7280;
+
+        padding: 8px;
+
+        transition: .2s ease;
+    }
+
+    .mapboxgl-popup-close-button:hover {
+        background: transparent;
+        color: #111827;
+    }
+
+    .mapboxgl-popup-tip {
+        border-top-color: white !important;
+    }
+</style>
+
+<div id="map" style="position: fixed; top: 70px; right: 0; bottom: 0; left: 0; width: 100%;">
 </div>
+
+<div class="consorcios-panel">
+    <div class="panel-header">
+        <h5>Mis Consorcios</h5>
+        <span class="fw-bold text-black">@Model.Count()</span>
+    </div>
+
+    @foreach (var consorcio in Model)
+    {
+        <div class="consorcio-card">
+            <h6>@consorcio.Nombre</h6>
+            <div>
+                <span class="text-muted fs-6">@consorcio.Calle</span>
+                <span class="mx-1">-</span>
+                <span class="text-muted fs-6">@consorcio.Ciudad</span>
+                <span class="mx-1">-</span>
+                <span class="text-muted fs-6">@consorcio.Provincia</span>
+            </div>
+
+        </div>
+    }
+
+    <button class="nuevo-btn">
+        <a asp-action="Guardar" class="text-white" asp-controller="Consorcio">+ Nuevo Consorcio</a>
+    </button>
+</div>
+@section Styles {
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.24.0/mapbox-gl.css" rel="stylesheet">
+}
+
+@section Scripts {
+    <script>
+        const mapboxAccessToken = '@Configuration["Mapbox:AccessToken"]';
+    </script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.24.0/mapbox-gl.js"></script>
+    <script src="~/js/Consorcio/Map-MapBox.js"></script>
+}

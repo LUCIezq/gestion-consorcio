@@ -106,13 +106,16 @@ namespace PracticaParcial.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var consorcios = _consorcioService.ObtenerConsorcios().Result;
+            return View(consorcios);
+
         }
 
         [HttpGet]
         public async Task<IActionResult> ObtenerCoordenadas()
         {
             var resultado = await _consorcioService.ObtenerCoordenadas();
+
             return Ok(
                 resultado
             );
