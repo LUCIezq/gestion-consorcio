@@ -24,6 +24,7 @@
 
                     <form asp-action="Agregar" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input type="hidden" asp-for="IdConsorcio" />
 
                         <div class="mb-3">
                             <label asp-for="Nombre" class="form-label fw-bold">Identificador de la Unidad</label>

@@ -28,6 +28,8 @@ namespace PracticaParcial.Models.Unidades.DTOs
 
         public DateOnly? FechaCreacion { get; set; }
 
+        public int IdConsorcio { get; set; }
+
         public Unidad ToEntity()
         {
             return new Unidad

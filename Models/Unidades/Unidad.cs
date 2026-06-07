@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Reserva;
 
 namespace PracticaParcial.Models.Unidades
@@ -31,5 +32,7 @@ namespace PracticaParcial.Models.Unidades
         public DateOnly FechaCreacion { get; set; }
 
         public ICollection<ReservaSUM> Reservas { get; set; } = new List<ReservaSUM>();
+
+        public Consorcio Consorcio { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using PracticaParcial.Persistence;
 
 #nullable disable
 
-namespace PracticaParcial.Persistence.Migrations
+namespace PracticaParcial.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
     partial class UnidadDbContextModelSnapshot : ModelSnapshot
@@ -111,6 +111,9 @@ namespace PracticaParcial.Persistence.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("ConsorcioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("EmailPropietario")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -133,6 +136,8 @@ namespace PracticaParcial.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("IdUnidad");
+
+                    b.HasIndex("ConsorcioId");
 
                     b.ToTable("Unidades");
                 });
@@ -167,6 +172,22 @@ namespace PracticaParcial.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Unidad");
+                });
+
+            modelBuilder.Entity("PracticaParcial.Models.Unidades.Unidad", b =>
+                {
+                    b.HasOne("PracticaParcial.Models.Consorcios.Consorcio", "Consorcio")
+                        .WithMany("Unidades")
+                        .HasForeignKey("ConsorcioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consorcio");
+                });
+
+            modelBuilder.Entity("PracticaParcial.Models.Consorcios.Consorcio", b =>
+                {
+                    b.Navigation("Unidades");
                 });
 
             modelBuilder.Entity("PracticaParcial.Models.Unidades.Unidad", b =>

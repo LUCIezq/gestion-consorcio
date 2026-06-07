@@ -25,9 +25,15 @@ namespace PracticaParcial.Controllers
             return View(viewModels);
         }
 
-        public IActionResult Agregar()
+        [HttpGet]
+        public IActionResult Agregar(int consorcioId)
         {
-            return View();
+            var viewModel = new UnidadViewModel
+            {
+                IdConsorcio = consorcioId
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -36,19 +42,19 @@ namespace PracticaParcial.Controllers
             if (!ModelState.IsValid)
                 return View(unidadVM);
 
-
             var nuevaUnidad = unidadVM.ToEntity();
             nuevaUnidad.FechaCreacion = DateOnly.FromDateTime(DateTime.Now);
 
-            unidadLogica.AgregarUnidad(unidadVM.ToEntity());
-
+            unidadLogica.AgregarUnidad(nuevaUnidad);
 
             if (accionBoton == "guardar_nuevo")
             {
                 TempData["MensajeExito"] = $"Unidad {unidadVM.Nombre} creada con éxito";
                 ModelState.Clear();
-                return View(new UnidadViewModel());
+
+                return View(new UnidadViewModel { IdConsorcio = unidadVM.IdConsorcio });
             }
+
             return RedirectToAction("Index");
         }
 
