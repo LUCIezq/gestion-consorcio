@@ -3,22 +3,21 @@
     public interface IGuardarArchivoLogica
     {
 
-        Task<string?> GuardarArchivoAsync(IFormFile archivo);
+        string? GuardarArchivo(IFormFile archivo);
 
     }
     public class GuardarArchivoLogica : IGuardarArchivoLogica
     {
         public static string Carpeta = "comprobantes";
 
-        public async Task<string?> GuardarArchivoAsync(IFormFile archivo)
+        public string GuardarArchivo(IFormFile archivo)
         {
             if (archivo == null || archivo.Length == 0)
             {
                 return null;
             }
 
-            try
-            {
+            
                 string nuevaCarpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Carpeta);
 
                 if (!Directory.Exists(nuevaCarpeta))
@@ -29,19 +28,13 @@
                 string nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(archivo.FileName);
                 string rutaArchivo = Path.Combine(nuevaCarpeta, nombreArchivo);
 
-                await using (var stream = new FileStream(rutaArchivo, FileMode.Create))
-                {
-                    await archivo.CopyToAsync(stream);
-                    await stream.FlushAsync();
-                }
-
-                return nombreArchivo;
-            }
-            catch (Exception)
+            using (var stream = new FileStream(rutaArchivo, FileMode.Create))
             {
-     
-                return null;
+                archivo.CopyTo(stream);
             }
+
+            return nombreArchivo;
+          
         }
     }
 }

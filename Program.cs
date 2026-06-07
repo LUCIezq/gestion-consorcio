@@ -65,6 +65,14 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+
+
+app.MapControllerRoute(
+    name: "EditarGasto",
+    pattern: "Gastos/Editar/{idConsorcio}/{idGasto}", 
+    defaults: new { controller = "Gastos", action = "Editar" }
+);
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Auth}/{action=Login}/{id?}")

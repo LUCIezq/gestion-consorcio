@@ -31,4 +31,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\comprobantes\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".github\copilot-instructions.md" />
+  </ItemGroup>
 </Project>

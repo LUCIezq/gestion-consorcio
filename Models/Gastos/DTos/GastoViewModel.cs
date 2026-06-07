@@ -75,7 +75,7 @@ namespace PracticaParcial.Models.Gastos.DTos
                 MesExpensa = gasto.MesExpensa,
                 ArchivoComprobanteGuardado = gasto.ArchivoComprobante,
                 Monto = gasto.Monto,
-                NombreTipoGasto = gasto.TipoGasto?.Nombre ?? "No especificado"
+                NombreTipoGasto = gasto.TipoGasto?.Nombre 
             };
         }
     }
