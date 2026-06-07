@@ -1,8 +1,11 @@
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PracticaParcial.Models.Consorcios.DTOs
 {
-    public class ConsorcioDetailViewModel
+    public class ConsorcioCoordenadaViewModel
     {
         public required int Id { get; set; }
         public required string Nombre { get; set; }
@@ -10,6 +13,5 @@ namespace PracticaParcial.Models.Consorcios.DTOs
         public required string Longitud { get; set; }
         public required string Calle { get; set; }
         public required string Ciudad { get; set; }
-        public required string Provincia { get; set; }
     }
 }

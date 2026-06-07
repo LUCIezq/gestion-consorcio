@@ -1,6 +1,11 @@
 ﻿@{
     Layout = "BaseLayout";
 }
+
+@section Styles {
+    @RenderSection("Styles", required: false)
+}
+
 @section Menu {
     <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom shadow-sm py-3 mb-4">
         <ul class="navbar-nav ms-auto align-items-center gap-2">
@@ -20,5 +25,5 @@
 }
 @RenderBody()
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 @await RenderSectionAsync("Scripts", required: false)

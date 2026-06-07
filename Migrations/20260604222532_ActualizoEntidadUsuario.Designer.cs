@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PracticaParcial.Persistence;
 
 #nullable disable
 
-namespace PracticaParcial.Migrations
+namespace PracticaParcial.Persistence.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
-    partial class UnidadDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260604222532_ActualizoEntidadUsuario")]
+    partial class ActualizoEntidadUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,9 +114,6 @@ namespace PracticaParcial.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("ConsorcioId")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmailPropietario")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -136,8 +136,6 @@ namespace PracticaParcial.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("IdUnidad");
-
-                    b.HasIndex("ConsorcioId");
 
                     b.ToTable("Unidades");
                 });
@@ -175,22 +173,6 @@ namespace PracticaParcial.Migrations
                         .IsRequired();
 
                     b.Navigation("Unidad");
-                });
-
-            modelBuilder.Entity("PracticaParcial.Models.Unidades.Unidad", b =>
-                {
-                    b.HasOne("PracticaParcial.Models.Consorcios.Consorcio", "Consorcio")
-                        .WithMany("Unidades")
-                        .HasForeignKey("ConsorcioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Consorcio");
-                });
-
-            modelBuilder.Entity("PracticaParcial.Models.Consorcios.Consorcio", b =>
-                {
-                    b.Navigation("Unidades");
                 });
 
             modelBuilder.Entity("PracticaParcial.Models.Unidades.Unidad", b =>

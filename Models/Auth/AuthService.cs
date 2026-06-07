@@ -6,6 +6,7 @@ using PracticaParcial.Models.Auth.Login.DTOs;
 using PracticaParcial.Models.Auth.Register;
 using PracticaParcial.Models.Auth.Register.DTOs;
 using PracticaParcial.Models.Users;
+using PracticaParcial.Persistence;
 using PracticaParcial.Persistence.Auth;
 using PracticaParcial.shared;
 
@@ -16,10 +17,13 @@ namespace PracticaParcial.Models.Auth
         private readonly IAuthRepository _authRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AuthService(IAuthRepository authRepository, IPasswordHasher<User> passwordHasher)
+        private readonly UnidadDbContext _dbContext;
+
+        public AuthService(IAuthRepository authRepository, IPasswordHasher<User> passwordHasher, UnidadDbContext dbContext)
         {
             _authRepository = authRepository;
             _passwordHasher = passwordHasher;
+            _dbContext = dbContext;
         }
 
         public async Task<RegisterResponse> Register(RegisterViewModel model)
@@ -62,8 +66,9 @@ namespace PracticaParcial.Models.Auth
                 return new LoginResponse { Success = false, Message = "Email o contraseña incorrectos." };
             }
 
+            user.UltimoLogin = DateTime.Now;
+            await _dbContext.SaveChangesAsync();
             return new LoginResponse { Success = true, Message = "Login exitoso.", User = user };
         }
-
     }
 }
