@@ -164,6 +164,25 @@
     .mapboxgl-popup-tip {
         border-top-color: white !important;
     }
+
+    .consorcio-name {
+        text-decoration: none;
+        color: #111827;
+        font-size: 1.1rem;
+    }
+
+    .consorcio-name:hover {
+        text-decoration: underline;
+    }
+
+    .nuevo-consorcio {
+        text-decoration: none;
+    }
+
+    .nuevo-consorcio:hover {
+        text-decoration: underline;
+        color: #e5e7eb;
+    }
 </style>
 
 <div id="map" style="position: fixed; top: 70px; right: 0; bottom: 0; left: 0; width: 100%;">
@@ -175,23 +194,61 @@
         <span class="fw-bold text-black">@Model.Count()</span>
     </div>
 
-    @foreach (var consorcio in Model)
+    @if (!Model.Any())
     {
-        <div class="consorcio-card">
-            <h6>@consorcio.Nombre</h6>
-            <div>
-                <span class="text-muted fs-6">@consorcio.Calle</span>
-                <span class="mx-1">-</span>
-                <span class="text-muted fs-6">@consorcio.Ciudad</span>
-                <span class="mx-1">-</span>
-                <span class="text-muted fs-6">@consorcio.Provincia</span>
-            </div>
-
+        <div class="d-flex flex-column align-items-center justify-content-center gap-3 mt-5">
+            <i class="bi bi-building fs-1 text-muted"></i>
+            <p class="text-muted">No tienes consorcios creados aún.</p>
         </div>
+    }
+    else
+    {
+        @foreach (var consorcio in Model)
+        {
+            <div class="consorcio-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a asp-action="Detalle" asp-route-id="@consorcio.Id" class="consorcio-name">@consorcio.Nombre</a>
+
+                    <div class="dropdown">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" role="button" id="dropdownMenuLink"
+                             data-bs-toggle="dropdown" aria-expanded="false" height="16" fill="currentColor"
+                             class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                            <path
+                            d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                        </svg>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Unidades</a></li>
+                            <li><a class="dropdown-item" href="#">Gastos</a></li>
+                            <li><a class="dropdown-item" href="#">Expensas</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form asp-action="Eliminar" asp-route-id="@consorcio.Id" asp-controller="Consorcio"
+                                      method="post">
+                                    <button type="submit" class="dropdown-item text-danger">Eliminar</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-muted fs-6">@consorcio.Calle</span>
+                    <span class="mx-1">-</span>
+                    <span class="text-muted fs-6">@consorcio.Ciudad</span>
+                    <span class="mx-1">-</span>
+                    <span class="text-muted fs-6">@consorcio.Provincia</span>
+                </div>
+
+            </div>
+        }
     }
 
     <button class="nuevo-btn">
-        <a asp-action="Guardar" class="text-white" asp-controller="Consorcio">+ Nuevo Consorcio</a>
+        <a asp-action="Guardar" class="text-white nuevo-consorcio" asp-controller="Consorcio">+ Nuevo Consorcio</a>
     </button>
 </div>
 @section Styles {
