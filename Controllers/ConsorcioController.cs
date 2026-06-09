@@ -88,6 +88,7 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Eliminar(int id)
         {
             EliminarConsorcioResponse resultado = await _consorcioService.EliminarConsorcio(id);

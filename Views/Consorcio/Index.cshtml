@@ -191,7 +191,12 @@
 <div class="consorcios-panel">
     <div class="panel-header">
         <h5>Mis Consorcios</h5>
-        <span class="fw-bold text-black">@Model.Count()</span>
+
+        @if (Model.Any())
+        {
+            <span class="fw-bold text-black">@Model.Count()</span>
+
+        }
     </div>
 
     @if (!Model.Any())
@@ -225,11 +230,12 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
+                            <li><a class="dropdown-item" href="#">Editar</a></li>
                             <li>
-                                <form asp-action="Eliminar" asp-route-id="@consorcio.Id" asp-controller="Consorcio"
-                                      method="post">
-                                    <button type="submit" class="dropdown-item text-danger">Eliminar</button>
-                                </form>
+                                <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal"
+                                        data-bs-target="#eliminarModal" data-id="@consorcio.Id" data-nombre="@consorcio.Nombre">
+                                    Eliminar
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -251,6 +257,39 @@
         <a asp-action="Guardar" class="text-white nuevo-consorcio" asp-controller="Consorcio">+ Nuevo Consorcio</a>
     </button>
 </div>
+
+<div class="modal fade" id="eliminarModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p id="mensajeEliminar"></p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+
+                <form asp-action="Eliminar" asp-controller="Consorcio" method="post">
+
+                    <input type="hidden" id="consorcioId" name="id" />
+
+                    <button type="submit" class="btn btn-danger">
+                        Eliminar
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 @section Styles {
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.24.0/mapbox-gl.css" rel="stylesheet">
 }
@@ -261,4 +300,24 @@
     </script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.24.0/mapbox-gl.js"></script>
     <script src="~/js/Consorcio/Map-MapBox.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+        const modal = document.getElementById('eliminarModal');
+
+        modal.addEventListener('show.bs.modal', event => {
+
+        const button = event.relatedTarget;
+
+        const id = button.getAttribute('data-id');
+        const nombre = button.getAttribute('data-nombre');
+
+        document.getElementById('consorcioId').value = id;
+
+        document.getElementById('mensajeEliminar').textContent =
+        `¿Está seguro que desea eliminar el consorcio "${nombre}"?`;
+        });
+
+        });
+    </script>
 }
