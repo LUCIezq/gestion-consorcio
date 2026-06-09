@@ -1,0 +1,24 @@
+﻿@model PracticaParcial.Models.Gastos.DTO.GastoViewModel;
+@{
+    Layout = "_UsuarioLayout";
+    ViewData["Title"] = "Agregar Gasto";
+}
+<form asp-action="Agregar" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <label asp-for="Nombre">Nombre</label>
+    <input asp-for="Nombre" type="text" class="form-control" />
+
+    <label asp-for="Descripcion">Descripcion</label>
+    <textarea asp-for="Descripcion" type="text" class="form-control"></textarea>
+
+    <label asp-for="Importe">Importe</label>
+    <input asp-for="Importe" type="number" class="form-control" />
+
+    <label asp-for="Fecha">Fecha</label>
+    <input asp-for="Fecha" type="datetime" />
+
+    <button type="submit" class="btn btn-success mt-3">
+        Guardar
+    </button>
+</form>
