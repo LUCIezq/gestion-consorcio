@@ -28,6 +28,11 @@ builder.Services.AddScoped<IConsorcioRepository, ConsorcioRepository>();
 
 builder.Services.AddDbContext<UnidadDbContext>();
 
+builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
+builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
+
+builder.Services.AddDbContext<UnidadDbContext>();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Gastos;
 using PracticaParcial.Models.Reserva;
 using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Users;
@@ -14,6 +15,7 @@ public class UnidadDbContext : DbContext
     public DbSet<User> Users { get; set; }
 
     public DbSet<Consorcio> Consorcios { get; set; }
+    public DbSet<Gasto> Gastos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

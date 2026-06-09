@@ -1,17 +1,22 @@
 ﻿
-using PracticaParcial.Models.Unidades;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Unidades.DTOs;
+using PracticaParcial.Persistence.Consorcios;
 namespace PracticaParcial.Controllers
 {
     public class UnidadesController : Controller
     {
         private readonly IUnidadesLogica unidadLogica;
 
+        private readonly IConsorcioService _consorcioService;
 
-        public UnidadesController(IUnidadesLogica unidadLogica)
+        public UnidadesController(IUnidadesLogica unidadLogica, IConsorcioService consorcioService)
         {
-            this.unidadLogica = unidadLogica;
+            this.unidadLogica = unidadLogica;   
+            this._consorcioService = consorcioService;
         }
 
         public ActionResult Index()
@@ -25,41 +30,64 @@ namespace PracticaParcial.Controllers
             return View(viewModels);
         }
 
-        public IActionResult Agregar()
+        [HttpGet]
+        public async Task<IActionResult> Agregar(int consorcioId)
         {
-            return View();
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId);
+
+            var viewModel = new UnidadViewModel
+            {
+                IdConsorcio = consorcioId,
+                NombreConsorcio = consorcio != null ? consorcio.Nombre : "Consorcio Desconocido"
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Agregar(UnidadViewModel unidadVM, string accionBoton)
+        public async Task<IActionResult> Agregar(UnidadViewModel unidadVM, string accionBoton)
         {
             if (!ModelState.IsValid)
                 return View(unidadVM);
 
-
             var nuevaUnidad = unidadVM.ToEntity();
             nuevaUnidad.FechaCreacion = DateOnly.FromDateTime(DateTime.Now);
 
-            unidadLogica.AgregarUnidad(unidadVM.ToEntity());
+           
+            var consorcioDb = await _consorcioService.ObtenerConsorcioPorId(unidadVM.IdConsorcio);
 
+            nuevaUnidad.Consorcio = consorcioDb;
+     
+            unidadLogica.AgregarUnidad(nuevaUnidad);
 
             if (accionBoton == "guardar_nuevo")
             {
                 TempData["MensajeExito"] = $"Unidad {unidadVM.Nombre} creada con éxito";
                 ModelState.Clear();
-                return View(new UnidadViewModel());
+
+                return View(new UnidadViewModel { IdConsorcio = unidadVM.IdConsorcio });
             }
+
             return RedirectToAction("Index");
         }
 
-        public IActionResult Eliminar(int id)
+        [HttpGet]
+        public async Task<IActionResult> Eliminar(int id)
         {
-            var unidad = unidadLogica.ObtenerUnidades().FirstOrDefault(u => u.IdUnidad == id);
+            // 1. Buscamos la unidad
+            var unidad = unidadLogica.ObtenerUnidadPorId(id);
 
             if (unidad == null)
-                return RedirectToAction("Index");
+                return NotFound();
 
-            return View(unidad);
+            // 2. La convertimos a ViewModel
+            var viewModel = UnidadViewModel.FromEntity(unidad);
+
+            // 3. Buscamos el nombre del consorcio usando el servicio de tu compañero
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(unidad.Consorcio.Id);
+            viewModel.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
+
+            return View(viewModel);
         }
 
         [HttpPost, ActionName("Eliminar")]
@@ -69,13 +97,21 @@ namespace PracticaParcial.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public IActionResult Editar(int id)
         {
             var unidad = unidadLogica.ObtenerUnidadPorId(id);
+
             if (unidad == null)
                 return NotFound();
 
-            return View(UnidadViewModel.FromEntity(unidad));
+            var viewModel = UnidadViewModel.FromEntity(unidad);
+
+            viewModel.NombreConsorcio = unidad.Consorcio != null ? unidad.Consorcio.Nombre : "Consorcio Desconocido";
+
+            viewModel.IdConsorcio = unidad.Consorcio != null ? unidad.Consorcio.Id : 0;
+
+            return View(viewModel);
         }
 
         [HttpPost]

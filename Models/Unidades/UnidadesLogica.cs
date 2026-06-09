@@ -1,4 +1,5 @@
-﻿using PracticaParcial.Persistence;
+﻿using Microsoft.EntityFrameworkCore;
+using PracticaParcial.Persistence;
 namespace PracticaParcial.Models.Unidades
 {
     public interface IUnidadesLogica
@@ -21,12 +22,14 @@ namespace PracticaParcial.Models.Unidades
 
         public List<Unidad> ObtenerUnidades()
         {
-            return db.Unidades.ToList();
+            return db.Unidades.Include(u => u.Consorcio).ToList();
         }
 
-        public Unidad? ObtenerUnidadPorId(int id)
+        public Unidad ObtenerUnidadPorId(int id)
         {
-            return db.Unidades.FirstOrDefault(u => u.IdUnidad == id);
+            return db.Unidades
+                     .Include(u => u.Consorcio) 
+                     .FirstOrDefault(u => u.IdUnidad == id);
         }
 
         public void AgregarUnidad(Unidad unidad)

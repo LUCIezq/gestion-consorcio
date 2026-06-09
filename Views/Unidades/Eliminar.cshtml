@@ -1,28 +1,28 @@
 ﻿@model PracticaParcial.Models.Unidades.DTOs.UnidadViewModel
 
 @{
+    Layout = "_UsuarioLayout";
     ViewData["Title"] = "Eliminar Unidad";
 }
 
-<div class="container mt-5 text-center">
+<div class="container mt-5 pt-5 text-center">
 
-    <h2 class="display-6 fw-bold text-dark mb-5">
-        Esta seguro que desea Eliminar<br />
-        la unidad "@Model.Nombre" ?
+    <h2 class="fw-bold text-dark mb-5" style="line-height: 1.6;">
+        Esta seguro que desea Eliminar <br />
+        la unidad "@Model.Nombre" del consorcio "@Model.NombreConsorcio"?
     </h2>
 
-    <form asp-action="Eliminar" method="post">
-        <input type="hidden" name="id" value="@Model.IdUnidad" />
+    <form asp-action="Eliminar" method="post" class="d-flex justify-content-center gap-4">
 
-        <div class="d-flex justify-content-center gap-4">
+        <input type="hidden" asp-for="IdUnidad" />
 
-            <a asp-action="Index" class="btn btn-secondary btn-lg px-5 border border-dark">
-                Cancelar
-            </a>
+        <button type="submit" class="btn btn-secondary px-5 py-2 fw-bold text-dark" style="background-color: #e0e0e0; border-color: #ccc;">
+            Eliminar
+        </button>
 
-            <button type="submit" class="btn btn-danger btn-lg px-5 border border-dark">
-                Eliminar
-            </button>
-        </div>
+        <a asp-action="Index" class="btn btn-secondary px-5 py-2 fw-bold text-dark" style="background-color: #e0e0e0; border-color: #ccc;">
+            Cancelar
+        </a>
+
     </form>
 </div>
