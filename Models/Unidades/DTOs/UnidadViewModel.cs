@@ -28,6 +28,9 @@ namespace PracticaParcial.Models.Unidades.DTOs
 
         public DateOnly? FechaCreacion { get; set; }
 
+        public int IdConsorcio { get; set; }
+        public string? NombreConsorcio { get; set; }
+
         public Unidad ToEntity()
         {
             return new Unidad
@@ -46,6 +49,7 @@ namespace PracticaParcial.Models.Unidades.DTOs
             return new UnidadViewModel
             {
                 IdUnidad = unidad.IdUnidad,
+                NombreConsorcio = unidad.Consorcio != null ? unidad.Consorcio.Nombre : "Sin Consorcio",
                 Nombre = unidad.Nombre,
                 NombrePropietario = unidad.NombrePropietario,
                 ApellidoPropietario = unidad.ApellidoPropietario,

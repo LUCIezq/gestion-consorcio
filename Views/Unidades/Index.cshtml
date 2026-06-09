@@ -1,60 +1,37 @@
-﻿@model IEnumerable<PracticaParcial.Models.Unidades.DTOs.UnidadViewModel>
-
-@{
-    Layout = "_UsuarioLayout";
-    ViewData["Title"] = "Unidades del Consorcio";
-}
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="mb-0">Unidades del Consorcio</h2>
-        <a asp-action="Agregar" class="btn btn-success">
-            Nueva Unidad
-        </a>
-    </div>
-
-    <div class="table-responsive shadow-sm rounded">
-        <table class="table table-striped table-hover table-bordered mb-0">
-            <thead class="table-dark">
-                <tr>
-                    <th>Unidad</th>
-                    <th>Apellido</th>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Superficie (m²)</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null && Model.Any())
-                {
-                    foreach (var item in Model)
-                    {
-                        <tr>
-                            <td class="align-middle"><strong>@item.Nombre</strong></td>
-                            <td class="align-middle">@item.ApellidoPropietario</td>
-                            <td class="align-middle">@item.NombrePropietario</td>
-                            <td class="align-middle">@item.EmailPropietario</td>
-                            <td class="align-middle">@item.Superficie</td>
-                            <td class="text-center align-middle">
-                                <a asp-action="Editar" asp-route-id="@item.IdUnidad" class="btn btn-sm btn-outline-primary">
-                                    Editar
-                                </a>
-                                <a asp-action="Eliminar" asp-route-id="@item.IdUnidad" class="btn btn-sm btn-outline-danger">
-                                    Eliminar
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                }
-                else
-                {
-                    <tr>
-                        <td colspan="6" class="text-center text-muted py-4">
-                            No hay unidades registradas en este consorcio actualmente.
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+﻿<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Listado General de Unidades</h2>
+    <a asp-action="Agregar" class="btn btn-success">Nueva Unidad</a>
 </div>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-secondary">
+        <tr>
+            <th>Consorcio</th>
+            <th>Unidad</th>
+            <th>Apellido</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Superficie (m²)</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="fw-bold text-primary">@item.NombreConsorcio</td>
+
+                <td>@item.Nombre</td>
+
+                <td>@item.ApellidoPropietario</td>
+                <td>@item.NombrePropietario</td>
+                <td>@item.EmailPropietario</td>
+                <td>@item.Superficie</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.IdUnidad" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    <a asp-action="Eliminar" asp-route-id="@item.IdUnidad" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
