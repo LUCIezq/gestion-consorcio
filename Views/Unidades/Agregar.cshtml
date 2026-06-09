@@ -9,9 +9,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">
+
                 <div class="card-header bg-primary text-white">
                     <h3 class="card-title mb-0">Registrar Nueva Unidad</h3>
+                    <p class="mb-0 mt-1" style="font-size: 0.95rem; opacity: 0.9;">
+                        Edificio: <strong>@Model.NombreConsorcio</strong>
+                    </p>
                 </div>
+
                 <div class="card-body p-4">
 
                     @if (TempData["MensajeExito"] != null)
@@ -24,6 +29,9 @@
 
                     <form asp-action="Agregar" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <input type="hidden" asp-for="IdConsorcio" />
+                        <input type="hidden" asp-for="NombreConsorcio" />
 
                         <div class="mb-3">
                             <label asp-for="Nombre" class="form-label fw-bold">Identificador de la Unidad</label>
@@ -83,4 +91,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-
