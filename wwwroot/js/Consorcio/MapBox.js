@@ -101,3 +101,16 @@ async function obtenerCoordenadas(mapBoxId, sessionToken) {
         console.error('Error al obtener las coordenadas:', error);
     }
 }
+
+// Se agrega al final del archivo MapBox.js
+document.getElementById('form').addEventListener('submit', function () {
+    var latInput = document.getElementById('latitud');
+    var lonInput = document.getElementById('longitud');
+
+    if (latInput && latInput.value) {
+        latInput.value = latInput.value.replace('.', ',');
+    }
+    if (lonInput && lonInput.value) {
+        lonInput.value = lonInput.value.replace('.', ',');
+    }
+});

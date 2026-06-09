@@ -45,7 +45,7 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpPost]
-        public IActionResult Agregar(UnidadViewModel unidadVM, string accionBoton)
+        public async Task<IActionResult> Agregar(UnidadViewModel unidadVM, string accionBoton)
         {
             if (!ModelState.IsValid)
                 return View(unidadVM);
@@ -53,6 +53,11 @@ namespace PracticaParcial.Controllers
             var nuevaUnidad = unidadVM.ToEntity();
             nuevaUnidad.FechaCreacion = DateOnly.FromDateTime(DateTime.Now);
 
+           
+            var consorcioDb = await _consorcioService.ObtenerConsorcioPorId(unidadVM.IdConsorcio);
+
+            nuevaUnidad.Consorcio = consorcioDb;
+     
             unidadLogica.AgregarUnidad(nuevaUnidad);
 
             if (accionBoton == "guardar_nuevo")
@@ -93,17 +98,18 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Editar(int id) 
+        public IActionResult Editar(int id)
         {
-            var unidad = unidadLogica.ObtenerUnidadPorId(id); // (Usá el método que ya tengas armado)
+            var unidad = unidadLogica.ObtenerUnidadPorId(id);
 
             if (unidad == null)
                 return NotFound();
 
             var viewModel = UnidadViewModel.FromEntity(unidad);
 
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(unidad.Consorcio.Id);
-            viewModel.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Consorcio Desconocido";
+            viewModel.NombreConsorcio = unidad.Consorcio != null ? unidad.Consorcio.Nombre : "Consorcio Desconocido";
+
+            viewModel.IdConsorcio = unidad.Consorcio != null ? unidad.Consorcio.Id : 0;
 
             return View(viewModel);
         }

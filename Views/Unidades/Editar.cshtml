@@ -9,17 +9,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <div class="card-header bg-warning text-dark">
-                        <h3 class="card-title mb-0">Editar Unidad</h3>
-                        <p class="mb-0 mt-1" style="font-size: 0.95rem; opacity: 0.9;">
-                            Edificio: <strong>@Model.NombreConsorcio</strong>
-                        </p>
-                    </div>
-                    <h3 class="card-title mb-0">Editar Unidad</h3>
-                </div>
-                <div class="card-body p-4">
 
+                <div class="card-header bg-warning text-dark text-center">
+                    <h3 class="card-title mb-0 fw-bold">Editar Unidad</h3>
+                    <p class="mb-0 mt-1" style="font-size: 0.95rem;">
+                        Edificio: <strong>@Model.NombreConsorcio</strong>
+                    </p>
+                </div>
+
+                <div class="card-body p-4">
                     <form asp-action="Editar" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
