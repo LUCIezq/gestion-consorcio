@@ -39,7 +39,7 @@ namespace PracticaParcial.Models.Consorcios
             };
         }
 
-        public async Task<GuardarConsorcioResponse> GuardarConsorcio(CreateConsorcioViewModel model)
+        public async Task<GuardarConsorcioResponse> GuardarConsorcio(CreateConsorcioViewModel model, Guid userId)
         {
             //deberia validar los campos que me llegan -> No todo siempre puede llegar desde un dto, podria llegar a este metodo desde postman por ejemplo, entonces no puedo confiar en que el modelo siempre va a ser correcto, por eso es importante validar los campos antes de hacer cualquier operacion con ellos.
 
@@ -65,7 +65,8 @@ namespace PracticaParcial.Models.Consorcios
                 DiaVencimientoExpensas = model.DiaVencimientoExpensas,
                 Latitud = model.Latitud,
                 Longitud = model.Longitud,
-                FechaCreacion = DateTime.UtcNow
+                FechaCreacion = DateTime.UtcNow,
+                UserId = userId
             };
 
             Consorcio consorcioGuardado = await _consorcioRepository.GuardarConsorcio(nuevoConsorcio);

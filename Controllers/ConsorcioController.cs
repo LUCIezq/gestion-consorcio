@@ -1,7 +1,9 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Consorcios.DTOs;
+using PracticaParcial.shared;
 
 namespace PracticaParcial.Controllers
 {
@@ -31,7 +33,9 @@ namespace PracticaParcial.Controllers
                 return View(model);
             }
 
-            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
+            Guid userId = ClaimsExtension.GetUserId(User);
+
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);
 
             if (!response.Success)
             {
@@ -53,7 +57,9 @@ namespace PracticaParcial.Controllers
                 return View("Guardar", model);
             }
 
-            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
+            Guid userId = ClaimsExtension.GetUserId(User);
+
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);
 
             if (!response.Success)
             {
@@ -75,7 +81,9 @@ namespace PracticaParcial.Controllers
                 return View("Guardar", model);
             }
 
-            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
+            Guid userId = ClaimsExtension.GetUserId(User);
+
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);
 
             if (!response.Success)
             {
@@ -107,7 +115,6 @@ namespace PracticaParcial.Controllers
         {
             var consorcios = _consorcioService.ObtenerConsorcios().Result;
             return View(consorcios);
-
         }
 
         [HttpGet]
