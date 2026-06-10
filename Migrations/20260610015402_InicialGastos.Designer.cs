@@ -12,8 +12,13 @@ using PracticaParcial.Persistence;
 namespace PracticaParcial.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
+<<<<<<<< HEAD:Migrations/20260610173900_MigracionMain.Designer.cs
     [Migration("20260610173900_MigracionMain")]
     partial class MigracionMain
+========
+    [Migration("20260610015402_InicialGastos")]
+    partial class InicialGastos
+>>>>>>>> main:Migrations/20260610015402_InicialGastos.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,20 +83,55 @@ namespace PracticaParcial.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ComprobantePath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ConsorcioId")
+                    b.Property<int>("AnioExpensa")
                         .HasColumnType("int");
 
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ArchivoComprobante")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+<<<<<<<< HEAD:Migrations/20260610173900_MigracionMain.Designer.cs
                     b.Property<DateOnly>("Fecha")
+========
+                    b.Property<DateOnly>("FechaGasto")
+>>>>>>>> main:Migrations/20260610015402_InicialGastos.Designer.cs
                         .HasColumnType("date");
 
-                    b.Property<decimal>("Importe")
+                    b.Property<int>("IdConsorcio")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTipoGasto")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MesExpensa")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Monto")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdTipoGasto");
+
+                    b.ToTable("Gastos");
+                });
+
+            modelBuilder.Entity("PracticaParcial.Models.Gastos.TipoGasto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -99,9 +139,29 @@ namespace PracticaParcial.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ConsorcioId");
+                    b.ToTable("TiposGasto");
 
-                    b.ToTable("Gastos");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Mantenimiento Gral"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Reparacion Unidad"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Nombre = "Comprar Limpieza"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Nombre = "Extraordinario"
+                        });
                 });
 
             modelBuilder.Entity("PracticaParcial.Models.Reserva.ReservaSUM", b =>
@@ -205,13 +265,19 @@ namespace PracticaParcial.Migrations
 
             modelBuilder.Entity("PracticaParcial.Models.Gastos.Gasto", b =>
                 {
+<<<<<<<< HEAD:Migrations/20260610173900_MigracionMain.Designer.cs
                     b.HasOne("PracticaParcial.Models.Consorcios.Consorcio", "Consorcio")
                         .WithMany()
                         .HasForeignKey("ConsorcioId")
+========
+                    b.HasOne("PracticaParcial.Models.Gastos.TipoGasto", "TipoGasto")
+                        .WithMany()
+                        .HasForeignKey("IdTipoGasto")
+>>>>>>>> main:Migrations/20260610015402_InicialGastos.Designer.cs
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Consorcio");
+                    b.Navigation("TipoGasto");
                 });
 
             modelBuilder.Entity("PracticaParcial.Models.Reserva.ReservaSUM", b =>

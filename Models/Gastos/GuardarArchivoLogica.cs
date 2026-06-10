@@ -17,6 +17,7 @@
                 return null;
             }
 
+            
                 string nuevaCarpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Carpeta);
 
                 if (!Directory.Exists(nuevaCarpeta))

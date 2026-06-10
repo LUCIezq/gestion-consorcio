@@ -1,7 +1,9 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Consorcios.DTOs;
+using PracticaParcial.shared;
 
 namespace PracticaParcial.Controllers
 {
@@ -31,7 +33,9 @@ namespace PracticaParcial.Controllers
                 return View(model);
             }
 
-            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
+            Guid userId = ClaimsExtension.GetUserId(User);
+
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);
 
             if (!response.Success)
             {
@@ -53,7 +57,9 @@ namespace PracticaParcial.Controllers
                 return View("Guardar", model);
             }
 
-            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
+            Guid userId = ClaimsExtension.GetUserId(User);
+
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);
 
             if (!response.Success)
             {
@@ -75,7 +81,9 @@ namespace PracticaParcial.Controllers
                 return View("Guardar", model);
             }
 
-            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model);
+            Guid userId = ClaimsExtension.GetUserId(User);
+
+            GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);
 
             if (!response.Success)
             {
@@ -87,28 +95,28 @@ namespace PracticaParcial.Controllers
             return RedirectToAction("Agregar", "Unidades", new { consorcioId = response.IdConsorcio });
         }
 
-        [HttpDelete]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Eliminar(int id)
         {
             EliminarConsorcioResponse resultado = await _consorcioService.EliminarConsorcio(id);
 
-            // if (!resultado.Success)
-            // {
-            //     ModelState.AddModelError(string.Empty, resultado.Message);
-            //     return View("Index");
-            // }
-            // TempData["SuccessMessage"] = resultado.Message;
-            // return RedirectToAction("Index", "Consorcio");
-
-            return Ok(resultado);
+            if (!resultado.Success)
+            {
+                ModelState.AddModelError(string.Empty, resultado.Message);
+                return View("Index");
+            }
+            TempData["SuccessMessage"] = resultado.Message;
+            return RedirectToAction("Index", "Consorcio");
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var consorcios = _consorcioService.ObtenerConsorcios().Result;
+            const int pageSize = 5;
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcios = await _consorcioService.ObtenerConsorciosPaginados(userId, page, pageSize);
             return View(consorcios);
-
         }
 
         [HttpGet]
