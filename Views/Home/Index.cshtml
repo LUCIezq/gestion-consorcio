@@ -1,19 +1,21 @@
 @{
-    Layout = "_UsuarioLayout";
+    Layout = "_AnonimoLayout"; 
     ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center mt-5">
-    <h1 class="display-4">Bienvenido al Sistema</h1>
-    <p>Acceso rápido a los módulos en desarrollo:</p>
+<div class="container d-flex flex-column justify-content-center align-items-center" style="min-height: 60vh;">
+    
+    <h1 class="display-5 text-center text-dark fw-bold mb-5">
+        Sistema para la Administración de Consorcios
+    </h1>
 
-    <div class="mt-4">
-        <a asp-controller="Unidades" asp-action="Index" class="btn btn-outline-primary btn-lg mx-2">
-            Ver Unidades
+    <div class="d-flex flex-column flex-sm-row gap-3 mt-3">
+        <a asp-controller="Auth" asp-action="Login" class="btn btn-primary btn-lg px-5 shadow-sm">
+            Ingresar
         </a>
-
-        <a asp-controller="Unidades" asp-action="Agregar" class="btn btn-success btn-lg mx-2">
-            Crear Nueva Unidad
+        <a asp-controller="Auth" asp-action="Register" class="btn btn-outline-primary btn-lg px-5 shadow-sm">
+            Registrarse
         </a>
     </div>
+
 </div>
