@@ -1,6 +1,6 @@
 using PracticaParcial.Models.Consorcios.DTOs;
 using PracticaParcial.Persistence.Consorcios;
-
+using PracticaParcial.shared;
 
 namespace PracticaParcial.Models.Consorcios
 {
@@ -84,9 +84,14 @@ namespace PracticaParcial.Models.Consorcios
             return await _consorcioRepository.BuscarConsorcioPorId(id);
         }
 
-        public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerConsorcios()
+        public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerConsorcios(Guid userId)
         {
-            return await _consorcioRepository.ObtenerConsorcios();
+            return await _consorcioRepository.ObtenerConsorcios(userId);
+        }
+
+        public async Task<PaginatedList<ConsorcioDetailViewModel>> ObtenerConsorciosPaginados(Guid userId, int pageIndex, int pageSize)
+        {
+            return await _consorcioRepository.ObtenerConsorciosPaginados(userId, pageIndex, pageSize);
         }
 
         public async Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas()

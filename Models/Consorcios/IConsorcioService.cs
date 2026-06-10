@@ -1,4 +1,5 @@
 using PracticaParcial.Models.Consorcios.DTOs;
+using PracticaParcial.shared;
 
 namespace PracticaParcial.Models.Consorcios
 {
@@ -9,7 +10,9 @@ namespace PracticaParcial.Models.Consorcios
 
         Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas();
 
-        Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerConsorcios();
+        Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerConsorcios(Guid userId);
+
+        Task<PaginatedList<ConsorcioDetailViewModel>> ObtenerConsorciosPaginados(Guid userId, int pageIndex, int pageSize);
 
         Task<EliminarConsorcioResponse> EliminarConsorcio(int id);
 

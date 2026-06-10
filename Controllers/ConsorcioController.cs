@@ -111,9 +111,11 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var consorcios = _consorcioService.ObtenerConsorcios().Result;
+            const int pageSize = 5;
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcios = await _consorcioService.ObtenerConsorciosPaginados(userId, page, pageSize);
             return View(consorcios);
         }
 
