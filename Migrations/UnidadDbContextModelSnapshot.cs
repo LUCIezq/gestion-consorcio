@@ -67,6 +67,40 @@ namespace PracticaParcial.Migrations
                     b.ToTable("Consorcios");
                 });
 
+            modelBuilder.Entity("PracticaParcial.Models.Gastos.Gasto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ComprobantePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ConsorcioId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("Fecha")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Importe")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsorcioId");
+
+                    b.ToTable("Gastos");
+                });
+
             modelBuilder.Entity("PracticaParcial.Models.Reserva.ReservaSUM", b =>
                 {
                     b.Property<int>("Id")
@@ -164,6 +198,17 @@ namespace PracticaParcial.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("PracticaParcial.Models.Gastos.Gasto", b =>
+                {
+                    b.HasOne("PracticaParcial.Models.Consorcios.Consorcio", "Consorcio")
+                        .WithMany()
+                        .HasForeignKey("ConsorcioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consorcio");
                 });
 
             modelBuilder.Entity("PracticaParcial.Models.Reserva.ReservaSUM", b =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PracticaParcial.Migrations
 {
     /// <inheritdoc />
-    public partial class MigracionInicialUnificada : Migration
+    public partial class MigracionMain : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,11 +39,36 @@ namespace PracticaParcial.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UltimoLogin = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Gastos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Importe = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Fecha = table.Column<DateOnly>(type: "date", nullable: false),
+                    ComprobantePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConsorcioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Gastos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Gastos_Consorcios_ConsorcioId",
+                        column: x => x.ConsorcioId,
+                        principalTable: "Consorcios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,6 +120,11 @@ namespace PracticaParcial.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Gastos_ConsorcioId",
+                table: "Gastos",
+                column: "ConsorcioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ReservasSUM_UnidadId",
                 table: "ReservasSUM",
                 column: "UnidadId");
@@ -108,6 +138,9 @@ namespace PracticaParcial.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Gastos");
+
             migrationBuilder.DropTable(
                 name: "ReservasSUM");
 

@@ -1,4 +1,4 @@
-﻿
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Consorcios;
@@ -7,6 +7,8 @@ using PracticaParcial.Models.Unidades.DTOs;
 using PracticaParcial.Persistence.Consorcios;
 namespace PracticaParcial.Controllers
 {
+
+    [Authorize]
     public class UnidadesController : Controller
     {
         private readonly IUnidadesLogica unidadLogica;
@@ -19,13 +21,17 @@ namespace PracticaParcial.Controllers
             this._consorcioService = consorcioService;
         }
 
-        public ActionResult Index()
-        {
-            var unidades = unidadLogica.ObtenerUnidades();
+        [HttpGet]
+        public ActionResult Index(int consorcioId) { 
+            var unidadesBd = unidadLogica.ObtenerUnidadesPorConsorcio(consorcioId);
 
-            var viewModels = unidades
+       
+            var viewModels = unidadesBd 
                 .Select(UnidadViewModel.FromEntity)
                 .ToList();
+
+           
+            ViewBag.ConsorcioId = consorcioId;
 
             return View(viewModels);
         }
@@ -74,16 +80,14 @@ namespace PracticaParcial.Controllers
         [HttpGet]
         public async Task<IActionResult> Eliminar(int id)
         {
-            // 1. Buscamos la unidad
+
             var unidad = unidadLogica.ObtenerUnidadPorId(id);
 
             if (unidad == null)
                 return NotFound();
 
-            // 2. La convertimos a ViewModel
             var viewModel = UnidadViewModel.FromEntity(unidad);
 
-            // 3. Buscamos el nombre del consorcio usando el servicio de tu compañero
             var consorcio = await _consorcioService.ObtenerConsorcioPorId(unidad.Consorcio.Id);
             viewModel.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
 
