@@ -1,22 +1,46 @@
 ﻿using PracticaParcial.Models.Consorcios;
 
-namespace PracticaParcial.Models.Gastos;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class Gasto
+namespace PracticaParcial.Models.Gastos
 {
-    public int Id { get; set; }
+    public class Gasto
+    {
+        [Key]
+        public int Id { get; set; }
 
-    public string Nombre { get; set; }
+        [Required]
+        public int IdConsorcio { get; set; }
 
-    public string? Descripcion { get; set; }
+        [Required]
+        public int IdTipoGasto { get; set; }
 
-    public decimal Importe { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Nombre { get; set; }
 
-    public DateOnly Fecha { get; set; }
+        [MaxLength(250)]
+        public string? Descripcion { get; set; }
 
-    public string? ComprobantePath { get; set; }
+        [Required]
+        public DateOnly FechaGasto { get; set; }
 
-    public int ConsorcioId { get; set; }
+        [Required]
+        public int AnioExpensa { get; set; }
 
-    public Consorcio Consorcio { get; set; }
+        [Required]
+        [Range(1, 12)]
+        public int MesExpensa { get; set; }
+
+        [MaxLength(250)]
+        public string? ArchivoComprobante { get; set; }
+    
+        [Required]
+        [Column(TypeName = "decimal(18,2)")] 
+        public decimal Monto { get; set; }
+
+        [ForeignKey("IdTipoGasto")]
+        public virtual TipoGasto? TipoGasto { get; set; }
+    }
 }

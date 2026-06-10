@@ -17,8 +17,23 @@ public class UnidadDbContext : DbContext
     public DbSet<Consorcio> Consorcios { get; set; }
     public DbSet<Gasto> Gastos { get; set; }
 
+    public DbSet<TipoGasto> TiposGasto { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=ConsorcioUnidadDb;Trusted_Connection=True;TrustServerCertificate=True");
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<TipoGasto>().HasData(
+            new TipoGasto { Id = 1, Nombre = "Mantenimiento Gral" },
+            new TipoGasto { Id = 2, Nombre = "Reparacion Unidad" },
+            new TipoGasto { Id = 3, Nombre = "Comprar Limpieza" },
+            new TipoGasto { Id = 4, Nombre = "Extraordinario" }
+        );
+    }
+
 }

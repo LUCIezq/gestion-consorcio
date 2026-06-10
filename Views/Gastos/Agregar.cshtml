@@ -1,24 +1,101 @@
-﻿@model PracticaParcial.Models.Gastos.DTO.GastoViewModel;
+﻿@model PracticaParcial.Models.Gastos.DTos.GastoViewModel;
 @{
     Layout = "_UsuarioLayout";
     ViewData["Title"] = "Agregar Gasto";
 }
-<form asp-action="Agregar" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-    <label asp-for="Nombre">Nombre</label>
-    <input asp-for="Nombre" type="text" class="form-control" />
+@if(TempData["MensajeExitoso"]!= null){
 
-    <label asp-for="Descripcion">Descripcion</label>
-    <textarea asp-for="Descripcion" type="text" class="form-control"></textarea>
+    <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+        <div>
+            @TempData["MensajeExitoso"]
 
-    <label asp-for="Importe">Importe</label>
-    <input asp-for="Importe" type="number" class="form-control" />
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>    
+}
 
-    <label asp-for="Fecha">Fecha</label>
-    <input asp-for="Fecha" type="datetime" />
 
-    <button type="submit" class="btn btn-success mt-3">
-        Guardar
-    </button>
+<h2 class="mb-4">Cargar Nuevo Gasto</h2>
+
+<form asp-controller="Gastos" asp-action="AgregarGasto" method="post" enctype="multipart/form-data">
+
+    <input type="hidden" asp-for="IdConsorcio" value="@ViewBag.IdConsorcio" />
+
+
+@*     <div class="mb-3">
+        <label class="form-label">Nombre del Consorcio</label>
+        <select>
+    <option value=@ViewBag.Consorcio></option>
+</select>
+
+    </div> *@
+
+    <div class="mb-3">
+        <label asp-for="IdTipoGasto" class="form-label">Tipo de Gasto (*)</label>
+        <select asp-for="IdTipoGasto" class="form-select" required>
+            <option value="">-- Seleccione un tipo --</option>
+            @if (ViewBag.TiposGasto != null)
+            {
+                foreach (var tipo in ViewBag.TiposGasto)
+                {
+                    <option value="@tipo.Id">@tipo.Nombre</option>
+                }
+            }
+        </select>
+        <span asp-validation-for="IdTipoGasto" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label">Nombre del Gasto (*)</label>
+        <input type="text" class="form-control" asp-for="Nombre" placeholder="Ej: Pago de abono de ascensor" required>
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Descripcion" class="form-label">Descripción (*)</label>
+        <textarea class="form-control" asp-for="Descripcion" rows="2" placeholder="Detalles adicionales del gasto..." ></textarea>
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label asp-for="FechaGasto" class="form-label">Fecha del Gasto (*)</label>
+            <input type="date" class="form-control" asp-for="FechaGasto" required>
+            <span asp-validation-for="FechaGasto" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="AnioExpensa" class="form-label">Año Expensa (*)</label>
+            <input type="number" class="form-control" asp-for="AnioExpensa" min="2025" max="2030" required>
+            <span asp-validation-for="AnioExpensa" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label asp-for="MesExpensa" class="form-label">Mes Expensa (*)</label>
+            <input type="number" class="form-control" asp-for="MesExpensa" min="1" max="12" required>
+            <span asp-validation-for="MesExpensa" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Monto" class="form-label">Monto (*)</label>
+        <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input type="number" step="0.01" class="form-control" asp-for="Monto" placeholder="0.00" required>
+        </div>
+        <span asp-validation-for="Monto" class="text-danger"></span>
+    </div>
+
+    <div class="mb-4">
+        <label asp-for="ArchivoComprobante" class="form-label">Comprobante Adjunto (PDF o Imagen)</label>
+        <input type="file" class="form-control" asp-for="ArchivoComprobante" />
+        <span asp-validation-for="ArchivoComprobante" class="text-danger"></span>
+    </div>
+    <div class="mt-4">
+        <button type="submit" name="accion" value="Guardar" class="btn btn-primary px-4">Guardar Gasto</button>
+        <button type="submit" name="accion" value="CrearOtroGasto" class="btn btn-primary px-4 ms-2">Guardar y Crear otro gasto</button>
+        <a asp-controller="Gastos" asp-action="VerGastos" asp-route-id="@ViewBag.IdConsorcio" class="btn btn-secondary px-4 ms-2">Cancelar</a>
+    </div>
+    
 </form>

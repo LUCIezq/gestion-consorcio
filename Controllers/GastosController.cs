@@ -1,45 +1,198 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Gastos;
-using PracticaParcial.Models.Gastos.DTO;
+using PracticaParcial.Models.Gastos.DTos;
 
-namespace PracticaParcial.Controllers;
 
-public class GastosController : Controller
+
+namespace PracticaParcial.Controllers
 {
-    private readonly IGastoService _gastoService;
-    public GastosController(IGastoService gastoService) 
+    public class GastosController : Controller
     {
-        this._gastoService = gastoService;
-    }
-    public IActionResult Index()
-    {
-        return View(_gastoService.ObtenerGastos());
-    }
+        private readonly IGastosLogica _gastosLogica;
 
-    [HttpGet]
-    public IActionResult Agregar()
-    {
-        ViewBag.Gasto = _gastoService.ObtenerGastos();
-        return View();
-    }
+        private readonly IGuardarArchivoLogica _guardarArchivoLogica;
 
-    [HttpPost]
-    public IActionResult Agregar(GastoViewModel gastoVM)
-    {
-        if (!ModelState.IsValid)
+        //private readonly IConsorcioService _consorcioService;
+
+        public GastosController(IGastosLogica gastosLogica, IGuardarArchivoLogica guardarArchivoLogica)
         {
-            ViewBag.Gasto = this._gastoService.ObtenerGastos();
-            return View(gastoVM);
+            _gastosLogica = gastosLogica;
+            _guardarArchivoLogica = guardarArchivoLogica;
+            //_consorcioService=consorcioService;
         }
+
+   
+
+        public IActionResult Agregar(int id)
+        {
+
+            ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+            ViewBag.IdConsorcio = id;
+            var model = new GastoViewModel
+            {
+                IdConsorcio = id,
+                FechaGasto = DateOnly.FromDateTime(DateTime.Now),
+                AnioExpensa = DateTime.Now.Year,
+                MesExpensa = DateTime.Now.Month
+            };
+            return View(model);
+        }
+
+        //public async Task<IActionResult> Agregar(int id)
+        //{
+
+        //    var consorcio = await _consorcioService.ObtenerConsorcioPorId(id);
+
+        //    ViewBag.Consorcio = consorcio.Nombre;
+
+        //    ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+        //    ViewBag.IdConsorcio = id;
+        //    var model = new GastoViewModel
+        //    {
+        //        IdConsorcio = id,
+        //        FechaGasto = DateOnly.FromDateTime(DateTime.Now),
+        //        AnioExpensa = DateTime.Now.Year,
+        //        MesExpensa = DateTime.Now.Month
+        //    };
+        //    return View(model);
+        //}
+
+
+
+        [HttpPost]
+        public IActionResult AgregarGasto(GastoViewModel gasto, string accion)
+        {
+            ModelState.Remove("ArchivoComprobante");
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+                ViewBag.IdConsorcio = gasto.IdConsorcio;
+                return View("Agregar", gasto);
+            }
+
+            var archivo = gasto.ArchivoComprobante;
+
+            if (archivo != null && archivo.Length > 0)
+            {
+
+                gasto.ArchivoComprobanteGuardado = _guardarArchivoLogica.GuardarArchivo(archivo);
+            }
+
+            var nuevoGasto = gasto.ToEntity();
+            _gastosLogica.AgregarGasto(nuevoGasto);
+            ViewBag.gastoCreado = true;
+
+            if (accion == "CrearOtroGasto")
+            {
+                TempData["MensajeExitoso"] = $"¡Gasto '{nuevoGasto.Nombre}' creado con éxito!";
+            }
+
+            return accion switch
+            {
+                "Guardar" => RedirectToAction("VerGastos", new { id = nuevoGasto.IdConsorcio }),
+                "CrearOtroGasto" => RedirectToAction("Agregar", new { id = nuevoGasto.IdConsorcio }),
+                _ => RedirectToAction("VerGastos", new { id = nuevoGasto.IdConsorcio })
+            };
+
+        }
+
+
+        public IActionResult VerGastos(int id)
+        {
+            ViewBag.IdConsorcio = id;
+
+            var gastos = _gastosLogica.ObtenerGastosPorConsorcio(id);
+
+            return View(gastos);
+        }
+
+
+        [HttpGet]
+        [Route("Gastos/Editar/{idConsorcio}/{idGasto}")]
+        public IActionResult Editar(int idConsorcio, int idGasto)
+        {
+            var gasto = _gastosLogica.ObtenerGasto(idGasto);
+
+            if (gasto == null)
+            {
+                return RedirectToAction("VerGastos", new { id = idConsorcio });
+            }
+
+            ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+            ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+            return View(gasto);
+
+        }
+
+
+        [HttpPost]
+        public IActionResult Editar(GastoViewModel gastoVM)
+        {
+            ModelState.Remove("ArchivoComprobante");
+            if (!ModelState.IsValid)
+            {
+                ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+                return View("Editar", gastoVM);
+            }
         var gasto = gastoVM.ToEntity();
 
-        this._gastoService.Agregar(gasto);
-        return RedirectToAction("Index");
-    }
 
-    public IActionResult Eliminar(int id)
-    {
-        _gastoService.Eliminar(id);
-        return RedirectToAction("Index");
+            if (gastoVM.ArchivoComprobante != null && gastoVM.ArchivoComprobante.Length > 0)
+            {
+                gastoVM.ArchivoComprobanteGuardado = _guardarArchivoLogica
+                    .GuardarArchivo(gastoVM.ArchivoComprobante);
+            }
+
+            _gastosLogica.ActualizarGasto(gastoVM);
+
+            return RedirectToAction("VerGastos", new { id = gastoVM.IdConsorcio });
+
+        }
+
+
+        [HttpPost]
+        public IActionResult Eliminar(int id, int idConsorcio)
+        {
+
+            this.BorrarComprobante(id);
+
+            _gastosLogica.EliminarGasto(id);
+
+            return RedirectToAction("VerGastos", new { id = idConsorcio });
+        }
+
+        public IActionResult DescargarComprobante(string archivo)
+        {
+            var ruta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "comprobantes", archivo);
+
+            var bytes = System.IO.File.ReadAllBytes(ruta);
+            var extension = Path.GetExtension(archivo).ToLower();
+
+            var contentType = extension switch
+            {
+                ".pdf" => "application/pdf",
+                ".png" => "image/png",
+                ".jpg" => "image/jpeg",
+                ".jpeg" => "image/jpeg",
+                _ => "application/octet-stream"
+            };
+
+            return File(bytes, contentType, archivo);
+        }
+
+        private void BorrarComprobante(int id)
+        {
+            var gastoVM = _gastosLogica.ObtenerGasto(id);
+
+            if (gastoVM != null && !string.IsNullOrEmpty(gastoVM.ArchivoComprobanteGuardado))
+            {
+                var rutaArchivo = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "comprobantes", gastoVM.ArchivoComprobanteGuardado);
+
+                System.IO.File.Delete(rutaArchivo);
+            }
+        }
     }
 }
