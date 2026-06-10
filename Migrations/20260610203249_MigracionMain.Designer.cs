@@ -12,8 +12,8 @@ using PracticaParcial.Persistence;
 namespace PracticaParcial.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
-    [Migration("20260610015402_InicialGastos")]
-    partial class InicialGastos
+    [Migration("20260610203249_MigracionMain")]
+    partial class MigracionMain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,12 @@ namespace PracticaParcial.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Consorcios");
                 });
@@ -254,6 +259,17 @@ namespace PracticaParcial.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("PracticaParcial.Models.Consorcios.Consorcio", b =>
+                {
+                    b.HasOne("PracticaParcial.Models.Users.User", "User")
+                        .WithMany("Consorcios")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PracticaParcial.Models.Gastos.Gasto", b =>
                 {
                     b.HasOne("PracticaParcial.Models.Gastos.TipoGasto", "TipoGasto")
@@ -295,6 +311,11 @@ namespace PracticaParcial.Migrations
             modelBuilder.Entity("PracticaParcial.Models.Unidades.Unidad", b =>
                 {
                     b.Navigation("Reservas");
+                });
+
+            modelBuilder.Entity("PracticaParcial.Models.Users.User", b =>
+                {
+                    b.Navigation("Consorcios");
                 });
 #pragma warning restore 612, 618
         }
