@@ -2,13 +2,12 @@
 
 public interface IGastoRepository
 {
-    List<Gasto> ObtenerTodos();
+  Gasto ObtenerPorId(int id);
+    List<Gasto> ObtenerGastosPorConsorcio(int idConsorcio);
+    List<TipoGasto> ObtenerTiposGasto();
+    void Agregar(Gasto gasto);
+    void Eliminar(Gasto gasto);
 
-    Gasto ObtenerPorId(int id);
-
-    void Guardar(Gasto gasto);
-
-    void Actualizar(Gasto gasto);
-
-    void Eliminar(int id);
+    void Actualizar();
+    
 }

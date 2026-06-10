@@ -1,12 +1,12 @@
 ﻿namespace PracticaParcial.Models.Gastos
 {
-    public interface IGuardarArchivoLogica
+    public interface IGuardarArchivoService
     {
 
         string? GuardarArchivo(IFormFile archivo);
 
     }
-    public class GuardarArchivoLogica : IGuardarArchivoLogica
+    public class GuardarArchivoService : IGuardarArchivoService
     {
         public static string Carpeta = "comprobantes";
 

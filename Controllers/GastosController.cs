@@ -10,15 +10,15 @@ namespace PracticaParcial.Controllers
 {
     public class GastosController : Controller
     {
-        private readonly IGastosLogica _gastosLogica;
+        private readonly IGastosService _gastosService;
 
-        private readonly IGuardarArchivoLogica _guardarArchivoLogica;
+        private readonly IGuardarArchivoService _guardarArchivoLogica;
 
         //private readonly IConsorcioService _consorcioService;
 
-        public GastosController(IGastosLogica gastosLogica, IGuardarArchivoLogica guardarArchivoLogica)
+        public GastosController(IGastosService gastosLogica, IGuardarArchivoService guardarArchivoLogica)
         {
-            _gastosLogica = gastosLogica;
+            _gastosService = gastosLogica;
             _guardarArchivoLogica = guardarArchivoLogica;
             //_consorcioService=consorcioService;
         }
@@ -28,7 +28,7 @@ namespace PracticaParcial.Controllers
         public IActionResult Agregar(int id)
         {
 
-            ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+            ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
             ViewBag.IdConsorcio = id;
             var model = new GastoViewModel
             {
@@ -68,7 +68,7 @@ namespace PracticaParcial.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+                ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
                 ViewBag.IdConsorcio = gasto.IdConsorcio;
                 return View("Agregar", gasto);
             }
@@ -82,7 +82,7 @@ namespace PracticaParcial.Controllers
             }
 
             var nuevoGasto = gasto.ToEntity();
-            _gastosLogica.AgregarGasto(nuevoGasto);
+            _gastosService.AgregarGasto(nuevoGasto);
             ViewBag.gastoCreado = true;
 
             if (accion == "CrearOtroGasto")
@@ -104,7 +104,7 @@ namespace PracticaParcial.Controllers
         {
             ViewBag.IdConsorcio = id;
 
-            var gastos = _gastosLogica.ObtenerGastosPorConsorcio(id);
+            var gastos = _gastosService.ObtenerGastosPorConsorcio(id);
 
             return View(gastos);
         }
@@ -114,15 +114,15 @@ namespace PracticaParcial.Controllers
         [Route("Gastos/Editar/{idConsorcio}/{idGasto}")]
         public IActionResult Editar(int idConsorcio, int idGasto)
         {
-            var gasto = _gastosLogica.ObtenerGasto(idGasto);
+            var gasto = _gastosService.ObtenerGasto(idGasto);
 
             if (gasto == null)
             {
                 return RedirectToAction("VerGastos", new { id = idConsorcio });
             }
 
-            ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
-            ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+            ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
+            ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
             return View(gasto);
 
         }
@@ -134,7 +134,7 @@ namespace PracticaParcial.Controllers
             ModelState.Remove("ArchivoComprobante");
             if (!ModelState.IsValid)
             {
-                ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
+                ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
                 return View("Editar", gastoVM);
             }
         var gasto = gastoVM.ToEntity();
@@ -146,7 +146,7 @@ namespace PracticaParcial.Controllers
                     .GuardarArchivo(gastoVM.ArchivoComprobante);
             }
 
-            _gastosLogica.ActualizarGasto(gastoVM);
+            _gastosService.ActualizarGasto(gastoVM);
 
             return RedirectToAction("VerGastos", new { id = gastoVM.IdConsorcio });
 
@@ -159,7 +159,7 @@ namespace PracticaParcial.Controllers
 
             this.BorrarComprobante(id);
 
-            _gastosLogica.EliminarGasto(id);
+            _gastosService.EliminarGasto(id);
 
             return RedirectToAction("VerGastos", new { id = idConsorcio });
         }
@@ -185,7 +185,7 @@ namespace PracticaParcial.Controllers
 
         private void BorrarComprobante(int id)
         {
-            var gastoVM = _gastosLogica.ObtenerGasto(id);
+            var gastoVM = _gastosService.ObtenerGasto(id);
 
             if (gastoVM != null && !string.IsNullOrEmpty(gastoVM.ArchivoComprobanteGuardado))
             {
