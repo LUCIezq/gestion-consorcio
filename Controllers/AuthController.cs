@@ -96,7 +96,7 @@ namespace PracticaParcial.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Consorcios");
+                return RedirectToAction("Index", "Consorcio");
             }
         }
 
