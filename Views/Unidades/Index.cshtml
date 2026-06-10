@@ -2,9 +2,22 @@
 
 @{
     Layout = "_UsuarioLayout";
-    ViewData["Title"] = "Unidades del Consorcio";
+    ViewData["Title"] = "Unidades";
 }
 
+@section Breadcrumb {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
+            <li class="breadcrumb-item">
+                <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
+            </li>
+            <li class="breadcrumb-item text-primary">
+                Consorcio "@ViewBag.NombreConsorcio" 
+            </li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Unidades</li>
+        </ol>
+    </nav>
+}
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Listado General de Unidades</h2>
