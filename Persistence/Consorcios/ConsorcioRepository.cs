@@ -22,9 +22,9 @@ namespace PracticaParcial.Persistence.Consorcios
                 c.CodigoPostal == codigoPostal);
         }
 
-        public async Task<Consorcio?> BuscarConsorcioPorId(int id)
+        public async Task<Consorcio?> BuscarConsorcioPorId(int id, Guid userId)
         {
-            return await _dbContext.Consorcios.FirstOrDefaultAsync(c => c.Id == id);
+            return await _dbContext.Consorcios.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
         }
 
         public async Task EliminarConsorcio(Consorcio consorcio)
@@ -79,17 +79,17 @@ namespace PracticaParcial.Persistence.Consorcios
             return new PaginatedList<ConsorcioDetailViewModel>(items, count, pageIndex, pageSize);
         }
 
-        public async Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas()
-        {
-            return await _dbContext.Consorcios.Select(c => new ConsorcioCoordenadaViewModel
-            {
-                Id = c.Id,
-                Nombre = c.Nombre,
-                Latitud = c.Latitud.ToString(),
-                Longitud = c.Longitud.ToString(),
-                Calle = c.Calle,
-                Ciudad = c.Ciudad
-            }).ToListAsync();
-        }
+        // public async Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas()
+        // {
+        //     return await _dbContext.Consorcios.Select(c => new ConsorcioCoordenadaViewModel
+        //     {
+        //         Id = c.Id,
+        //         Nombre = c.Nombre,
+        //         Latitud = c.Latitud.ToString(),
+        //         Longitud = c.Longitud.ToString(),
+        //         Calle = c.Calle,
+        //         Ciudad = c.Ciudad
+        //     }).ToListAsync();
+        // }
     }
 }

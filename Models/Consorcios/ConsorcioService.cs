@@ -18,9 +18,10 @@ namespace PracticaParcial.Models.Consorcios
             return await _consorcioRepository.BuscarConsorcioPorDireccion(calle, ciudad, provincia, codigoPostal);
         }
 
-        public async Task<EliminarConsorcioResponse> EliminarConsorcio(int id)
+        public async Task<EliminarConsorcioResponse> EliminarConsorcio(int id, Guid userId)
         {
-            Consorcio? buscado = await _consorcioRepository.BuscarConsorcioPorId(id);
+            Consorcio? buscado = await _consorcioRepository.BuscarConsorcioPorId(id, userId);
+
 
             if (buscado == null)
             {
@@ -41,7 +42,6 @@ namespace PracticaParcial.Models.Consorcios
 
         public async Task<GuardarConsorcioResponse> GuardarConsorcio(CreateConsorcioViewModel model, Guid userId)
         {
-            //deberia validar los campos que me llegan -> No todo siempre puede llegar desde un dto, podria llegar a este metodo desde postman por ejemplo, entonces no puedo confiar en que el modelo siempre va a ser correcto, por eso es importante validar los campos antes de hacer cualquier operacion con ellos.
 
             Consorcio? buscado = await BuscarConsorcioPorDireccion(model.Calle, model.Ciudad, model.Provincia, model.CodigoPostal);
 
@@ -79,9 +79,9 @@ namespace PracticaParcial.Models.Consorcios
             };
         }
 
-        public async Task<Consorcio?> ObtenerConsorcioPorId(int id)
+        public async Task<Consorcio?> ObtenerConsorcioPorId(int id, Guid userId)
         {
-            return await _consorcioRepository.BuscarConsorcioPorId(id);
+            return await _consorcioRepository.BuscarConsorcioPorId(id, userId);
         }
 
         public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerConsorcios(Guid userId)
@@ -94,9 +94,9 @@ namespace PracticaParcial.Models.Consorcios
             return await _consorcioRepository.ObtenerConsorciosPaginados(userId, pageIndex, pageSize);
         }
 
-        public async Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas()
+        public async Task<IEnumerable<ConsorcioDetailViewModel>> ObtenerCoordenadas(Guid userId)
         {
-            return await _consorcioRepository.ObtenerCoordenadas();
+            return await _consorcioRepository.ObtenerConsorcios(userId);
         }
     }
 }

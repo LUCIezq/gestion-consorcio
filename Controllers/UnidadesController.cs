@@ -5,6 +5,7 @@ using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Unidades.DTOs;
 using PracticaParcial.Persistence.Consorcios;
+using PracticaParcial.shared;
 namespace PracticaParcial.Controllers
 {
     public class UnidadesController : Controller
@@ -15,7 +16,7 @@ namespace PracticaParcial.Controllers
 
         public UnidadesController(IUnidadesLogica unidadLogica, IConsorcioService consorcioService)
         {
-            this.unidadLogica = unidadLogica;   
+            this.unidadLogica = unidadLogica;
             this._consorcioService = consorcioService;
         }
 
@@ -33,7 +34,8 @@ namespace PracticaParcial.Controllers
         [HttpGet]
         public async Task<IActionResult> Agregar(int consorcioId)
         {
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId);
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
 
             var viewModel = new UnidadViewModel
             {
@@ -53,11 +55,11 @@ namespace PracticaParcial.Controllers
             var nuevaUnidad = unidadVM.ToEntity();
             nuevaUnidad.FechaCreacion = DateOnly.FromDateTime(DateTime.Now);
 
-           
-            var consorcioDb = await _consorcioService.ObtenerConsorcioPorId(unidadVM.IdConsorcio);
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcioDb = await _consorcioService.ObtenerConsorcioPorId(unidadVM.IdConsorcio, userId);
 
             nuevaUnidad.Consorcio = consorcioDb;
-     
+
             unidadLogica.AgregarUnidad(nuevaUnidad);
 
             if (accionBoton == "guardar_nuevo")
@@ -84,16 +86,18 @@ namespace PracticaParcial.Controllers
             var viewModel = UnidadViewModel.FromEntity(unidad);
 
             // 3. Buscamos el nombre del consorcio usando el servicio de tu compañero
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(unidad.Consorcio.Id);
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(unidad.Consorcio.Id, userId);
             viewModel.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
 
             return View(viewModel);
         }
 
         [HttpPost, ActionName("Eliminar")]
-        public IActionResult EliminarConfirmado(int id)
+        public async Task<IActionResult> EliminarConfirmado(int id)
         {
-            unidadLogica.EliminarUnidad(id);
+            Guid userId = ClaimsExtension.GetUserId(User);
+            await _consorcioService.EliminarConsorcio(id, userId);
             return RedirectToAction("Index");
         }
 

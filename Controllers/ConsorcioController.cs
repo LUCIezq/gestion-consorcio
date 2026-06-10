@@ -99,13 +99,15 @@ namespace PracticaParcial.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Eliminar(int id)
         {
-            EliminarConsorcioResponse resultado = await _consorcioService.EliminarConsorcio(id);
+            Guid userId = ClaimsExtension.GetUserId(User);
+            EliminarConsorcioResponse resultado = await _consorcioService.EliminarConsorcio(id, userId);
 
             if (!resultado.Success)
             {
-                ModelState.AddModelError(string.Empty, resultado.Message);
-                return View("Index");
+                TempData["ErrorMessage"] = resultado.Message;
+                return RedirectToAction("Index", "Consorcio");
             }
+
             TempData["SuccessMessage"] = resultado.Message;
             return RedirectToAction("Index", "Consorcio");
         }
@@ -122,7 +124,8 @@ namespace PracticaParcial.Controllers
         [HttpGet]
         public async Task<IActionResult> ObtenerCoordenadas()
         {
-            var resultado = await _consorcioService.ObtenerCoordenadas();
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var resultado = await _consorcioService.ObtenerCoordenadas(userId);
 
             return Ok(
                 resultado
