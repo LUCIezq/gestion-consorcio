@@ -12,29 +12,21 @@
 
         public string GuardarArchivo(IFormFile archivo)
         {
-            if (archivo == null || archivo.Length == 0)
-            {
-                return null;
-            }
+            string nombreArchivo = Guid.NewGuid() + Path.GetExtension(archivo.FileName);
+            string carpetaDestino = Path.Combine("wwwroot", "comprobantes");
 
             
-                string nuevaCarpeta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", Carpeta);
-
-                if (!Directory.Exists(nuevaCarpeta))
-                {
-                    Directory.CreateDirectory(nuevaCarpeta);
-                }
-
-                string nombreArchivo = Guid.NewGuid().ToString() + Path.GetExtension(archivo.FileName);
-                string rutaArchivo = Path.Combine(nuevaCarpeta, nombreArchivo);
-
-            using (var stream = new FileStream(rutaArchivo, FileMode.Create))
+            if (!Directory.Exists(carpetaDestino))
             {
-                archivo.CopyTo(stream);
+                Directory.CreateDirectory(carpetaDestino);
             }
 
+            string ruta = Path.Combine(carpetaDestino, nombreArchivo);
+
+            using FileStream stream = new FileStream(ruta, FileMode.Create);
+            archivo.CopyTo(stream);
+
             return nombreArchivo;
-          
         }
     }
 }
