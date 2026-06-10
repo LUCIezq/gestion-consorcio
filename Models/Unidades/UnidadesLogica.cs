@@ -8,6 +8,7 @@ namespace PracticaParcial.Models.Unidades
         void AgregarUnidad(Unidad unidad);
         void EliminarUnidad(int id);
         List<Unidad> ObtenerUnidades();
+        List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio);
         public Unidad? ObtenerUnidadPorId(int id);
     }
 
@@ -22,7 +23,10 @@ namespace PracticaParcial.Models.Unidades
 
         public List<Unidad> ObtenerUnidades()
         {
-            return db.Unidades.Include(u => u.Consorcio).ToList();
+            return db.Unidades
+             .Include(u => u.Consorcio)
+             .OrderBy(u => u.Nombre) 
+             .ToList();
         }
 
         public Unidad ObtenerUnidadPorId(int id)
@@ -52,6 +56,15 @@ namespace PracticaParcial.Models.Unidades
         {
             db.Unidades.Update(unidadExistente);
             db.SaveChanges();
+        }
+
+        public List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio)
+        {
+            return db.Unidades
+                     .Include(u => u.Consorcio)
+                     .Where(u => u.Consorcio.Id == idConsorcio) 
+                     .OrderBy(u => u.Nombre)
+                     .ToList();
         }
     }
 

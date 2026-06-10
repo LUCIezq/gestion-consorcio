@@ -47,14 +47,16 @@ namespace PracticaParcial.Controllers
 
         [RedirectIfAuthenticatedFilter]
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string? returnUrl = null)
         {
+         
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
         // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -70,10 +72,10 @@ namespace PracticaParcial.Controllers
             }
 
             var claims = new List<Claim>
-            {
-                new(ClaimTypes.NameIdentifier, response.User!.Id.ToString()),
-                new(ClaimTypes.Email, response.User.Email)
-            };
+    {
+        new(ClaimTypes.NameIdentifier, response.User!.Id.ToString()),
+        new(ClaimTypes.Email, response.User.Email)
+    };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
@@ -86,7 +88,16 @@ namespace PracticaParcial.Controllers
                     IsPersistent = model.RememberMe
                 }
             );
-            return RedirectToAction("Index", "Home");
+
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+            
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
         }
 
         [HttpPost]
@@ -94,7 +105,7 @@ namespace PracticaParcial.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Auth");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -1,23 +1,26 @@
 ﻿@{
-    Layout = "BaseLayout";
+   
+    Layout = "BaseLayout"; 
 }
+
 @section Menu {
     <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom shadow-sm py-3 mb-4">
         <ul class="navbar-nav ms-auto align-items-center gap-2">
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Register">Registrarse</a>
+                <a class="nav-link" asp-controller="Auth" asp-action="Register">Registrarse</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Auth" asp-action="Login">Login</a>
+                <a class="nav-link" asp-controller="Auth" asp-action="Login">Ingresar</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                <a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a>
             </li>
         </ul>
     </nav>
 }
 
-@RenderBody();
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-@await RenderSectionAsync("Scripts", required: false)
+@RenderBody()
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}

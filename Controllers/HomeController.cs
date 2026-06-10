@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PracticaParcial.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -16,6 +15,10 @@ namespace PracticaParcial.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
             return View();
         }
 

@@ -7,7 +7,7 @@ using PracticaParcial.Persistence;
 
 namespace PracticaParcial.Models.Gastos
 {
-    public interface IGastosLogica
+    public interface IGastosService
     {
         void AgregarGasto(Gasto gasto);
         void EliminarGasto(int id);
@@ -20,20 +20,20 @@ namespace PracticaParcial.Models.Gastos
     }
 
 
-    public class GastosLogica : IGastosLogica
+    public class GastosService : IGastosService
     {
-        private readonly UnidadDbContext _db;
+    
 
-        public GastosLogica(UnidadDbContext db)
+        private readonly IGastoRepository _gastoRepository;
+
+        public GastosService(IGastoRepository gastoRepository)
         {
-            this._db = db;
+            _gastoRepository = gastoRepository;
         }
-
-
 
         public void ActualizarGasto(GastoViewModel gastoVM)
         {
-            var gasto = _db.Gastos.FirstOrDefault(g => g.Id == gastoVM.Id);
+            var gasto =this.ObtenerGastoPorId(gastoVM.Id);
 
             if (gasto == null) return;
 
@@ -51,20 +51,18 @@ namespace PracticaParcial.Models.Gastos
                 gasto.ArchivoComprobante = gastoVM.ArchivoComprobanteGuardado;
             }
 
-            _db.SaveChanges();
+           _gastoRepository.Actualizar();
         }
 
         public void AgregarGasto(Gasto gasto)
         {
-            _db.Gastos.Add(gasto);
-            _db.SaveChanges();
+           _gastoRepository.Agregar(gasto);
         }
 
         public void EliminarGasto(int id)
         {
             var gasto = this.ObtenerGastoPorId(id);
-            _db.Gastos.Remove(gasto);
-            _db.SaveChanges();
+            _gastoRepository.Eliminar(gasto);
         }
 
         public GastoViewModel ObtenerGasto(int id)
@@ -83,35 +81,21 @@ namespace PracticaParcial.Models.Gastos
 
         public List<GastoViewModel> ObtenerGastosPorConsorcio(int idConsorcio)
         {
-            var gastosEntidad = _db.Gastos
-                                   .Include(g => g.TipoGasto)
-                                   .Where(g => g.IdConsorcio == idConsorcio)
-                                   .OrderByDescending(g => g.FechaGasto)
-                                   .ToList();
 
-
-            var gastosViewModel = gastosEntidad
-                                   .Select(g => GastoViewModel.FromEntity(g))
-                                   .ToList();
-
-            return gastosViewModel;
-
+            var gastos = _gastoRepository.ObtenerGastosPorConsorcio(idConsorcio);
+            return gastos.Select(GastoViewModel.FromEntity).ToList();
 
         }
 
         public List<TipoGasto> ObtenerTiposGasto()
         {
-            return _db.TiposGasto.ToList();
+            return _gastoRepository.ObtenerTiposGasto();
         }
         
 
         private Gasto ObtenerGastoPorId(int id)
         {
-            var gasto = _db.Gastos
-                .Include(g => g.TipoGasto)
-                .FirstOrDefault(g => g.Id == id);
-
-            return gasto;
+            return _gastoRepository.ObtenerPorId(id);
         }
     }
 }

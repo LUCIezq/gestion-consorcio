@@ -1,44 +1,53 @@
-﻿using PracticaParcial.Models.Gastos;
+﻿using Microsoft.EntityFrameworkCore;
+using PracticaParcial.Models.Gastos;
 
 namespace PracticaParcial.Persistence.Gastos;
 
 public class GastoRepository : IGastoRepository
 {
-    private readonly UnidadDbContext context;
-    public GastoRepository(UnidadDbContext context)
+    private readonly UnidadDbContext _db;
+
+    public GastoRepository(UnidadDbContext db   )
     {
-        this.context = context;
+        _db = db;
     }
 
-    public void Actualizar(Gasto gasto)
+    public void Actualizar()
     {
-        this.context.Update(gasto);
-        this.context.SaveChanges();
+        _db.SaveChanges();
     }
 
-    public void Eliminar(int id)
+    public void Agregar(Gasto gasto)
     {
-        var gasto = ObtenerPorId(id);
-        if (gasto != null)
-        {
-            context.Gastos.Remove(gasto);
-            context.SaveChanges();
-        }
+        _db.Gastos.Add(gasto);
+        _db.SaveChanges();
     }
 
-    public void Guardar(Gasto gasto)
+    public void Eliminar(Gasto gasto)
     {
-        context.Gastos.Add(gasto);
-        context.SaveChanges();
+        _db.Gastos.Remove(gasto);
+        _db.SaveChanges();
+    }
+
+
+    public List<Gasto> ObtenerGastosPorConsorcio(int idConsorcio)
+    {
+        return _db.Gastos
+             .Include(g => g.TipoGasto)
+             .Where(g => g.IdConsorcio == idConsorcio)
+             .OrderByDescending(g => g.FechaGasto)
+             .ToList();
     }
 
     public Gasto ObtenerPorId(int id)
     {
-        return context.Gastos.FirstOrDefault(g => g.Id == id);
+       return _db.Gastos
+                      .Include(g => g.TipoGasto)
+                      .FirstOrDefault(g => g.Id == id);
     }
 
-    public List<Gasto> ObtenerTodos()
+    public List<TipoGasto> ObtenerTiposGasto()
     {
-        return context.Gastos.ToList();
+        return _db.TiposGasto.ToList();
     }
 }
