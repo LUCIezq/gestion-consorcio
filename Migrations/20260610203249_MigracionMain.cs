@@ -8,32 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PracticaParcial.Migrations
 {
     /// <inheritdoc />
-    public partial class InicialGastos : Migration
+    public partial class MigracionMain : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Consorcios",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Calle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Ciudad = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Provincia = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CodigoPostal = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DiaVencimientoExpensas = table.Column<int>(type: "int", nullable: false),
-                    Latitud = table.Column<double>(type: "float", nullable: false),
-                    Longitud = table.Column<double>(type: "float", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Consorcios", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "TiposGasto",
                 columns: table => new
@@ -63,31 +42,6 @@ namespace PracticaParcial.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Unidades",
-                columns: table => new
-                {
-                    IdUnidad = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NombrePropietario = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    ApellidoPropietario = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    EmailPropietario = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Superficie = table.Column<int>(type: "int", nullable: false),
-                    FechaCreacion = table.Column<DateOnly>(type: "date", nullable: false),
-                    ConsorcioId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Unidades", x => x.IdUnidad);
-                    table.ForeignKey(
-                        name: "FK_Unidades_Consorcios_ConsorcioId",
-                        column: x => x.ConsorcioId,
-                        principalTable: "Consorcios",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Gastos",
                 columns: table => new
                 {
@@ -110,6 +64,59 @@ namespace PracticaParcial.Migrations
                         name: "FK_Gastos_TiposGasto_IdTipoGasto",
                         column: x => x.IdTipoGasto,
                         principalTable: "TiposGasto",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Consorcios",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Calle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Ciudad = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Provincia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CodigoPostal = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DiaVencimientoExpensas = table.Column<int>(type: "int", nullable: false),
+                    Latitud = table.Column<double>(type: "float", nullable: false),
+                    Longitud = table.Column<double>(type: "float", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consorcios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Consorcios_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Unidades",
+                columns: table => new
+                {
+                    IdUnidad = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NombrePropietario = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ApellidoPropietario = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmailPropietario = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Superficie = table.Column<int>(type: "int", nullable: false),
+                    FechaCreacion = table.Column<DateOnly>(type: "date", nullable: false),
+                    ConsorcioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Unidades", x => x.IdUnidad);
+                    table.ForeignKey(
+                        name: "FK_Unidades_Consorcios_ConsorcioId",
+                        column: x => x.ConsorcioId,
+                        principalTable: "Consorcios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -149,6 +156,11 @@ namespace PracticaParcial.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Consorcios_UserId",
+                table: "Consorcios",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Gastos_IdTipoGasto",
                 table: "Gastos",
                 column: "IdTipoGasto");
@@ -174,9 +186,6 @@ namespace PracticaParcial.Migrations
                 name: "ReservasSUM");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
                 name: "TiposGasto");
 
             migrationBuilder.DropTable(
@@ -184,6 +193,9 @@ namespace PracticaParcial.Migrations
 
             migrationBuilder.DropTable(
                 name: "Consorcios");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

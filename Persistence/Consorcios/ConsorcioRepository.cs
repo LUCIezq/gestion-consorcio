@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Consorcios.DTOs;
+using PracticaParcial.shared;
 
 namespace PracticaParcial.Persistence.Consorcios
 {
@@ -39,9 +40,9 @@ namespace PracticaParcial.Persistence.Consorcios
             return consorcio;
         }
 
-        public async Task<ICollection<ConsorcioDetailViewModel>> ObtenerConsorcios()
+        public async Task<ICollection<ConsorcioDetailViewModel>> ObtenerConsorcios(Guid userId)
         {
-            return await _dbContext.Consorcios.Select(c => new ConsorcioDetailViewModel
+            return await _dbContext.Consorcios.Where(c => c.UserId == userId).Select(c => new ConsorcioDetailViewModel
             {
                 Id = c.Id,
                 Nombre = c.Nombre,
@@ -51,6 +52,31 @@ namespace PracticaParcial.Persistence.Consorcios
                 Latitud = c.Latitud.ToString(),
                 Longitud = c.Longitud.ToString()
             }).ToListAsync();
+        }
+
+        public async Task<PaginatedList<ConsorcioDetailViewModel>> ObtenerConsorciosPaginados(Guid userId, int pageIndex, int pageSize)
+        {
+            var query = _dbContext.Consorcios
+                .Where(c => c.UserId == userId)
+                .Select(c => new ConsorcioDetailViewModel
+                {
+                    Id = c.Id,
+                    Nombre = c.Nombre,
+                    Calle = c.Calle,
+                    Ciudad = c.Ciudad,
+                    Provincia = c.Provincia,
+                    Latitud = c.Latitud.ToString(),
+                    Longitud = c.Longitud.ToString()
+                });
+
+            var count = await query.CountAsync();
+
+            var items = await query
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PaginatedList<ConsorcioDetailViewModel>(items, count, pageIndex, pageSize);
         }
 
         public async Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas()

@@ -1,4 +1,5 @@
 using PracticaParcial.Models.Unidades;
+using PracticaParcial.Models.Users;
 
 namespace PracticaParcial.Models.Consorcios
 {
@@ -15,6 +16,9 @@ namespace PracticaParcial.Models.Consorcios
         public required double Longitud { get; set; }
         public required DateTime FechaCreacion { get; set; }
 
-        public List<Unidad>? Unidades { get; set; } 
+        public required Guid UserId { get; set; }
+        public User? User { get; set; }
+
+        public List<Unidad>? Unidades { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Consorcios.DTOs;
+using PracticaParcial.shared;
 
 namespace PracticaParcial.Persistence.Consorcios
 {
@@ -15,7 +16,8 @@ namespace PracticaParcial.Persistence.Consorcios
 
         Task EliminarConsorcio(Consorcio consorcio);
 
-        Task<ICollection<ConsorcioDetailViewModel>> ObtenerConsorcios();
+        Task<ICollection<ConsorcioDetailViewModel>> ObtenerConsorcios(Guid userId);
 
+        Task<PaginatedList<ConsorcioDetailViewModel>> ObtenerConsorciosPaginados(Guid userId, int pageIndex, int pageSize);
     }
 }
