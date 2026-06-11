@@ -1,12 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PracticaParcial.Models.Expensas;
+using PracticaParcial.Persistence.Expensas;
 
 namespace PracticaParcial.Controllers
 {
+    [ApiController]
+    [Route("api/expensas")]
     public class ExpensasController : Controller
     {
-        public IActionResult Index()
+        private readonly IExpensasService _expensasService;
+        public ExpensasController(IExpensasService expensasService)
         {
-            return View();
+            this._expensasService = expensasService;
+        }
+        [HttpGet("{consorcioId}")]
+        public IActionResult VerExpensas(int consorcioId)
+        {
+            return Ok(_expensasService.ObtenerExpensas(consorcioId));
         }
     }
 }

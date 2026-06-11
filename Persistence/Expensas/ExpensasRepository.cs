@@ -2,7 +2,7 @@
 
 namespace PracticaParcial.Persistence.Expensas;
 
-public class ExpensasRepository // : IExpensasRepository
+public class ExpensasRepository : IExpensasRepository
 {
     private readonly UnidadDbContext context;
 
@@ -10,9 +10,44 @@ public class ExpensasRepository // : IExpensasRepository
     {
         this.context = context;
     }
-    /*
+
+    public ResumenExpensasViewModel ObtenerResumenMesActual(int consorcioId)
+    {
+        var hoy = DateTime.Now;
+        var unidades = context.Unidades.Count(u => u.Consorcio.Id == consorcioId);
+
+        var totalMes = context.Gastos.Where(g =>
+        g.IdConsorcio == consorcioId &&
+        g.FechaGasto.Year == hoy.Year &&
+        g.FechaGasto.Month == hoy.Month).Sum(g => g.Monto);
+
+        return new ResumenExpensasViewModel
+        {
+            TotalMesActual = totalMes,
+            CantidadUnidades = unidades,
+            MontoPorUnidades = unidades == 0 ? 0 : totalMes / unidades
+        };
+    }
+
     public List<ExpensasViewModel> ObtenerTodas(int idConsorcio)
     {
-        var CantidadDeUnidades = context.Unidades.Count(u => u.);
-    }*/
+        var gastos = context.Gastos.Where(g => g.IdConsorcio == idConsorcio);
+        var cantidadDeUnidades = context.Unidades.Count(u => u.Consorcio.Id == idConsorcio);
+        
+        return gastos.GroupBy(g => new
+        {
+            g.FechaGasto.Year,
+            g.FechaGasto.Month
+        }).Select(g => new ExpensasViewModel
+        {
+            Anio = g.Key.Year,
+            Mes = g.Key.Month,
+            TotalGastos = g.Sum(x => x.Monto),
+            CantidadDeUnidades = cantidadDeUnidades,
+            MontoPorUnidad = cantidadDeUnidades == 0 ? 0 : g.Sum( x => x.Monto) / cantidadDeUnidades
+        })
+        .OrderByDescending(x => x.Anio)
+        .ThenByDescending(x => x.Mes)
+        .ToList();
+    }
 }
