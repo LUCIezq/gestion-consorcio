@@ -8,10 +8,10 @@ namespace PracticaParcial.Controllers
 
         public IActionResult Index()
         {
-            //TODO notificaiones Hardcodeadas
-            Consorcio test = new Consorcio(){
+            //TODO Notificacion y consorcio Hardcodeado
+            Consorcio consorcio = new Consorcio(){
                 Id = 1,
-                Nombre = "TEST",
+                Nombre = "Gurren",
                 Calle = "test",
                 Ciudad = "test",
                 Provincia = "test",
@@ -26,7 +26,7 @@ namespace PracticaParcial.Controllers
             Notificacion noti = new Notificacion()
             {
                 Id = 1,
-                consorcio = test,
+                consorcio = consorcio,
                 Titulo = "First",
                 Descripcion = "Llegue sano y a salvo",
                 FechaDeCreacion = DateOnly.FromDateTime(DateTime.Now),
@@ -36,18 +36,24 @@ namespace PracticaParcial.Controllers
             Notificacion noti2 = new Notificacion()
             {
                 Id = 1,
-                consorcio = test,
+                consorcio = consorcio,
                 Titulo = "Second",
                 Descripcion = "Llegue sano y a salvo",
                 FechaDeCreacion = DateOnly.FromDateTime(DateTime.Now),
                 FechaDeEnvio = new DateOnly(2026,8,20)
             };
 
-            List<Notificacion> list = new List<Notificacion>();
-            list.Add(noti);
-            list.Add(noti2);
+            //TODO debe haber un metodo que me traiga todos las notificaciones
+            List<Notificacion> notificaciones= new List<Notificacion>();
+            notificaciones.Add(noti);
+            notificaciones.Add(noti2);
 
-            return View(list);
+
+            //TODO buscar el consorcio y setear los valores de NOMBRE y ID en viewBag
+            ViewBag.ConsorcioNombre = consorcio.Nombre;
+            ViewBag.ConsorcioId= consorcio.Id;
+
+            return View(notificaciones);
         }
     }
 }

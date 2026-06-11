@@ -1,4 +1,6 @@
 ﻿@model List<PracticaParcial.Models.Notificaciones.Notificacion>
+@* TODO
+Ver como poner un modelView *@
 
 @{
     Layout = "_UsuarioLayout";
@@ -12,7 +14,11 @@
                 <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
             </li>
             <li class="breadcrumb-item text-primary">
-@*                 Consorcio "@ViewBag.NombreConsorcio"*@
+                <a asp-controller="Consorcio"
+                       asp-action="obtenerConsorcioPorId" asp-route-id="@ViewBag.ConsorcioId"
+                       class="text-decoration-none">
+                    Consorcio "@ViewBag.ConsorcioNombre"
+                </a>
             </li>
             <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Notificaciones</li>
         </ol>
@@ -20,9 +26,12 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Listado General de Unidades</h2>
-    @* <a asp-action="Agregar" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-success px-4"> *@
-        Nueva Unidad
+    <h2>Listado General de Notificaciones</h2>
+    @* <TODO
+        a asp-action="Agregar" asp-route-id="@ViewBag.idConsorcio" class="btn btn-success px-4"> 
+        Necesito el ID de consorcio para que ande este BOTON*@
+    <a asp-action="Agregar" asp-route-id="@ViewBag.ConsorcioId" class="btn btn-success px-4">
+        Nueva Notificacion
     </a>
 </div>
 
@@ -36,24 +45,52 @@
             <th>Acciones</th>
         </tr>
     </thead>
-   <tbody>
-        @foreach (var notificacion in Model)
+    <tbody>
+        @if (Model.Count == 0)
         {
             <tr>
-                <td class="fw-bold text-primary">@notificacion.Titulo</td>
-
-                <td>@notificacion.Descripcion</td>
-                <td>@notificacion.FechaDeCreacion</td>
-                <td>@notificacion.FechaDeEnvio</td>
-                <td>
-                    @if (notificacion.FechaDeEnvio == null)
-                    {
-                    <a asp-action="#" asp-route-id="#" class="btn btn-sm btn-outline-secondary">Eliminar</a>
-                    <a asp-action="#" asp-route-id="#" class="btn btn-sm btn-outline-secondary">Enviar</a>
-                    }
-                    <a asp-action="#" asp-route-id="#" class="btn btn-sm btn-outline-secondary">Nothing</a>
+                <td colspan="8" class="text-center text-muted py-4">
+                    <i class="bi bi-info-circle d-block fs-4 mb-2 text-muted"></i>
+                    No se encontraron notificaciones registradas para este consorcio.
                 </td>
             </tr>
         }
+        else
+        {
+            @foreach (var notificacion in Model)
+            {
+                <tr>
+                    <td class="fw-bold text-primary">
+                        @if (notificacion.FechaDeEnvio == null)
+                        {
+                            <a asp-action="Editar" asp-route-id="@notificacion.Id" class="text-decoration-none>@notificacion.Titulo</a>
+                        }
+                        else
+                        {
+                            <a asp-action="VerDetalle" asp-route-id="@notificacion.Id" class="text-decoration-none">@notificacion.Titulo</a>
+                        }
+                    </td>
+                    <td>@notificacion.Descripcion</td>
+                    <td>@notificacion.FechaDeCreacion</td>
+                    <td>
+                        @if (notificacion.FechaDeEnvio == null)
+                        {
+                            @:No se envio Aun
+                        }else
+                        {
+                        @notificacion.FechaDeEnvio
+                        }
+                    </td>
+                    <td>
+                        @if (notificacion.FechaDeEnvio == null)
+                        {
+                            <a asp-action="Eliminar" asp-route-id="@notificacion.Id" class="btn btn-sm btn-outline-secondary">Eliminar</a>
+                            <a asp-action="Enviar" asp-route-id="@notificacion.Id" class="btn btn-sm btn-outline-secondary">Enviar</a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        
     </tbody>
 </table>
