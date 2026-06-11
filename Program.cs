@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Gastos;
+using PracticaParcial.Models.Notificaciones;
 using PracticaParcial.Models.Reserva;
 using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Users;
@@ -23,6 +24,7 @@ db.Database.Migrate();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
+builder.Services.AddScoped<INotificacionesLogica, NotificacionesLogica>();
 builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IConsorcioService, ConsorcioService>();

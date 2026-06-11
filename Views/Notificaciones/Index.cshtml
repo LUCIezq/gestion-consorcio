@@ -28,7 +28,6 @@ Ver como poner un modelView *@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Listado General de Notificaciones</h2>
     @* <TODO
-        a asp-action="Agregar" asp-route-id="@ViewBag.idConsorcio" class="btn btn-success px-4"> 
         Necesito el ID de consorcio para que ande este BOTON*@
     <a asp-action="Agregar" asp-route-id="@ViewBag.ConsorcioId" class="btn btn-success px-4">
         Nueva Notificacion
@@ -63,9 +62,8 @@ Ver como poner un modelView *@
                     <td class="fw-bold text-primary">
                         @if (notificacion.FechaDeEnvio == null)
                         {
-                            <a asp-action="Editar" asp-route-id="@notificacion.Id" class="text-decoration-none>@notificacion.Titulo</a>
-                        }
-                        else
+                            <a asp-action="Editar" asp-route-id="@notificacion.Id" class="text-decoration-none"">@notificacion.Titulo</a>
+                        }else
                         {
                             <a asp-action="VerDetalle" asp-route-id="@notificacion.Id" class="text-decoration-none">@notificacion.Titulo</a>
                         }
