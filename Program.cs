@@ -76,7 +76,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "EditarGasto",
-    pattern: "Gastos/Editar/{idConsorcio}/{idGasto}", 
+    pattern: "Gastos/Editar/{idConsorcio}/{idGasto}",
     defaults: new { controller = "Gastos", action = "Editar" }
 );
 

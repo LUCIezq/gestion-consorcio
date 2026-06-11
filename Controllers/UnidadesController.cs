@@ -23,29 +23,32 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(int consorcioId) { 
-            var unidadesBd = unidadLogica.ObtenerUnidadesPorConsorcio(consorcioId);
+        public async Task<ActionResult> Index(int id)
+        {
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
 
-       
-            var viewModels = unidadesBd 
+            var unidadesBd = unidadLogica.ObtenerUnidadesPorConsorcio(id);
+
+            var viewModels = unidadesBd
                 .Select(UnidadViewModel.FromEntity)
                 .ToList();
 
-           
-            ViewBag.ConsorcioId = consorcioId;
+            ViewBag.ConsorcioId = id;
+            ViewBag.ConsorcioNombre = consorcio?.Nombre ?? "Consorcio Desconocido";
 
             return View(viewModels);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Agregar(int consorcioId)
+        public async Task<IActionResult> Agregar(int id)
         {
             Guid userId = ClaimsExtension.GetUserId(User);
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
 
             var viewModel = new UnidadViewModel
             {
-                IdConsorcio = consorcioId,
+                IdConsorcio = id,
                 NombreConsorcio = consorcio != null ? consorcio.Nombre : "Consorcio Desconocido"
             };
 
@@ -90,6 +93,7 @@ namespace PracticaParcial.Controllers
 
             var viewModel = UnidadViewModel.FromEntity(unidad);
 
+            // 3. Buscamos el nombre del consorcio usando el servicio de tu compañero
             Guid userId = ClaimsExtension.GetUserId(User);
             var consorcio = await _consorcioService.ObtenerConsorcioPorId(unidad.Consorcio.Id, userId);
             viewModel.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
