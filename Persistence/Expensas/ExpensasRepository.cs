@@ -1,4 +1,5 @@
-﻿using PracticaParcial.Models.Expensas.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using PracticaParcial.Models.Expensas.DTO;
 
 namespace PracticaParcial.Persistence.Expensas;
 
@@ -11,15 +12,15 @@ public class ExpensasRepository : IExpensasRepository
         this.context = context;
     }
 
-    public ResumenExpensasViewModel ObtenerResumenMesActual(int consorcioId)
+    public async Task<ResumenExpensasViewModel> ObtenerResumenMesActual(int consorcioId)
     {
         var hoy = DateTime.Now;
-        var unidades = context.Unidades.Count(u => u.Consorcio.Id == consorcioId);
+        var unidades = await context.Unidades.CountAsync(u => u.Consorcio.Id == consorcioId);
 
-        var totalMes = context.Gastos.Where(g =>
+        var totalMes = await context.Gastos.Where(g =>
         g.IdConsorcio == consorcioId &&
         g.FechaGasto.Year == hoy.Year &&
-        g.FechaGasto.Month == hoy.Month).Sum(g => g.Monto);
+        g.FechaGasto.Month == hoy.Month).SumAsync(g => g.Monto);
 
         return new ResumenExpensasViewModel
         {
@@ -29,12 +30,12 @@ public class ExpensasRepository : IExpensasRepository
         };
     }
 
-    public List<ExpensasViewModel> ObtenerTodas(int idConsorcio)
+    public async Task<List<ExpensasViewModel>> ObtenerTodas(int idConsorcio)
     {
         var gastos = context.Gastos.Where(g => g.IdConsorcio == idConsorcio);
-        var cantidadDeUnidades = context.Unidades.Count(u => u.Consorcio.Id == idConsorcio);
+        var cantidadDeUnidades = await context.Unidades.CountAsync(u => u.Consorcio.Id == idConsorcio);
         
-        return gastos.GroupBy(g => new
+        return await gastos.GroupBy(g => new
         {
             g.FechaGasto.Year,
             g.FechaGasto.Month
@@ -48,6 +49,6 @@ public class ExpensasRepository : IExpensasRepository
         })
         .OrderByDescending(x => x.Anio)
         .ThenByDescending(x => x.Mes)
-        .ToList();
+        .ToListAsync();
     }
 }

@@ -1,22 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Expensas;
-using PracticaParcial.Persistence.Expensas;
+using PracticaParcial.Models.Expensas.DTO;
+using PracticaParcial.Models.Unidades.DTOs;
+using PracticaParcial.shared;
 
 namespace PracticaParcial.Controllers
 {
-    [ApiController]
-    [Route("api/expensas")]
     public class ExpensasController : Controller
     {
         private readonly IExpensasService _expensasService;
-        public ExpensasController(IExpensasService expensasService)
+        private readonly IConsorcioService _consorcioService;
+
+        public ExpensasController(IExpensasService expensasService, IConsorcioService consorcioService)
         {
             this._expensasService = expensasService;
+            this._consorcioService = consorcioService;
         }
-        [HttpGet("{consorcioId}")]
-        public IActionResult VerExpensas(int consorcioId)
+        public async Task<IActionResult> VerExpensas(int id)
         {
-            return Ok(_expensasService.ObtenerExpensas(consorcioId));
+            int consorcioId = id;
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
+
+            var model = new VerExpensasViewModel
+            {
+                Resumen = await this._expensasService.ObtenerResumenMesActualAsync(consorcioId),
+                Expensas = await this._expensasService.ObtenerExpensasAsync(consorcioId),
+                NombreConsorcio = consorcio != null ? consorcio.Nombre : "Consorcio Desconocido"
+            };
+
+            return View(model);
         }
     }
 }

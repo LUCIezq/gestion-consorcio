@@ -1,15 +1,56 @@
-﻿@model IEnumerable<PracticaParcial.Models.Gastos.DTos.GastoViewModel>
+﻿@model PracticaParcial.Models.Expensas.DTO.VerExpensasViewModel
 @{
     ViewData["Title"] = "Ver Expensas";
     Layout = "_UsuarioLayout";
 }
-
+@section Breadcrumb {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
+            <li class="breadcrumb-item">
+                <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
+            </li>
+            <li class="breadcrumb-item text-primary">
+                Consorcio "@ViewBag.NombreConsorcio"
+            </li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Unidades</li>
+        </ol>
+    </nav>
+}
 <div class="main-wrapper">
     <main class="canvas-area">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h2 class="fw-bold mb-0">Expensas</h2>
             </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6>Gasto Total Mes Actual</h6>
+                        <h3>$@Model.Resumen.TotalMesActual</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6>Unidades</h6>
+                        <h3>@Model.Resumen.CantidadUnidades</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6>Monto por Unidad</h6>
+                        <h3>$@Model.Resumen.MontoPorUnidades</h3>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="card p-4 shadow-sm mb-3">
             <div class="table-responsive">
@@ -23,25 +64,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model != null && Model.Any())
-                        {
-                            foreach (var expensa in Model)
+                        @foreach (var expensa in Model.Expensas)
                             {
                                 <tr>
-                                    <td class="text-muted">@expensa.AnioExpensa</td>
-                                    <td class="text-muted">@expensa.MesExpensa</td>
+                                    <td class="text-muted">@expensa.Anio</td>
+                                    <td class="text-muted">@expensa.Mes</td>
+                                    <td class="text-muted">@expensa.TotalGastos</td>
+                                    <td class="text-muted">@expensa.MontoPorUnidad</td>
                                 </tr>
                             }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="8" class="text-center text-muted py-4">
-                                    <i class="bi bi-info-circle d-block fs-4 mb-2 text-muted"></i>
-                                    No se encontraron gastos registrados para este consorcio.
-                                </td>
-                            </tr>
-                        }
                     </tbody>
                 </table>
             </div>
