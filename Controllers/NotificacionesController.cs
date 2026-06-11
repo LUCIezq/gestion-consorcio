@@ -8,21 +8,22 @@ namespace PracticaParcial.Controllers
 
         private readonly INotificacionesLogica _notificacionesLogica;
         private readonly IConsorcioService _consorcioService;
-        //servicio para buscar los consorcios
 
-        //public NotificacionesController(INotificacionesLogica notificacionesLogica, IConsorcioService consorcioService)
-        public NotificacionesController(INotificacionesLogica notificacionesLogica)
+        public NotificacionesController(INotificacionesLogica notificacionesLogica, IConsorcioService consorcioService)
         {
             _notificacionesLogica = notificacionesLogica;
-            //_consorcioService = consorcioService;
+            _consorcioService = consorcioService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int Id)
         {
-            List<Notificacion> notificaciones= _notificacionesLogica.ObtenerNotificaciones();
+            int IdConsorcio = Id;
+            
+            List<Notificacion> notificaciones = _notificacionesLogica.ObtenerNotificaciones(IdConsorcio);
 
             //TODO buscar el consorcio y setear los valores de NOMBRE y ID en viewBag
-            Consorcio consorcio = _notificacionesLogica.ObtenerConsoricioProvisorio();
+            //Consorcio consorcio = _consorcioService.ObtenerConsorcioPorId(IdConsorcio);
+            Consorcio consorcio = _notificacionesLogica.ObtenerConsorcioProvisorio();
             ViewBag.ConsorcioNombre = consorcio.Nombre;
             ViewBag.ConsorcioId= consorcio.Id;
 

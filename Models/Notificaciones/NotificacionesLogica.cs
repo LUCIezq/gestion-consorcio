@@ -4,10 +4,10 @@ using PracticaParcial.Persistence;
 namespace PracticaParcial.Models.Notificaciones
 {
     public interface INotificacionesLogica{
-        List<Notificacion> ObtenerNotificaciones();
+        List<Notificacion> ObtenerNotificaciones(int IdConsorcio);
 
         //TODO metodo de improvisacion
-        Consorcio ObtenerConsoricioProvisorio();
+        Consorcio ObtenerConsorcioProvisorio();
     }
 
     public class NotificacionesLogica : INotificacionesLogica{
@@ -18,9 +18,39 @@ namespace PracticaParcial.Models.Notificaciones
             this.db = db;
         }
 
-        public List<Notificacion> ObtenerNotificaciones()
+        public List<Notificacion> ObtenerNotificaciones(int IdConsorcio)
         {
-            Consorcio consorcio=new Consorcio()
+            //List<Notificacion> notificaciones = this.ObtenerNotificacionesProvisorios();
+
+            List<Notificacion> notificaciones = db.Notificaciones.
+                                                Where(n => n.consorcio.Id == IdConsorcio)
+                                                .ToList(); ;
+
+            return notificaciones;
+        }
+
+        //TODO metodos a borrar
+        public Consorcio ObtenerConsorcioProvisorio()
+        {
+            return new Consorcio()
+            {
+                Id = 1,
+                Nombre = "Gurren",
+                Calle = "test",
+                Ciudad = "test",
+                Provincia = "test",
+                CodigoPostal = "test",
+                DiaVencimientoExpensas = 3,
+                Latitud = 3,
+                Longitud = 3,
+                FechaCreacion = DateTime.Now,
+                UserId = Guid.NewGuid()
+            };
+        }
+
+        public List<Notificacion> ObtenerNotificacionesProvisorios()
+        {
+            Consorcio consorcio = new Consorcio()
             {
                 Id = 1,
                 Nombre = "Gurren",
@@ -60,24 +90,6 @@ namespace PracticaParcial.Models.Notificaciones
             notificaciones.Add(noti2);
 
             return notificaciones;
-        }
-
-        public Consorcio ObtenerConsoricioProvisorio()
-        {
-            return new Consorcio()
-            {
-                Id = 1,
-                Nombre = "Gurren",
-                Calle = "test",
-                Ciudad = "test",
-                Provincia = "test",
-                CodigoPostal = "test",
-                DiaVencimientoExpensas = 3,
-                Latitud = 3,
-                Longitud = 3,
-                FechaCreacion = DateTime.Now,
-                UserId = Guid.NewGuid()
-            };
         }
     }
 }
