@@ -13,13 +13,14 @@ namespace PracticaParcial.Persistence.Consorcios
         {
             _dbContext = dbContext;
         }
-        public async Task<Consorcio?> BuscarConsorcioPorDireccion(string calle, string ciudad, string provincia, string codigoPostal)
+        public async Task<Consorcio?> BuscarConsorcioPorDireccion(string calle, string ciudad, string provincia, string codigoPostal, Guid userId)
         {
             return await _dbContext.Consorcios.FirstOrDefaultAsync(c =>
                 c.Calle == calle &&
                 c.Ciudad == ciudad &&
                 c.Provincia == provincia &&
-                c.CodigoPostal == codigoPostal);
+                c.CodigoPostal == codigoPostal &&
+                c.UserId == userId);
         }
 
         public async Task<Consorcio?> BuscarConsorcioPorId(int id, Guid userId)

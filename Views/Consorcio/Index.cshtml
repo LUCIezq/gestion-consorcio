@@ -60,7 +60,10 @@
                                     <a class="dropdown-item" asp-action="Detalle" asp-route-id="@consorcio.Id">Detalle</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" asp-action="Eliminar" asp-route-id="@consorcio.Id">Eliminar</a>
+                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#eliminarModal" data-id="@consorcio.Id" data-nombre="@consorcio.Nombre">
+                                        Eliminar
+                                    </button>
                                 </li>
                             </ul>
                         </div>

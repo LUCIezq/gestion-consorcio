@@ -28,6 +28,12 @@ namespace PracticaParcial.Controllers
             Guid userId = ClaimsExtension.GetUserId(User);
             var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
 
+            if (consorcio == null)
+            {
+                //TempData["ErrorMessage"] = "No se encontró el consorcio.";
+                return RedirectToAction("Index", "Consorcio");
+            }
+
             var unidadesBd = unidadLogica.ObtenerUnidadesPorConsorcio(id);
 
             var viewModels = unidadesBd
