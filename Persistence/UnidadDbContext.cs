@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Gastos;
+using PracticaParcial.Models.Notificaciones;
 using PracticaParcial.Models.Reserva;
 using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Users;
@@ -18,6 +19,7 @@ public class UnidadDbContext : DbContext
     public DbSet<Gasto> Gastos { get; set; }
 
     public DbSet<TipoGasto> TiposGasto { get; set; }
+    public DbSet<Notificacion> Notificaciones { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PracticaParcial.Persistence;
 
@@ -11,9 +12,11 @@ using PracticaParcial.Persistence;
 namespace PracticaParcial.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
-    partial class UnidadDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260611003915_Notificacion")]
+    partial class Notificacion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

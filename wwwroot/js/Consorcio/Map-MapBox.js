@@ -12,7 +12,8 @@ const map = new mapboxgl.Map({
 });
 
 const obtenerCoordenadas = async () => {
-    const response = await fetch('http://localhost:5202/Consorcio/ObtenerCoordenadas');
+    //const response = await fetch('https://localhost:5202/Consorcio/ObtenerCoordenadas');
+    const response = await fetch('/Consorcio/ObtenerCoordenadas');
     const body = await response.json();
 
     if (!response.ok) {
