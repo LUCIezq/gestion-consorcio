@@ -4,6 +4,6 @@ namespace PracticaParcial.Models.Expensas;
 
 public interface IExpensasService
 {
-    List<ExpensasViewModel> ObtenerExpensas(int consorcioId);
-    ResumenExpensasViewModel ObtenerResumenMesActual(int consorcioId);
+    Task<List<ExpensasViewModel>> ObtenerExpensasAsync(int consorcioId);
+    Task<ResumenExpensasViewModel> ObtenerResumenMesActualAsync(int consorcioId);
 }

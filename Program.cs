@@ -39,9 +39,6 @@ builder.Services.AddScoped<IExpensasRepository, ExpensasRepository>();
 
 builder.Services.AddDbContext<UnidadDbContext>();
 
-builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
-builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
-
 builder.Services.AddDbContext<UnidadDbContext>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

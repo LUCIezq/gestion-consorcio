@@ -1,5 +1,5 @@
-﻿using PracticaParcial.Models.Expensas.DTO;
-using PracticaParcial.Persistence.Consorcios;
+﻿using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Expensas.DTO;
 using PracticaParcial.Persistence.Expensas;
 
 namespace PracticaParcial.Models.Expensas;
@@ -13,13 +13,13 @@ public class ExpensasService : IExpensasService
         _expensasRepository = expensasRepository;
     }
 
-    public List<ExpensasViewModel> ObtenerExpensas(int consorcioId)
+    public async Task<List<ExpensasViewModel>> ObtenerExpensasAsync(int consorcioId)
     {
-        return this._expensasRepository.ObtenerTodas(consorcioId);
+        return await this._expensasRepository.ObtenerTodas(consorcioId);
     }
 
-    public ResumenExpensasViewModel ObtenerResumenMesActual(int consorcioId)
+    public async Task<ResumenExpensasViewModel> ObtenerResumenMesActualAsync(int consorcioId)
     {
-        return this._expensasRepository.ObtenerResumenMesActual(consorcioId);
+        return await this._expensasRepository.ObtenerResumenMesActual(consorcioId);
     }
 }

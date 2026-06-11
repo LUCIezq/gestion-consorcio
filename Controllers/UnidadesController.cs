@@ -6,6 +6,7 @@ using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Unidades.DTOs;
 using PracticaParcial.Persistence.Consorcios;
 using PracticaParcial.shared;
+using System.Runtime.CompilerServices;
 namespace PracticaParcial.Controllers
 {
 
@@ -23,7 +24,8 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(int consorcioId) { 
+        public ActionResult Index(int id) {
+            int consorcioId = id;
             var unidadesBd = unidadLogica.ObtenerUnidadesPorConsorcio(consorcioId);
 
        
@@ -38,8 +40,9 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Agregar(int consorcioId)
+        public async Task<IActionResult> Agregar(int id)
         {
+            int consorcioId = id;
             Guid userId = ClaimsExtension.GetUserId(User);
             var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
 
