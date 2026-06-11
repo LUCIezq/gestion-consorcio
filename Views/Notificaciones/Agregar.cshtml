@@ -1,0 +1,88 @@
+﻿@model PracticaParcial.Models.Notificaciones.DTO.CrearNotificacionViewModel
+@{
+    Layout = "_UsuarioLayout";
+    ViewData["Title"] = "Nueva Notificación";
+}
+
+@section Breadcrumb {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
+            <li class="breadcrumb-item">
+                <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
+            </li>
+            <li class="breadcrumb-item text-primary">
+                <a asp-controller="Consorcio"
+                       asp-action="obtenerConsorcioPorId" asp-route-id="@Model.IdConsorcio"
+                       class="text-decoration-none">
+                    Consorcio "@ViewBag.ConsorcioNombre"
+                </a>
+            </li>
+            <li class="breadcrumb-item text-primary">
+                <a asp-controller="Notificaciones"
+                       asp-action="Index" asp-route-id="@Model.IdConsorcio"
+                       class="text-decoration-none">
+                    Notificaciones
+                </a>
+            </li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Nueva Notificación</li>
+        </ol>
+    </nav>
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Registrar Nueva Notificación</h3>
+                </div>
+
+                <div class="card-body p-4">
+                    
+                    <form asp-action="Agregar" method="post">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <input type="hidden" asp-for="IdConsorcio" />
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Consorcio: </label>
+                            <input class="form-control" placeholder="@ViewBag.ConsorcioNombre" disabled />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Titulo" class="form-label fw-bold">Titulo</label>
+                            <input asp-for="Titulo" class="form-control" placeholder="Ej: Aumento de expensas, etc" />
+                            <span asp-validation-for="Titulo" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Descripcion" class="form-label fw-bold">Descripcion</label>
+                            <input asp-for="Descripcion" class="form-control" placeholder="Ej: Queriamos avisarle el lamentable aumento de expensas, etc" />
+                            <span asp-validation-for="Descripcion" class="text-danger small"></span>
+                        </div>
+
+
+                        <div class="d-flex justify-content-between border-top pt-3">
+                            <button type="submit" name="accionBoton" value="Guardar" class="btn btn-secondary px-4">
+                                Guardar
+                            </button>
+
+                            <button type="submit" name="accionBoton" value="Enviar" class="btn btn-success px-4">
+                                Enviar Notificacion
+                            </button>
+                             <a asp-action="Index" class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
