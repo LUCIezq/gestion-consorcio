@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Notificaciones;
+using PracticaParcial.shared;
+using System.Security.Claims;
 
 namespace PracticaParcial.Controllers
 {
@@ -15,19 +17,31 @@ namespace PracticaParcial.Controllers
             _consorcioService = consorcioService;
         }
 
-        public IActionResult Index(int Id)
+        //public IActionResult Index(int Id)
+        public async Task<IActionResult> Index(int Id)
         {
-            int IdConsorcio = Id;
+            Consorcio? buscado = await obtenerConsorciosCorrespondientesAlIdDeUsuario(Id);
             
-            List<Notificacion> notificaciones = _notificacionesLogica.ObtenerNotificaciones(IdConsorcio);
+            if(buscado == null)
+            {
+                return RedirectToAction("Index","Consorcio");
+            }
 
-            //TODO buscar el consorcio y setear los valores de NOMBRE y ID en viewBag
-            //Consorcio consorcio = _consorcioService.ObtenerConsorcioPorId(IdConsorcio);
-            Consorcio consorcio = _notificacionesLogica.ObtenerConsorcioProvisorio();
-            ViewBag.ConsorcioNombre = consorcio.Nombre;
-            ViewBag.ConsorcioId= consorcio.Id;
+            List<Notificacion> notificaciones = _notificacionesLogica.ObtenerNotificaciones(buscado.Id);
+
+            ViewBag.ConsorcioNombre = buscado.Nombre;
+            ViewBag.ConsorcioId= buscado.Id;
 
             return View(notificaciones);
+        }
+
+        private async Task<Consorcio> obtenerConsorciosCorrespondientesAlIdDeUsuario(int idConsorcio)
+        {
+            Guid userId = ClaimsExtension.GetUserId(User);
+            
+            Consorcio? buscado = await _consorcioService.ObtenerConsorcioPorId(idConsorcio, userId);
+
+            return buscado;
         }
     }
 }
