@@ -1,0 +1,59 @@
+﻿@model List<PracticaParcial.Models.Notificaciones.Notificacion>
+
+@{
+    Layout = "_UsuarioLayout";
+    ViewData["Title"] = "Notificaciones";
+}
+
+@section Breadcrumb {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
+            <li class="breadcrumb-item">
+                <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
+            </li>
+            <li class="breadcrumb-item text-primary">
+@*                 Consorcio "@ViewBag.NombreConsorcio"*@
+            </li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Notificaciones</li>
+        </ol>
+    </nav>
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Listado General de Unidades</h2>
+    @* <a asp-action="Agregar" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-success px-4"> *@
+        Nueva Unidad
+    </a>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-secondary">
+        <tr>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Fecha de creacion</th>
+            <th>Fecha de Envio</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+   <tbody>
+        @foreach (var notificacion in Model)
+        {
+            <tr>
+                <td class="fw-bold text-primary">@notificacion.Titulo</td>
+
+                <td>@notificacion.Descripcion</td>
+                <td>@notificacion.FechaDeCreacion</td>
+                <td>@notificacion.FechaDeEnvio</td>
+                <td>
+                    @if (notificacion.FechaDeEnvio == null)
+                    {
+                    <a asp-action="#" asp-route-id="#" class="btn btn-sm btn-outline-secondary">Eliminar</a>
+                    <a asp-action="#" asp-route-id="#" class="btn btn-sm btn-outline-secondary">Enviar</a>
+                    }
+                    <a asp-action="#" asp-route-id="#" class="btn btn-sm btn-outline-secondary">Nothing</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

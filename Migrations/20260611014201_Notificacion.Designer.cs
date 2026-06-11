@@ -12,7 +12,7 @@ using PracticaParcial.Persistence;
 namespace PracticaParcial.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
-    [Migration("20260611003915_Notificacion")]
+    [Migration("20260611014201_Notificacion")]
     partial class Notificacion
     {
         /// <inheritdoc />
@@ -175,7 +175,7 @@ namespace PracticaParcial.Migrations
                     b.Property<DateOnly>("FechaDeCreacion")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("FechaDeEnvio")
+                    b.Property<DateOnly?>("FechaDeEnvio")
                         .HasColumnType("date");
 
                     b.Property<string>("Titulo")

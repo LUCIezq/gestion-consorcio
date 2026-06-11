@@ -7,7 +7,7 @@ namespace PracticaParcial.Models.Notificaciones
         public string Titulo { get; set; }
         public string Descripcion { get; set; }
         public DateOnly FechaDeCreacion { get; set; }
-        public DateOnly FechaDeEnvio { get; set; }
+        public DateOnly? FechaDeEnvio { get; set; }
 
         public Consorcios.Consorcio consorcio { get; set; }
     }

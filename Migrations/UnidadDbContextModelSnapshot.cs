@@ -172,7 +172,7 @@ namespace PracticaParcial.Migrations
                     b.Property<DateOnly>("FechaDeCreacion")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("FechaDeEnvio")
+                    b.Property<DateOnly?>("FechaDeEnvio")
                         .HasColumnType("date");
 
                     b.Property<string>("Titulo")
