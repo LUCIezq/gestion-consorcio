@@ -3,6 +3,7 @@ using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Notificaciones;
 using PracticaParcial.Models.Notificaciones.DTO;
 using PracticaParcial.shared;
+using System.Diagnostics;
 using System.Security.Claims;
 
 namespace PracticaParcial.Controllers
@@ -62,6 +63,24 @@ namespace PracticaParcial.Controllers
             ViewBag.ConsorcioNombre = buscado.Nombre;
 
             return View(noti);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Agregar(CrearNotificacionViewModel notificacion)
+        {
+            Notificacion nueva = notificacion.toEntity();
+            nueva.FechaDeCreacion = DateOnly.FromDateTime(DateTime.Now);
+            nueva.consorcio = await obtenerConsorciosCorrespondientesAlIdDeUsuario(notificacion.IdConsorcio);
+
+            //TODO VER LA ACCION
+            _notificacionesLogica.AgregarNotificacion(nueva);
+
+            if (Request.Form["accion"]=="Enviar"){
+                _notificacionesLogica.EnviarNotificacion(nueva);
+            }
+            
+
+            return RedirectToAction("Index", new { id = notificacion.IdConsorcio });
         }
     }
 }
