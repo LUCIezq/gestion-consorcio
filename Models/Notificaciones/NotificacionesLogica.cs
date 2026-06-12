@@ -1,4 +1,5 @@
-﻿using PracticaParcial.Models.Consorcios;
+﻿using Microsoft.EntityFrameworkCore;
+using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Persistence;
 using System.Diagnostics;
 
@@ -9,6 +10,9 @@ namespace PracticaParcial.Models.Notificaciones
         void AgregarNotificacion(Notificacion nueva);
 
         void EnviarNotificacion(Notificacion notificacion);
+
+        Notificacion ObtenerNotificacionPorId(int idNotificacion);
+        void EliminarNotificacion(Notificacion notificacion);
     }
 
     public class NotificacionesLogica : INotificacionesLogica{
@@ -41,6 +45,19 @@ namespace PracticaParcial.Models.Notificaciones
 
             notificacion.FechaDeEnvio = DateOnly.FromDateTime(DateTime.Now);
             db.Notificaciones.Update(notificacion);
+            db.SaveChanges();
+        }
+
+        public Notificacion ObtenerNotificacionPorId(int idNotificacion)
+        {
+            return db.Notificaciones
+                .Include(n=> n.consorcio)
+                .FirstOrDefault(n => n.Id == idNotificacion);
+        }
+
+        public void EliminarNotificacion(Notificacion notificacion)
+        {
+            db.Notificaciones.Remove(notificacion);
             db.SaveChanges();
         }
     }
