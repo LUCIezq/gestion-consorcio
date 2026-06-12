@@ -12,7 +12,10 @@
                 <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
             </li>
             <li class="breadcrumb-item text-primary">
-                @ViewBag.ConsorcioNombre
+                <a asp-action="Detalle" asp-controller="Consorcio" asp-route-id="@ViewBag.ConsorcioId"
+                   class="text-decoration-none">
+                    @ViewBag.ConsorcioNombre
+                </a>
             </li>
             <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Unidades</li>
         </ol>
@@ -48,7 +51,12 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td class="fw-bold text-primary">@item.NombreConsorcio</td>
+                <td class="fw-bold text-primary">
+                    <a asp-action="Detalle" asp-controller="Consorcio" asp-route-id="@item.IdConsorcio"
+                       class="text-decoration-none">
+                        @item.NombreConsorcio
+                    </a>
+                </td>
 
                 <td>@item.Nombre</td>
 

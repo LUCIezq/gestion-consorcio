@@ -49,7 +49,8 @@ namespace PracticaParcial.Models.Unidades.DTOs
             return new UnidadViewModel
             {
                 IdUnidad = unidad.IdUnidad,
-                NombreConsorcio = unidad.Consorcio != null ? unidad.Consorcio.Nombre : "Sin Consorcio",
+                NombreConsorcio = unidad.Consorcio.Nombre,
+                IdConsorcio = unidad.Consorcio.Id,
                 Nombre = unidad.Nombre,
                 NombrePropietario = unidad.NombrePropietario,
                 ApellidoPropietario = unidad.ApellidoPropietario,

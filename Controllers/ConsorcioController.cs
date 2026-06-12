@@ -131,5 +131,18 @@ namespace PracticaParcial.Controllers
                 resultado
             );
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Detalles(int id)
+        {
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
+
+            if (consorcio == null)
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
+            return View(consorcio);
+        }
     }
 }
