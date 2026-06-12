@@ -12,8 +12,8 @@ using PracticaParcial.Persistence;
 namespace PracticaParcial.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
-    [Migration("20260610203249_MigracionMain")]
-    partial class MigracionMain
+    [Migration("20260610220313_Inicial_Tablas")]
+    partial class Inicial_Tablas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

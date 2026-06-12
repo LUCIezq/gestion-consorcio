@@ -1,32 +1,39 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Gastos;
 using PracticaParcial.Models.Gastos.DTos;
+using PracticaParcial.shared;
 
 
 
 namespace PracticaParcial.Controllers
 {
+
+    [Authorize]
     public class GastosController : Controller
     {
         private readonly IGastosService _gastosService;
 
         private readonly IGuardarArchivoService _guardarArchivoLogica;
 
-        //private readonly IConsorcioService _consorcioService;
+        private readonly IConsorcioService _consorcioService;
 
-        public GastosController(IGastosService gastosLogica, IGuardarArchivoService guardarArchivoLogica)
+        public GastosController(IGastosService gastosLogica, IGuardarArchivoService guardarArchivoLogica, IConsorcioService consorcioService)
         {
             _gastosService = gastosLogica;
             _guardarArchivoLogica = guardarArchivoLogica;
-            //_consorcioService=consorcioService;
+            _consorcioService = consorcioService;
         }
 
-   
-
-        public IActionResult Agregar(int id)
+        public async Task<IActionResult> Agregar(int id)
         {
+            Guid userId = ClaimsExtension.GetUserId(User);
+
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id,userId);
+
+            ViewBag.Consorcio = consorcio.Nombre;
 
             ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
             ViewBag.IdConsorcio = id;
@@ -39,25 +46,6 @@ namespace PracticaParcial.Controllers
             };
             return View(model);
         }
-
-        //public async Task<IActionResult> Agregar(int id)
-        //{
-
-        //    var consorcio = await _consorcioService.ObtenerConsorcioPorId(id);
-
-        //    ViewBag.Consorcio = consorcio.Nombre;
-
-        //    ViewBag.TiposGasto = _gastosLogica.ObtenerTiposGasto();
-        //    ViewBag.IdConsorcio = id;
-        //    var model = new GastoViewModel
-        //    {
-        //        IdConsorcio = id,
-        //        FechaGasto = DateOnly.FromDateTime(DateTime.Now),
-        //        AnioExpensa = DateTime.Now.Year,
-        //        MesExpensa = DateTime.Now.Month
-        //    };
-        //    return View(model);
-        //}
 
 
 

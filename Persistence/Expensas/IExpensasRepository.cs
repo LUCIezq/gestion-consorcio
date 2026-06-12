@@ -4,5 +4,6 @@ namespace PracticaParcial.Persistence.Expensas;
 
 public interface IExpensasRepository
 {
-    List<ExpensasViewModel> ObtenerTodas(int idConsorcio);
+    Task<ResumenExpensasViewModel> ObtenerResumenMesActual(int consorcioId);
+    Task<List<ExpensasViewModel>> ObtenerTodas(int idConsorcio);
 }

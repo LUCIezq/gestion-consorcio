@@ -6,6 +6,7 @@ using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Unidades.DTOs;
 using PracticaParcial.Persistence.Consorcios;
 using PracticaParcial.shared;
+using System.Runtime.CompilerServices;
 namespace PracticaParcial.Controllers
 {
 
@@ -49,6 +50,7 @@ namespace PracticaParcial.Controllers
         [HttpGet]
         public async Task<IActionResult> Agregar(int id)
         {
+            int consorcioId = id;
             Guid userId = ClaimsExtension.GetUserId(User);
             var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
 

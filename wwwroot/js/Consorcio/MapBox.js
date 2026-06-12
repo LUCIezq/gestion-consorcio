@@ -20,8 +20,8 @@ window.addEventListener('load', () => {
         const calleInput = document.getElementById('Calle');
         calleInput.value = e.detail.features[0].properties.address_line1 || '';
 
-        latitudInput.value = lat.toString().replace('.', ',');
-        longitudInput.value = lng.toString().replace('.', ',');
+        latitudInput.value = lat.toString();
+        longitudInput.value = lng.toString();
     });
 });
 
@@ -93,8 +93,8 @@ async function obtenerCoordenadas(mapBoxId, sessionToken) {
         const [lng, lat] = body.features[0].geometry.coordinates;
 
         return {
-            latitud: lat.toString().replace('.', ','),
-            longitud: lng.toString().replace('.', ',')
+            latitud: lat.toString(),
+            longitud: lng.toString()
         }
 
     } catch (error) {
@@ -108,9 +108,9 @@ document.getElementById('form').addEventListener('submit', function () {
     var lonInput = document.getElementById('longitud');
 
     if (latInput && latInput.value) {
-        latInput.value = latInput.value.replace('.', ',');
+        latInput.value = latInput.value;
     }
     if (lonInput && lonInput.value) {
-        lonInput.value = lonInput.value.replace('.', ',');
+        lonInput.value = lonInput.value;
     }
 });

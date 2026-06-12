@@ -24,14 +24,18 @@
         </div>
 
         <form asp-controller="Gastos" asp-action="AgregarGasto" method="post" enctype="multipart/form-data" novalidate>
-            
-            <input type="hidden" asp-for="IdConsorcio" value="@ViewBag.IdConsorcio" />
+
+        
 
             <div class="card p-4 mb-3">
                 <h5 class="fw-bold mb-1">Información del Gasto</h5>
-                <small class="text-muted d-block mb-3">
-                    Detalles principales y clasificación de la erogación.
-                </small>
+
+                <div class="mb-3">
+                    <label asp-for="Nombre" class="form-label-custom">Nombre del Consorcio</label>
+                    <input type="text" class="form-control form-control-lg fs-6" value="@ViewBag.Consorcio" disabled>
+                </div>
+
+          
 
                 <div class="mb-3">
                     <label asp-for="IdTipoGasto" class="form-label-custom">Tipo de Gasto (*)</label>

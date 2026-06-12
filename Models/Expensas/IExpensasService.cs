@@ -1,5 +1,9 @@
-﻿namespace PracticaParcial.Models.Expensas;
+﻿using PracticaParcial.Models.Expensas.DTO;
 
-public class IExpensasService
+namespace PracticaParcial.Models.Expensas;
+
+public interface IExpensasService
 {
+    Task<List<ExpensasViewModel>> ObtenerExpensasAsync(int consorcioId);
+    Task<ResumenExpensasViewModel> ObtenerResumenMesActualAsync(int consorcioId);
 }

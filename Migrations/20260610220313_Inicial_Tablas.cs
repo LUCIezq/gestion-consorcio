@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PracticaParcial.Migrations
 {
     /// <inheritdoc />
-    public partial class MigracionMain : Migration
+    public partial class Inicial_Tablas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Expensas;
 using PracticaParcial.Models.Gastos;
 using PracticaParcial.Models.Reserva;
 using PracticaParcial.Models.Unidades;
@@ -10,6 +11,7 @@ using PracticaParcial.Models.Users;
 using PracticaParcial.Persistence;
 using PracticaParcial.Persistence.Auth;
 using PracticaParcial.Persistence.Consorcios;
+using PracticaParcial.Persistence.Expensas;
 using PracticaParcial.Persistence.Gastos;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,11 +34,10 @@ builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
 builder.Services.AddScoped<IGastosService, GastosService>();
 builder.Services.AddScoped<IGastoRepository, GastoRepository>();
 builder.Services.AddScoped<IGuardarArchivoService, GuardarArchivoService>();
+builder.Services.AddScoped<IExpensasService, ExpensasService>();
+builder.Services.AddScoped<IExpensasRepository, ExpensasRepository>();
 
 builder.Services.AddDbContext<UnidadDbContext>();
-
-builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
-builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
 
 builder.Services.AddDbContext<UnidadDbContext>();
 
