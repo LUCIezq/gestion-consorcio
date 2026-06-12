@@ -1,5 +1,7 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Consorcios;
@@ -18,8 +20,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 using var db = new UnidadDbContext();
 db.Database.Migrate();
-
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -64,6 +64,15 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+var supportedCultures = new[] { CultureInfo.InvariantCulture };
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(CultureInfo.InvariantCulture),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 app.UseHttpsRedirection();
 app.UseRouting();

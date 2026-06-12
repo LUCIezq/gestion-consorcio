@@ -32,7 +32,7 @@ namespace PracticaParcial.Controllers
             {
                 return View(model);
             }
-
+    
             Guid userId = ClaimsExtension.GetUserId(User);
 
             GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);

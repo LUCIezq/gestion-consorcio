@@ -30,6 +30,7 @@ document.getElementById("form").addEventListener("submit", async function (e) {
 
     const formulario = document.getElementById("form");
 
+
     if (latitudInput.value && longitudInput.value) {
 
         formulario.submit();

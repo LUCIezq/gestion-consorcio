@@ -54,6 +54,17 @@
                                        asp-route-id="@consorcio.Id">Unidades</a>
                                 </li>
                                 <li>
+                                    <a class="dropdown-item" asp-action="VerGastos" asp-controller="Gastos"
+                                       asp-route-id="@consorcio.Id">Gastos</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-action="VerExpensas" asp-controller="Expensas"
+                                       asp-route-id="@consorcio.Id">Expensas</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
                                     <a class="dropdown-item" asp-action="Editar" asp-route-id="@consorcio.Id">Editar</a>
                                 </li>
                                 <li>
