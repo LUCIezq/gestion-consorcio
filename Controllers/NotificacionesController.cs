@@ -72,15 +72,41 @@ namespace PracticaParcial.Controllers
             nueva.FechaDeCreacion = DateOnly.FromDateTime(DateTime.Now);
             nueva.consorcio = await obtenerConsorciosCorrespondientesAlIdDeUsuario(notificacion.IdConsorcio);
 
-            //TODO VER LA ACCION
             _notificacionesLogica.AgregarNotificacion(nueva);
 
-            if (Request.Form["accion"]=="Enviar"){
+            if (Request.Form["accion"] == "Enviar")
+            {
                 _notificacionesLogica.EnviarNotificacion(nueva);
             }
-            
+
 
             return RedirectToAction("Index", new { id = notificacion.IdConsorcio });
+        }
+
+        public IActionResult Eliminar(int id)
+        {
+            Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(id);
+            int IdConsorcio = noti.consorcio.Id;
+
+            if (noti.FechaDeEnvio == null)
+            {
+                _notificacionesLogica.EliminarNotificacion(noti);
+            }
+
+            return RedirectToAction("Index", new { id = IdConsorcio }); ;
+        }
+
+        public IActionResult Enviar(int id)
+        {
+            Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(id);
+            int IdConsorcio = noti.consorcio.Id;
+
+            if (noti.FechaDeEnvio == null)
+            {
+                _notificacionesLogica.EnviarNotificacion(noti);
+            }
+
+            return RedirectToAction("Index", new { id = IdConsorcio }); ;
         }
     }
 }
