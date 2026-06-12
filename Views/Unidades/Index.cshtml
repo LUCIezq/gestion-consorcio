@@ -12,7 +12,10 @@
                 <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
             </li>
             <li class="breadcrumb-item text-primary">
-                Consorcio "@ViewBag.NombreConsorcio" 
+                <a asp-action="Detalle" asp-controller="Consorcio" asp-route-id="@ViewBag.ConsorcioId"
+                   class="text-decoration-none">
+                    @ViewBag.ConsorcioNombre
+                </a>
             </li>
             <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Unidades</li>
         </ol>
@@ -21,7 +24,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Listado General de Unidades</h2>
-    <a asp-action="Agregar" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-success px-4">
+    <a asp-action="Agregar" asp-route-id="@ViewBag.ConsorcioId" class="btn btn-success px-4">
         Nueva Unidad
     </a>
 </div>
@@ -39,10 +42,21 @@
         </tr>
     </thead>
     <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="7" class="text-center text-muted">No hay unidades registradas para este consorcio.</td>
+            </tr>
+        }
         @foreach (var item in Model)
         {
             <tr>
-                <td class="fw-bold text-primary">@item.NombreConsorcio</td>
+                <td class="fw-bold text-primary">
+                    <a asp-action="Detalle" asp-controller="Consorcio" asp-route-id="@item.IdConsorcio"
+                       class="text-decoration-none">
+                        @item.NombreConsorcio
+                    </a>
+                </td>
 
                 <td>@item.Nombre</td>
 
@@ -52,7 +66,8 @@
                 <td>@item.Superficie</td>
                 <td>
                     <a asp-action="Editar" asp-route-id="@item.IdUnidad" class="btn btn-sm btn-outline-secondary">Editar</a>
-                    <a asp-action="Eliminar" asp-route-id="@item.IdUnidad" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    <a asp-action="Eliminar" asp-route-id="@item.IdUnidad"
+                       class="btn btn-sm btn-outline-danger">Eliminar</a>
                 </td>
             </tr>
         }

@@ -32,7 +32,7 @@ namespace PracticaParcial.Controllers
             {
                 return View(model);
             }
-
+    
             Guid userId = ClaimsExtension.GetUserId(User);
 
             GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);
@@ -130,6 +130,19 @@ namespace PracticaParcial.Controllers
             return Ok(
                 resultado
             );
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detalles(int id)
+        {
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
+
+            if (consorcio == null)
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
+            return View(consorcio);
         }
     }
 }

@@ -6,10 +6,10 @@ namespace PracticaParcial.Models.Unidades
     {
         void ActualizarUnidad(Unidad unidadExistente);
         void AgregarUnidad(Unidad unidad);
-        void EliminarUnidad(int id);
+        Task EliminarUnidad(int id, Guid userId);
         List<Unidad> ObtenerUnidades();
         List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio);
-        public Unidad? ObtenerUnidadPorId(int id);
+        public Unidad? ObtenerUnidadPorId(int id, Guid userId);
     }
 
     public class UnidadesLogica : IUnidadesLogica
@@ -25,15 +25,13 @@ namespace PracticaParcial.Models.Unidades
         {
             return db.Unidades
              .Include(u => u.Consorcio)
-             .OrderBy(u => u.Nombre) 
+             .OrderBy(u => u.Nombre)
              .ToList();
         }
 
-        public Unidad ObtenerUnidadPorId(int id)
+        public Unidad? ObtenerUnidadPorId(int id, Guid userId)
         {
-            return db.Unidades
-                     .Include(u => u.Consorcio) 
-                     .FirstOrDefault(u => u.IdUnidad == id);
+            return db.Unidades.Include(u => u.Consorcio).FirstOrDefault(u => u.IdUnidad == id && u.Consorcio.UserId == userId);
         }
 
         public void AgregarUnidad(Unidad unidad)
@@ -42,13 +40,13 @@ namespace PracticaParcial.Models.Unidades
             db.SaveChanges();
         }
 
-        public void EliminarUnidad(int id)
+        public async Task EliminarUnidad(int id, Guid userId)
         {
-            var unidad = ObtenerUnidadPorId(id);
+            var unidad = ObtenerUnidadPorId(id, userId);
             if (unidad != null)
             {
                 db.Unidades.Remove(unidad);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
@@ -62,7 +60,7 @@ namespace PracticaParcial.Models.Unidades
         {
             return db.Unidades
                      .Include(u => u.Consorcio)
-                     .Where(u => u.Consorcio.Id == idConsorcio) 
+                     .Where(u => u.Consorcio.Id == idConsorcio)
                      .OrderBy(u => u.Nombre)
                      .ToList();
         }

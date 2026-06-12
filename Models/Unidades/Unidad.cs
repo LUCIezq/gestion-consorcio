@@ -33,6 +33,7 @@ namespace PracticaParcial.Models.Unidades
 
         public ICollection<ReservaSUM> Reservas { get; set; } = new List<ReservaSUM>();
 
+
         public Consorcio Consorcio { get; set; }
     }
 }

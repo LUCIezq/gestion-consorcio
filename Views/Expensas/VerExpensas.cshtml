@@ -10,9 +10,9 @@
                 <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
             </li>
             <li class="breadcrumb-item text-primary">
-                Consorcio "@ViewBag.NombreConsorcio"
+                @Model.NombreConsorcio
             </li>
-            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Unidades</li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Expensas</li>
         </ol>
     </nav>
 }
@@ -54,7 +54,8 @@
         </div>
         <div class="card p-4 shadow-sm mb-3">
             <div class="table-responsive">
-                <table id="tablaGastos" class="table table-hover align-middle url-perfil mb-0" style="width:100%; font-size: 14px;">
+                <table id="tablaGastos" class="table table-hover align-middle url-perfil mb-0"
+                       style="width:100%; font-size: 14px;">
                     <thead class="table-light text-secondary fw-semibold">
                         <tr>
                             <th class="border-0">Año</th>
@@ -65,14 +66,14 @@
                     </thead>
                     <tbody>
                         @foreach (var expensa in Model.Expensas)
-                            {
-                                <tr>
-                                    <td class="text-muted">@expensa.Anio</td>
-                                    <td class="text-muted">@expensa.Mes</td>
-                                    <td class="text-muted">@expensa.TotalGastos</td>
-                                    <td class="text-muted">@expensa.MontoPorUnidad</td>
-                                </tr>
-                            }
+                        {
+                            <tr>
+                                <td class="text-muted">@expensa.Anio</td>
+                                <td class="text-muted">@expensa.Mes</td>
+                                <td class="text-muted">@expensa.TotalGastos</td>
+                                <td class="text-muted">@expensa.MontoPorUnidad</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
