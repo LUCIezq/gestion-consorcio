@@ -62,7 +62,7 @@ Ver como poner un modelView *@
                     <td class="fw-bold text-primary">
                         @if (notificacion.FechaDeEnvio == null)
                         {
-                            <a asp-action="Editar" asp-route-id="@notificacion.Id" class="text-decoration-none"">@notificacion.Titulo</a>
+                            <a asp-action="Editar" asp-route-idNotificacion="@notificacion.Id" class="text-decoration-none"">@notificacion.Titulo</a>
                         }else
                         {
                             <a asp-action="VerDetalle" asp-route-id="@notificacion.Id" class="text-decoration-none">@notificacion.Titulo</a>

@@ -108,5 +108,18 @@ namespace PracticaParcial.Controllers
 
             return RedirectToAction("Index", new { id = IdConsorcio }); ;
         }
+
+        public IActionResult Editar(int idNotificacion)
+        {
+            Debug.WriteLine("Llegue");
+
+            Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(idNotificacion);
+            
+            // Crear un MODEL and VIEW para las validaciones de campo
+
+            ViewBag.ConsorcioNombre = noti.consorcio.Nombre;
+
+            return View(noti);
+        }
     }
 }
