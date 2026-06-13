@@ -114,12 +114,18 @@ namespace PracticaParcial.Controllers
             Debug.WriteLine("Llegue");
 
             Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(idNotificacion);
-            
-            // Crear un MODEL and VIEW para las validaciones de campo
+
+            EditarNotificacionViewModel notiModel = new EditarNotificacionViewModel()
+            {
+                IdConsorcio = noti.consorcio.Id,
+                Titulo = noti.Titulo,
+                Descripcion = noti.Descripcion,
+                Fecha = noti.FechaDeCreacion
+            };
 
             ViewBag.ConsorcioNombre = noti.consorcio.Nombre;
 
-            return View(noti);
+            return View(notiModel);
         }
     }
 }

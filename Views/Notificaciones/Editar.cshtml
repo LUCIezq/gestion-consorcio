@@ -1,7 +1,7 @@
-﻿@model PracticaParcial.Models.Notificaciones.Notificacion
+﻿@model PracticaParcial.Models.Notificaciones.DTO.EditarNotificacionViewModel
 @{
     Layout = "_UsuarioLayout";
-    ViewData["Title"] = "Nueva Notificación";
+    ViewData["Title"] = "Editar Notificación";
 }
 
 @section Breadcrumb {
@@ -12,14 +12,14 @@
             </li>
             <li class="breadcrumb-item text-primary">
                 <a asp-controller="Consorcio"
-                       asp-action="obtenerConsorcioPorId" asp-route-id="@Model.consorcio.Id"
+                       asp-action="obtenerConsorcioPorId" asp-route-id="@Model.IdConsorcio"
                        class="text-decoration-none">
                     Consorcio "@ViewBag.ConsorcioNombre"
                 </a>
             </li>
             <li class="breadcrumb-item text-primary">
                 <a asp-controller="Notificaciones"
-                       asp-action="Index" asp-route-id="@Model.consorcio.Id"
+                       asp-action="Index" asp-route-id="@Model.IdConsorcio"
                        class="text-decoration-none">
                     Notificaciones
                 </a>
@@ -43,7 +43,7 @@
 
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                        <input type="hidden" asp-for="consorcio.Id" />
+                        <input type="hidden" asp-for="IdConsorcio" />
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Consorcio: </label>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Fecha de Creación: </label>
-                            <input class="form-control" placeholder="@Model.FechaDeCreacion" disabled />
+                            <input class="form-control" placeholder="@Model.Fecha" disabled />
                         </div>
 
                         <div class="mb-3">
@@ -76,7 +76,7 @@
                             </button>
                             <a
                                 <a asp-controller="Notificaciones"
-                                       asp-action="Index" asp-route-id="@Model.consorcio.Id"
+                                       asp-action="Index" asp-route-id="@Model.IdConsorcio"
                                        class="btn btn-outline-secondary">
                                     Cancelar
                                 </a>
