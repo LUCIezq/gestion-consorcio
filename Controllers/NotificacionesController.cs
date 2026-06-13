@@ -111,21 +111,23 @@ namespace PracticaParcial.Controllers
 
         public IActionResult Editar(int idNotificacion)
         {
-            Debug.WriteLine("Llegue");
-
             Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(idNotificacion);
 
-            EditarNotificacionViewModel notiModel = new EditarNotificacionViewModel()
-            {
-                IdConsorcio = noti.consorcio.Id,
-                Titulo = noti.Titulo,
-                Descripcion = noti.Descripcion,
-                Fecha = noti.FechaDeCreacion
-            };
+            EditarNotificacionViewModel notiModel = EditarNotificacionViewModel.toViewModel(noti);
 
             ViewBag.ConsorcioNombre = noti.consorcio.Nombre;
 
             return View(notiModel);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(EditarNotificacionViewModel notiModel)
+        {
+            Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(notiModel.IdNotificacion);
+
+            _notificacionesLogica.ActualizarNotificacion(noti,notiModel);
+
+            return RedirectToAction("Index", new { id = notiModel.IdConsorcio }); ;
         }
     }
 }

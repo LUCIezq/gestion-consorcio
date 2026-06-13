@@ -44,6 +44,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                         <input type="hidden" asp-for="IdConsorcio" />
+                        <input type="hidden" asp-for="IdNotificacion" />
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Consorcio: </label>
@@ -56,39 +57,39 @@
 
                         <div class="mb-3">
                             <label asp-for="Titulo" class="form-label fw-bold"></label>
-                            <input asp-for="Titulo" class="form-control" value="@Model.Titulo"/>
+                            <input asp-for="Titulo" class="form-control" value="@Model.Titulo" />
                             <span asp-validation-for="Titulo" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Descripcion" class="form-label fw-bold"></label>
-                            <input asp-for="Descripcion" class="form-control" value="@Model.Descripcion"/>
+                            <input asp-for="Descripcion" class="form-control" value="@Model.Descripcion" />
                             <span asp-validation-for="Descripcion" class="text-danger small"></span>
                         </div>
 
                         <div class="d-flex justify-content-between border-top pt-3">
-                            <button type="submit" name="accion" value="Actualizar" class="btn btn-secondary px-4">
+                            <button type="submit" name="accion" class="btn btn-secondary px-4">
                                 Actualizar
                             </button>
-
-                            <button type="submit" name="accion" value="Enviar" class="btn btn-success px-4">
+                            <a asp-controller="Notificaciones"
+                                   asp-action="Enviar" asp-route-id="@Model.IdNotificacion"
+                                   class="btn btn-outline-secondary">
                                 Enviar Notificacion
-                            </button>
-                            <a
-                                <a asp-controller="Notificaciones"
-                                       asp-action="Index" asp-route-id="@Model.IdConsorcio"
-                                       class="btn btn-outline-secondary">
-                                    Cancelar
-                                </a>
-                            </div>
-                        </form>
+                            </a>
+                            <a asp-controller="Notificaciones"
+                                   asp-action="Index" asp-route-id="@Model.IdConsorcio"
+                                   class="btn btn-outline-secondary">
+                                Cancelar
+                            </a>
+                        </div>
+                    </form>
 
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

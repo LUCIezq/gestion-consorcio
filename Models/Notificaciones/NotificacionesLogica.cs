@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Notificaciones.DTO;
 using PracticaParcial.Persistence;
 using System.Diagnostics;
 
@@ -13,6 +14,7 @@ namespace PracticaParcial.Models.Notificaciones
 
         Notificacion ObtenerNotificacionPorId(int idNotificacion);
         void EliminarNotificacion(Notificacion notificacion);
+        void ActualizarNotificacion(Notificacion notificacion, EditarNotificacionViewModel notiModel);
     }
 
     public class NotificacionesLogica : INotificacionesLogica{
@@ -58,6 +60,15 @@ namespace PracticaParcial.Models.Notificaciones
         public void EliminarNotificacion(Notificacion notificacion)
         {
             db.Notificaciones.Remove(notificacion);
+            db.SaveChanges();
+        }
+
+        public void ActualizarNotificacion(Notificacion notificacion, EditarNotificacionViewModel notiModel)
+        {
+
+            notificacion.Titulo = notiModel.Titulo;
+            notificacion.Descripcion = notiModel.Descripcion;
+            db.Notificaciones.Update(notificacion);
             db.SaveChanges();
         }
     }
