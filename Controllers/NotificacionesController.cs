@@ -31,10 +31,12 @@ namespace PracticaParcial.Controllers
 
             List<Notificacion> notificaciones = _notificacionesLogica.ObtenerNotificaciones(buscado.Id);
 
+            List<MostrarNotificacionesViewModel> list = MostrarNotificacionesViewModel.ObtenerListaDeViewModel(notificaciones);
+
             ViewBag.ConsorcioNombre = buscado.Nombre;
             ViewBag.ConsorcioId = buscado.Id;
 
-            return View(notificaciones);
+            return View(list);
         }
 
         private async Task<Consorcio> obtenerConsorciosCorrespondientesAlIdDeUsuario(int idConsorcio)
@@ -107,6 +109,34 @@ namespace PracticaParcial.Controllers
             }
 
             return RedirectToAction("Index", new { id = IdConsorcio }); ;
+        }
+
+        public IActionResult Editar(int idNotificacion)
+        {
+            Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(idNotificacion);
+
+            EditarNotificacionViewModel notiModel = EditarNotificacionViewModel.toViewModel(noti);
+
+            ViewBag.ConsorcioNombre = noti.consorcio.Nombre;
+
+            return View(notiModel);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(EditarNotificacionViewModel notiModel)
+        {
+            Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(notiModel.IdNotificacion);
+
+            _notificacionesLogica.ActualizarNotificacion(noti,notiModel);
+
+            return RedirectToAction("Index", new { id = notiModel.IdConsorcio }); ;
+        }
+
+        public IActionResult VerDetalle(int id)
+        {
+            Notificacion noti= _notificacionesLogica.ObtenerNotificacionPorId(id);
+
+            return View(noti);
         }
     }
 }

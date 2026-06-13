@@ -1,0 +1,92 @@
+﻿@model PracticaParcial.Models.Notificaciones.Notificacion
+@{
+    Layout = "_UsuarioLayout";
+    ViewData["Title"] = "Ver Detalle Notificación";
+}
+
+@section Breadcrumb {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
+            <li class="breadcrumb-item">
+                <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
+            </li>
+            <li class="breadcrumb-item text-primary">
+                <a asp-controller="Consorcio"
+                       asp-action="obtenerConsorcioPorId" asp-route-id="@Model.consorcio.Id"
+                       class="text-decoration-none">
+                    Consorcio "@Model.consorcio.Nombre"
+                </a>
+            </li>
+            <li class="breadcrumb-item text-primary">
+                <a asp-controller="Notificaciones"
+                       asp-action="Index" asp-route-id="@Model.consorcio.Id"
+                       class="text-decoration-none">
+                    Notificaciones
+                </a>
+            </li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Detalle de Notificación</li>
+        </ol>
+    </nav>
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Detalle de Notificación</h3>
+                </div>
+
+                <div class="card-body p-4">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Consorcio</label>
+                            <input class="form-control"
+                                   value="@Model.consorcio.Nombre"
+                                   readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Título</label>
+                            <input class="form-control"
+                                   value="@Model.Titulo"
+                                   readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Descripción</label>
+                            <textarea class="form-control"
+                                      rows="3"
+                                      readonly>@Model.Descripcion</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Fecha de Creación</label>
+                            <input class="form-control"
+                                   value="@Model.FechaDeCreacion"
+                                   readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Fecha de Envío</label>
+                            <input class="form-control"
+                                   value="@Model.FechaDeEnvio"
+                                   readonly />
+                        </div>
+
+                        <a asp-controller="Notificaciones"
+                               asp-action="Index"
+                               asp-route-id="@Model.consorcio.Id"
+                               class="btn btn-outline-secondary">
+                            Volver
+                        </a>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

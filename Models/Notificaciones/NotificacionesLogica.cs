@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Notificaciones.DTO;
 using PracticaParcial.Persistence;
 using System.Diagnostics;
 
 namespace PracticaParcial.Models.Notificaciones
 {
-    public interface INotificacionesLogica{
+    public interface INotificacionesLogica
+    {
         List<Notificacion> ObtenerNotificaciones(int IdConsorcio);
         void AgregarNotificacion(Notificacion nueva);
 
@@ -13,13 +15,16 @@ namespace PracticaParcial.Models.Notificaciones
 
         Notificacion ObtenerNotificacionPorId(int idNotificacion);
         void EliminarNotificacion(Notificacion notificacion);
+        void ActualizarNotificacion(Notificacion notificacion, EditarNotificacionViewModel notiModel);
     }
 
-    public class NotificacionesLogica : INotificacionesLogica{
+    public class NotificacionesLogica : INotificacionesLogica
+    {
 
         private readonly UnidadDbContext db;
 
-        public NotificacionesLogica(UnidadDbContext db){
+        public NotificacionesLogica(UnidadDbContext db)
+        {
             this.db = db;
         }
 
@@ -27,8 +32,8 @@ namespace PracticaParcial.Models.Notificaciones
         {
 
             List<Notificacion> notificaciones = db.Notificaciones.
-                                                Where(n => n.consorcio.Id == IdConsorcio)
-                                                .ToList(); ;
+                                        Where(n => n.consorcio.Id == IdConsorcio)
+                                        .ToList(); ;
 
             return notificaciones;
         }
@@ -51,13 +56,22 @@ namespace PracticaParcial.Models.Notificaciones
         public Notificacion ObtenerNotificacionPorId(int idNotificacion)
         {
             return db.Notificaciones
-                .Include(n=> n.consorcio)
+                .Include(n => n.consorcio)
                 .FirstOrDefault(n => n.Id == idNotificacion);
         }
 
         public void EliminarNotificacion(Notificacion notificacion)
         {
             db.Notificaciones.Remove(notificacion);
+            db.SaveChanges();
+        }
+
+        public void ActualizarNotificacion(Notificacion notificacion, EditarNotificacionViewModel notiModel)
+        {
+
+            notificacion.Titulo = notiModel.Titulo;
+            notificacion.Descripcion = notiModel.Descripcion;
+            db.Notificaciones.Update(notificacion);
             db.SaveChanges();
         }
     }
