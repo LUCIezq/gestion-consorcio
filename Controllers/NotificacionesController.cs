@@ -31,10 +31,13 @@ namespace PracticaParcial.Controllers
 
             List<Notificacion> notificaciones = _notificacionesLogica.ObtenerNotificaciones(buscado.Id);
 
+            List<MostrarNotificacionesViewModel> list = MostrarNotificacionesViewModel.ObtenerListaDeViewModel(notificaciones);
+
             ViewBag.ConsorcioNombre = buscado.Nombre;
             ViewBag.ConsorcioId = buscado.Id;
 
-            return View(notificaciones);
+            return View(list);
+            //return View(notificaciones);
         }
 
         private async Task<Consorcio> obtenerConsorciosCorrespondientesAlIdDeUsuario(int idConsorcio)
