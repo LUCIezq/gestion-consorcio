@@ -12,8 +12,8 @@ using PracticaParcial.Persistence;
 namespace PracticaParcial.Migrations
 {
     [DbContext(typeof(UnidadDbContext))]
-    [Migration("20260610220313_Inicial_Tablas")]
-    partial class Inicial_Tablas
+    [Migration("20260613163527_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,6 +160,38 @@ namespace PracticaParcial.Migrations
                         });
                 });
 
+            modelBuilder.Entity("PracticaParcial.Models.Notificaciones.Notificacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("FechaDeCreacion")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("FechaDeEnvio")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("consorcioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("consorcioId");
+
+                    b.ToTable("Notificaciones");
+                });
+
             modelBuilder.Entity("PracticaParcial.Models.Reserva.ReservaSUM", b =>
                 {
                     b.Property<int>("Id")
@@ -279,6 +311,17 @@ namespace PracticaParcial.Migrations
                         .IsRequired();
 
                     b.Navigation("TipoGasto");
+                });
+
+            modelBuilder.Entity("PracticaParcial.Models.Notificaciones.Notificacion", b =>
+                {
+                    b.HasOne("PracticaParcial.Models.Consorcios.Consorcio", "consorcio")
+                        .WithMany()
+                        .HasForeignKey("consorcioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("consorcio");
                 });
 
             modelBuilder.Entity("PracticaParcial.Models.Reserva.ReservaSUM", b =>
