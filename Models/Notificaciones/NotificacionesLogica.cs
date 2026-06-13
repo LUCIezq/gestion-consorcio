@@ -6,7 +6,8 @@ using System.Diagnostics;
 
 namespace PracticaParcial.Models.Notificaciones
 {
-    public interface INotificacionesLogica{
+    public interface INotificacionesLogica
+    {
         List<Notificacion> ObtenerNotificaciones(int IdConsorcio);
         void AgregarNotificacion(Notificacion nueva);
 
@@ -17,11 +18,13 @@ namespace PracticaParcial.Models.Notificaciones
         void ActualizarNotificacion(Notificacion notificacion, EditarNotificacionViewModel notiModel);
     }
 
-    public class NotificacionesLogica : INotificacionesLogica{
+    public class NotificacionesLogica : INotificacionesLogica
+    {
 
         private readonly UnidadDbContext db;
 
-        public NotificacionesLogica(UnidadDbContext db){
+        public NotificacionesLogica(UnidadDbContext db)
+        {
             this.db = db;
         }
 
@@ -29,8 +32,8 @@ namespace PracticaParcial.Models.Notificaciones
         {
 
             List<Notificacion> notificaciones = db.Notificaciones.
-                                                Where(n => n.consorcio.Id == IdConsorcio)
-                                                .ToList(); ;
+                                        Where(n => n.consorcio.Id == IdConsorcio)
+                                        .ToList(); ;
 
             return notificaciones;
         }
@@ -53,7 +56,7 @@ namespace PracticaParcial.Models.Notificaciones
         public Notificacion ObtenerNotificacionPorId(int idNotificacion)
         {
             return db.Notificaciones
-                .Include(n=> n.consorcio)
+                .Include(n => n.consorcio)
                 .FirstOrDefault(n => n.Id == idNotificacion);
         }
 

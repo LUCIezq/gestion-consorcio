@@ -37,7 +37,6 @@ namespace PracticaParcial.Controllers
             ViewBag.ConsorcioId = buscado.Id;
 
             return View(list);
-            //return View(notificaciones);
         }
 
         private async Task<Consorcio> obtenerConsorciosCorrespondientesAlIdDeUsuario(int idConsorcio)
@@ -131,6 +130,13 @@ namespace PracticaParcial.Controllers
             _notificacionesLogica.ActualizarNotificacion(noti,notiModel);
 
             return RedirectToAction("Index", new { id = notiModel.IdConsorcio }); ;
+        }
+
+        public IActionResult VerDetalle(int id)
+        {
+            Notificacion noti= _notificacionesLogica.ObtenerNotificacionPorId(id);
+
+            return View(noti);
         }
     }
 }
