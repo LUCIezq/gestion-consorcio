@@ -16,14 +16,10 @@ namespace PracticaParcial.Models.Gastos
 
         List<GastoViewModel> ObtenerGastosPorConsorcio(int idConsorcio);
         List<TipoGasto> ObtenerTiposGasto();
-
     }
-
 
     public class GastosService : IGastosService
     {
-    
-
         private readonly IGastoRepository _gastoRepository;
 
         public GastosService(IGastoRepository gastoRepository)
@@ -33,7 +29,7 @@ namespace PracticaParcial.Models.Gastos
 
         public void ActualizarGasto(GastoViewModel gastoVM)
         {
-            var gasto =this.ObtenerGastoPorId(gastoVM.Id);
+            var gasto = this.ObtenerGastoPorId(gastoVM.Id);
 
             if (gasto == null) return;
 
@@ -51,12 +47,13 @@ namespace PracticaParcial.Models.Gastos
                 gasto.ArchivoComprobante = gastoVM.ArchivoComprobanteGuardado;
             }
 
-           _gastoRepository.Actualizar();
+            _gastoRepository.Actualizar();
         }
 
         public void AgregarGasto(Gasto gasto)
         {
-           _gastoRepository.Agregar(gasto);
+
+            _gastoRepository.Agregar(gasto);
         }
 
         public void EliminarGasto(int id)
@@ -91,7 +88,6 @@ namespace PracticaParcial.Models.Gastos
         {
             return _gastoRepository.ObtenerTiposGasto();
         }
-        
 
         private Gasto ObtenerGastoPorId(int id)
         {

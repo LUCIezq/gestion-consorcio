@@ -30,13 +30,17 @@ namespace PracticaParcial.Controllers
         public async Task<IActionResult> Agregar(int id)
         {
             Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
 
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id,userId);
+            if (consorcio == null)
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
 
-            ViewBag.Consorcio = consorcio.Nombre;
-
+            ViewBag.Consorcio = consorcio!.Nombre;
             ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
             ViewBag.IdConsorcio = id;
+
             var model = new GastoViewModel
             {
                 IdConsorcio = id,
@@ -46,8 +50,6 @@ namespace PracticaParcial.Controllers
             };
             return View(model);
         }
-
-
 
         [HttpPost]
         public IActionResult AgregarGasto(GastoViewModel gasto, string accion)
@@ -65,7 +67,6 @@ namespace PracticaParcial.Controllers
 
             if (archivo != null && archivo.Length > 0)
             {
-
                 gasto.ArchivoComprobanteGuardado = _guardarArchivoLogica.GuardarArchivo(archivo);
             }
 
@@ -84,13 +85,20 @@ namespace PracticaParcial.Controllers
                 "CrearOtroGasto" => RedirectToAction("Agregar", new { id = nuevoGasto.IdConsorcio }),
                 _ => RedirectToAction("VerGastos", new { id = nuevoGasto.IdConsorcio })
             };
-
         }
 
-
-        public IActionResult VerGastos(int id)
+        public async Task<IActionResult> VerGastos(int id)
         {
+            Guid userId = ClaimsExtension.GetUserId(User);
+            Consorcio? consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
+
+            if (consorcio == null)
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
+
             ViewBag.IdConsorcio = id;
+            ViewBag.ConsorcioNombre = consorcio.Nombre;
 
             var gastos = _gastosService.ObtenerGastosPorConsorcio(id);
 
@@ -125,7 +133,7 @@ namespace PracticaParcial.Controllers
                 ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
                 return View("Editar", gastoVM);
             }
-        var gasto = gastoVM.ToEntity();
+            var gasto = gastoVM.ToEntity();
 
 
             if (gastoVM.ArchivoComprobante != null && gastoVM.ArchivoComprobante.Length > 0)

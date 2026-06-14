@@ -4,6 +4,20 @@
     Layout = "_UsuarioLayout";
 }
 
+@section Breadcrumb {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
+            <li class="breadcrumb-item">
+                <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
+            </li>
+            <li class="breadcrumb-item text-primary">
+                @ViewBag.ConsorcioNombre
+            </li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Gastos</li>
+        </ol>
+    </nav>
+}
+
 <div class="main-wrapper">
     <main class="canvas-area">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -18,7 +32,8 @@
         </div>
         <div class="card p-4 shadow-sm mb-3">
             <div class="table-responsive">
-                <table id="tablaGastos" class="table table-hover align-middle url-perfil mb-0" style="width:100%; font-size: 14px;">
+                <table id="tablaGastos" class="table table-hover align-middle url-perfil mb-0"
+                       style="width:100%; font-size: 14px;">
                     <thead class="table-light text-secondary fw-semibold">
                         <tr>
                             <th class="border-0">Año</th>
@@ -40,10 +55,8 @@
                                     <td class="text-muted">@gasto.AnioExpensa</td>
                                     <td class="text-muted">@gasto.MesExpensa</td>
                                     <td>
-                                        <a asp-controller="Gastos"
-                                           asp-action="Editar"
-                                           asp-route-idConsorcio="@gasto.IdConsorcio"
-                                           asp-route-idGasto="@gasto.Id"
+                                        <a asp-controller="Gastos" asp-action="Editar"
+                                           asp-route-idConsorcio="@gasto.IdConsorcio" asp-route-idGasto="@gasto.Id"
                                            class="text-decoration-none text-primary fw-bold">
                                             @gasto.Nombre
                                         </a>
@@ -69,11 +82,14 @@
                                         }
                                     </td>
                                     <td class="text-center">
-                                        <form asp-action="Eliminar" method="post" onsubmit="return confirm('¿Está seguro de que desea eliminar este gasto?');" class="d-inline">
+                                        <form asp-action="Eliminar" method="post"
+                                              onsubmit="return confirm('¿Está seguro de que desea eliminar este gasto?');"
+                                              class="d-inline">
                                             <input type="hidden" name="id" value="@gasto.Id" />
                                             <input type="hidden" name="idConsorcio" value="@gasto.IdConsorcio" />
 
-                                            <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 small fw-semibold">
+                                            <button type="submit"
+                                                    class="btn btn-link text-danger text-decoration-none p-0 small fw-semibold">
                                                 <i class="bi bi-trash"></i> Eliminar
                                             </button>
                                         </form>

@@ -5,6 +5,7 @@
     ViewData["Title"] = "Eliminar Unidad";
 }
 
+
 <div class="container mt-5 pt-5 text-center">
 
     <h2 class="fw-bold text-dark mb-5" style="line-height: 1.6;">
@@ -12,17 +13,18 @@
         la unidad "@Model.Nombre" del consorcio "@Model.NombreConsorcio"?
     </h2>
 
-    <form asp-action="Eliminar" method="post" class="d-flex justify-content-center gap-4">
+    <form asp-action="Eliminar" asp-route-id="@Model.IdUnidad" method="post" class="d-flex justify-content-center gap-4">
 
-        <input type="hidden" asp-for="IdUnidad" />
+    <input type="hidden" name="idConsorcio" value="@Model.IdConsorcio" />
 
-        <button type="submit" class="btn btn-secondary px-5 py-2 fw-bold text-dark" style="background-color: #e0e0e0; border-color: #ccc;">
-            Eliminar
-        </button>
+    <button type="submit" class="btn btn-secondary px-5 py-2 fw-bold text-dark" style="background-color: #e0e0e0; border-color: #ccc;">
+        Eliminar
+    </button>
 
-        <a asp-action="Index" class="btn btn-secondary px-5 py-2 fw-bold text-dark" style="background-color: #e0e0e0; border-color: #ccc;">
-            Cancelar
-        </a>
+    <a asp-action="Index" asp-route-id="@Model.IdConsorcio" class="btn btn-secondary px-5 py-2 fw-bold text-dark" style="background-color: #e0e0e0; border-color: #ccc;">
+        Cancelar
+    </a>
 
-    </form>
+</form>
+
 </div>

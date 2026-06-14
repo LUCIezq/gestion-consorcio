@@ -6,14 +6,11 @@ namespace PracticaParcial.Models.Unidades
     {
         void ActualizarUnidad(Unidad unidadExistente);
         void AgregarUnidad(Unidad unidad);
-        void EliminarUnidad(int id);
+        Task EliminarUnidad(int id, Guid userId);
         List<Unidad> ObtenerUnidades();
         (List<Unidad> Unidades, int TotalRegistros) ObtenerUnidadesPorConsorcio(int idConsorcio, int pagina);
-        public Unidad? ObtenerUnidadPorId(int id);
-
-
-
-        Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio);
+        public Unidad? ObtenerUnidadPorId(int id , Guid userId);
+        Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio, int? idUnidadAExcluir = null);
     }
 
     public class UnidadesLogica : IUnidadesLogica
@@ -25,22 +22,6 @@ namespace PracticaParcial.Models.Unidades
             this.db = db;
         }
 
-
-        public (List<Unidad> Unidades, int TotalRegistros) ObtenerUnidades(int idConsorcio, int pagina)
-        {
-            int cantidadPorPagina = 5;
-            var query = db.Unidades
-                .Include(u => u.Consorcio)
-                .Where(u => u.Consorcio.Id == idConsorcio);
-            int totalRegistros = query.Count();
-            var unidades = query
-                .OrderBy(u => u.Nombre)
-                .Skip((pagina - 1) * cantidadPorPagina)
-                .Take(cantidadPorPagina)
-                .ToList();
-            return (unidades, totalRegistros);
-        }
-
         public List<Unidad> ObtenerUnidades()
         {
 
@@ -50,7 +31,7 @@ namespace PracticaParcial.Models.Unidades
             .ToList();
         }
 
-        public Unidad ObtenerUnidadPorId(int id)
+        public Unidad? ObtenerUnidadPorId(int id , Guid userId)
         {
             return db.Unidades
                      .Include(u => u.Consorcio)
@@ -63,13 +44,13 @@ namespace PracticaParcial.Models.Unidades
             db.SaveChanges();
         }
 
-        public void EliminarUnidad(int id)
+        public async Task EliminarUnidad(int id, Guid userId)
         {
-            var unidad = ObtenerUnidadPorId(id);
+            var unidad = ObtenerUnidadPorId(id, userId);
             if (unidad != null)
             {
                 db.Unidades.Remove(unidad);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
         }
 
@@ -100,10 +81,16 @@ namespace PracticaParcial.Models.Unidades
 
 
 
-        public async Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio)
+        public async Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio, int? idUnidadAExcluir = null)
         {
-            return await db.Unidades
-                .AnyAsync(u => u.Nombre.ToLower() == nombre.ToLower() && u.Consorcio.Id == idConsorcio);
+            var query = db.Unidades.Where(u => u.Nombre.ToLower() == nombre.ToLower() && u.Consorcio.Id == idConsorcio);
+
+            if (idUnidadAExcluir.HasValue)
+            {
+                query = query.Where(u => u.IdUnidad != idUnidadAExcluir.Value);
+            }
+
+            return await query.AnyAsync();
         }
 
 

@@ -1,10 +1,13 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Auth;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Expensas;
 using PracticaParcial.Models.Gastos;
+using PracticaParcial.Models.Notificaciones;
 using PracticaParcial.Models.Reserva;
 using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Users;
@@ -19,12 +22,11 @@ var builder = WebApplication.CreateBuilder(args);
 using var db = new UnidadDbContext();
 db.Database.Migrate();
 
-
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUnidadesLogica, UnidadesLogica>();
+builder.Services.AddScoped<INotificacionesLogica, NotificacionesLogica>();
 builder.Services.AddScoped<IReservaLogica, ReservaLogica>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IConsorcioService, ConsorcioService>();
@@ -65,6 +67,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+var supportedCultures = new[] { CultureInfo.InvariantCulture };
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(CultureInfo.InvariantCulture),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
+
 app.UseHttpsRedirection();
 app.UseRouting();
 
@@ -77,7 +88,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "EditarGasto",
-    pattern: "Gastos/Editar/{idConsorcio}/{idGasto}", 
+    pattern: "Gastos/Editar/{idConsorcio}/{idGasto}",
     defaults: new { controller = "Gastos", action = "Editar" }
 );
 

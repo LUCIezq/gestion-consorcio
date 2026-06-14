@@ -6,8 +6,9 @@ namespace PracticaParcial.Persistence.Consorcios
 {
     public interface IConsorcioRepository
     {
-        Task<Consorcio?> BuscarConsorcioPorDireccion(string calle, string ciudad, string provincia, string codigoPostal);
+        Task<Consorcio?> BuscarConsorcioPorDireccion(string calle, string ciudad, string provincia, string codigoPostal, Guid userId);
 
+        Task EditarConsorcio(Consorcio consorcio);
         Task<Consorcio> GuardarConsorcio(Consorcio consorcio);
 
         // Task<IEnumerable<ConsorcioCoordenadaViewModel>> ObtenerCoordenadas();

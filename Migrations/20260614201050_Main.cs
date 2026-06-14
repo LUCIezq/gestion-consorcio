@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PracticaParcial.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial_Tablas : Migration
+    public partial class Main : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,6 +97,29 @@ namespace PracticaParcial.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notificaciones",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FechaDeCreacion = table.Column<DateOnly>(type: "date", nullable: false),
+                    FechaDeEnvio = table.Column<DateOnly>(type: "date", nullable: true),
+                    consorcioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notificaciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notificaciones_Consorcios_consorcioId",
+                        column: x => x.consorcioId,
+                        principalTable: "Consorcios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Unidades",
                 columns: table => new
                 {
@@ -166,6 +189,11 @@ namespace PracticaParcial.Migrations
                 column: "IdTipoGasto");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Notificaciones_consorcioId",
+                table: "Notificaciones",
+                column: "consorcioId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ReservasSUM_UnidadId",
                 table: "ReservasSUM",
                 column: "UnidadId");
@@ -181,6 +209,9 @@ namespace PracticaParcial.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Gastos");
+
+            migrationBuilder.DropTable(
+                name: "Notificaciones");
 
             migrationBuilder.DropTable(
                 name: "ReservasSUM");
