@@ -17,7 +17,6 @@ namespace PracticaParcial.Models.Gastos.DTos
         [MaxLength(100, ErrorMessage = "El nombre no puede superar los 100 caracteres.")]
         public string Nombre { get; set; }
 
-
         [MaxLength(200, ErrorMessage = "La descripción no puede superar los 200 caracteres.")]
         public string? Descripcion { get; set; }
 
@@ -30,7 +29,7 @@ namespace PracticaParcial.Models.Gastos.DTos
 
         [Required(ErrorMessage = "El mes de la expensa es obligatorio.")]
         public int MesExpensa { get; set; }
-        
+
         public IFormFile? ArchivoComprobante { get; set; }
 
         public string? ArchivoComprobanteGuardado { get; set; }
@@ -75,7 +74,7 @@ namespace PracticaParcial.Models.Gastos.DTos
                 MesExpensa = gasto.MesExpensa,
                 ArchivoComprobanteGuardado = gasto.ArchivoComprobante,
                 Monto = gasto.Monto,
-                NombreTipoGasto = gasto.TipoGasto?.Nombre 
+                NombreTipoGasto = gasto.TipoGasto?.Nombre
             };
         }
     }

@@ -67,7 +67,6 @@ namespace PracticaParcial.Controllers
 
             if (archivo != null && archivo.Length > 0)
             {
-
                 gasto.ArchivoComprobanteGuardado = _guardarArchivoLogica.GuardarArchivo(archivo);
             }
 
@@ -86,9 +85,8 @@ namespace PracticaParcial.Controllers
                 "CrearOtroGasto" => RedirectToAction("Agregar", new { id = nuevoGasto.IdConsorcio }),
                 _ => RedirectToAction("VerGastos", new { id = nuevoGasto.IdConsorcio })
             };
-
         }
-        
+
         public async Task<IActionResult> VerGastos(int id)
         {
             Guid userId = ClaimsExtension.GetUserId(User);
@@ -100,6 +98,7 @@ namespace PracticaParcial.Controllers
             }
 
             ViewBag.IdConsorcio = id;
+            ViewBag.ConsorcioNombre = consorcio.Nombre;
 
             var gastos = _gastosService.ObtenerGastosPorConsorcio(id);
 

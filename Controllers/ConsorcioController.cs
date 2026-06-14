@@ -32,7 +32,7 @@ namespace PracticaParcial.Controllers
             {
                 return View(model);
             }
-    
+
             Guid userId = ClaimsExtension.GetUserId(User);
 
             GuardarConsorcioResponse response = await _consorcioService.GuardarConsorcio(model, userId);
@@ -143,6 +143,31 @@ namespace PracticaParcial.Controllers
                 return RedirectToAction("Index", "Consorcio");
             }
             return View(consorcio);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Editar(int id)
+        {
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
+
+            if (consorcio == null)
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
+            ViewBag.ConsorcioNombre = consorcio.Nombre;
+            CreateConsorcioViewModel model = new CreateConsorcioViewModel
+            {
+                Nombre = consorcio.Nombre,
+                Calle = consorcio.Calle,
+                Ciudad = consorcio.Ciudad,
+                CodigoPostal = consorcio.CodigoPostal,
+                DiaVencimientoExpensas = consorcio.DiaVencimientoExpensas,
+                Latitud = consorcio.Latitud,
+                Longitud = consorcio.Longitud,
+                Provincia = consorcio.Provincia
+            };
+            return View(model);
         }
     }
 }

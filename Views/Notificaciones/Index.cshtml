@@ -13,11 +13,7 @@
                 <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
             </li>
             <li class="breadcrumb-item text-primary">
-                <a asp-controller="Consorcio"
-                       asp-action="obtenerConsorcioPorId" asp-route-id="@ViewBag.ConsorcioId"
-                       class="text-decoration-none">
-                    Consorcio "@ViewBag.ConsorcioNombre"
-                </a>
+                @ViewBag.ConsorcioNombreb
             </li>
             <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Notificaciones</li>
         </ol>
@@ -62,9 +58,11 @@
                         @if (notificacion.FechaDeEnvio == null)
                         {
                             <a asp-action="Editar" asp-route-idNotificacion="@notificacion.Id" class="text-decoration-none"">@notificacion.Titulo</a>
-                        }else
+                        }
+                        else
                         {
-                            <a asp-action="VerDetalle" asp-route-id="@notificacion.Id" class="text-decoration-none">@notificacion.Titulo</a>
+                            <a asp-action=" VerDetalle" asp-route-id="@notificacion.Id"
+                               class="text-decoration-none">@notificacion.Titulo</a>
                         }
                     </td>
                     <td>@notificacion.Descripcion</td>
@@ -73,21 +71,24 @@
                         @if (notificacion.FechaDeEnvio == null)
                         {
                             @:No se envio Aun
-                        }else
+                        }
+                        else
                         {
-                        @notificacion.FechaDeEnvio
+                            @notificacion.FechaDeEnvio
                         }
                     </td>
                     <td>
                         @if (notificacion.FechaDeEnvio == null)
                         {
-                            <a asp-action="Eliminar" asp-route-id="@notificacion.Id"  class="btn btn-sm btn-outline-secondary">Eliminar</a>
-                            <a asp-action="Enviar" asp-route-id="@notificacion.Id"  class="btn btn-sm btn-outline-secondary">Enviar</a>
+                            <a asp-action="Eliminar" asp-route-id="@notificacion.Id"
+                               class="btn btn-sm btn-outline-secondary">Eliminar</a>
+                            <a asp-action="Enviar" asp-route-id="@notificacion.Id"
+                               class="btn btn-sm btn-outline-secondary">Enviar</a>
                         }
                     </td>
                 </tr>
             }
         }
-        
+
     </tbody>
 </table>

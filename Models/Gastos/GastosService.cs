@@ -18,11 +18,8 @@ namespace PracticaParcial.Models.Gastos
         List<TipoGasto> ObtenerTiposGasto();
     }
 
-
     public class GastosService : IGastosService
     {
-
-
         private readonly IGastoRepository _gastoRepository;
 
         public GastosService(IGastoRepository gastoRepository)
@@ -55,6 +52,7 @@ namespace PracticaParcial.Models.Gastos
 
         public void AgregarGasto(Gasto gasto)
         {
+
             _gastoRepository.Agregar(gasto);
         }
 
@@ -90,7 +88,6 @@ namespace PracticaParcial.Models.Gastos
         {
             return _gastoRepository.ObtenerTiposGasto();
         }
-
 
         private Gasto ObtenerGastoPorId(int id)
         {

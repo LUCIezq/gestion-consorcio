@@ -7,18 +7,15 @@
 
 @section Breadcrumb {
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
+        <ul class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
             <li class="breadcrumb-item">
                 <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
             </li>
             <li class="breadcrumb-item text-primary">
-                <a asp-action="Detalle" asp-controller="Consorcio" asp-route-id="@ViewBag.ConsorcioId"
-                   class="text-decoration-none">
-                    @ViewBag.ConsorcioNombre
-                </a>
+                @ViewBag.ConsorcioNombre
             </li>
             <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Unidades</li>
-        </ol>
+        </ul>
     </nav>
 }
 
@@ -32,7 +29,6 @@
 <table class="table table-bordered table-striped">
     <thead class="table-secondary">
         <tr>
-            <th>Consorcio</th>
             <th>Unidad</th>
             <th>Apellido</th>
             <th>Nombre</th>
@@ -51,13 +47,6 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td class="fw-bold text-primary">
-                    <a asp-action="Detalle" asp-controller="Consorcio" asp-route-id="@item.IdConsorcio"
-                       class="text-decoration-none">
-                        @item.NombreConsorcio
-                    </a>
-                </td>
-
                 <td>@item.Nombre</td>
 
                 <td>@item.ApellidoPropietario</td>
