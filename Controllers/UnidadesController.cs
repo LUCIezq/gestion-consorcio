@@ -24,17 +24,21 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(int id) {
+        public ActionResult Index(int id, int pagina = 1)
+        {
             int consorcioId = id;
-            var unidadesBd = unidadLogica.ObtenerUnidadesPorConsorcio(consorcioId);
+            var resultado = unidadLogica.ObtenerUnidadesPorConsorcio(consorcioId, pagina);
 
-       
-            var viewModels = unidadesBd 
+            var viewModels = resultado.Unidades
                 .Select(UnidadViewModel.FromEntity)
                 .ToList();
 
-           
+            int cantidadPorPagina = 5;
+            int totalPaginas = (int)Math.Ceiling((double)resultado.TotalRegistros / cantidadPorPagina);
+
             ViewBag.ConsorcioId = consorcioId;
+            ViewBag.PaginaActual = pagina;
+            ViewBag.TotalPaginas = totalPaginas;
 
             return View(viewModels);
         }
@@ -55,11 +59,21 @@ namespace PracticaParcial.Controllers
             return View(viewModel);
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> Agregar(UnidadViewModel unidadVM, string accionBoton)
         {
             if (!ModelState.IsValid)
                 return View(unidadVM);
+
+            bool yaExiste = await unidadLogica.ExisteUnidadEnConsorcio(unidadVM.Nombre, unidadVM.IdConsorcio);
+
+            if (yaExiste)
+            {
+                ModelState.AddModelError("Nombre", $"La unidad '{unidadVM.Nombre}' ya está registrada en este consorcio.");
+                return View(unidadVM);
+            }
 
             var nuevaUnidad = unidadVM.ToEntity();
             nuevaUnidad.FechaCreacion = DateOnly.FromDateTime(DateTime.Now);

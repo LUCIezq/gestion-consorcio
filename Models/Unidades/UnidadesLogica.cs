@@ -8,8 +8,12 @@ namespace PracticaParcial.Models.Unidades
         void AgregarUnidad(Unidad unidad);
         void EliminarUnidad(int id);
         List<Unidad> ObtenerUnidades();
-        List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio);
+        (List<Unidad> Unidades, int TotalRegistros) ObtenerUnidadesPorConsorcio(int idConsorcio, int pagina);
         public Unidad? ObtenerUnidadPorId(int id);
+
+
+
+        Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio);
     }
 
     public class UnidadesLogica : IUnidadesLogica
@@ -21,18 +25,35 @@ namespace PracticaParcial.Models.Unidades
             this.db = db;
         }
 
+
+        public (List<Unidad> Unidades, int TotalRegistros) ObtenerUnidades(int idConsorcio, int pagina)
+        {
+            int cantidadPorPagina = 5;
+            var query = db.Unidades
+                .Include(u => u.Consorcio)
+                .Where(u => u.Consorcio.Id == idConsorcio);
+            int totalRegistros = query.Count();
+            var unidades = query
+                .OrderBy(u => u.Nombre)
+                .Skip((pagina - 1) * cantidadPorPagina)
+                .Take(cantidadPorPagina)
+                .ToList();
+            return (unidades, totalRegistros);
+        }
+
         public List<Unidad> ObtenerUnidades()
         {
+
             return db.Unidades
-             .Include(u => u.Consorcio)
-             .OrderBy(u => u.Nombre) 
-             .ToList();
+            .Include(u => u.Consorcio)
+            .OrderBy(u => u.Nombre)
+            .ToList();
         }
 
         public Unidad ObtenerUnidadPorId(int id)
         {
             return db.Unidades
-                     .Include(u => u.Consorcio) 
+                     .Include(u => u.Consorcio)
                      .FirstOrDefault(u => u.IdUnidad == id);
         }
 
@@ -58,16 +79,35 @@ namespace PracticaParcial.Models.Unidades
             db.SaveChanges();
         }
 
-        public List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio)
+        public (List<Unidad> Unidades, int TotalRegistros) ObtenerUnidadesPorConsorcio(int idConsorcio, int pagina)
         {
-            return db.Unidades
-                     .Include(u => u.Consorcio)
-                     .Where(u => u.Consorcio.Id == idConsorcio) 
-                     .OrderBy(u => u.Nombre)
-                     .ToList();
-        }
-    }
+            int cantidadPorPagina = 5;
 
+            var query = db.Unidades
+                .Include(u => u.Consorcio)
+                .Where(u => u.Consorcio.Id == idConsorcio);
+
+            int totalRegistros = query.Count();
+
+            var unidades = query
+                .OrderBy(u => u.Nombre)
+                .Skip((pagina - 1) * cantidadPorPagina)
+                .Take(cantidadPorPagina)
+                .ToList();
+
+            return (unidades, totalRegistros);
+        }
+
+
+
+        public async Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio)
+        {
+            return await db.Unidades
+                .AnyAsync(u => u.Nombre.ToLower() == nombre.ToLower() && u.Consorcio.Id == idConsorcio);
+        }
+
+
+    }
 
 }
 
