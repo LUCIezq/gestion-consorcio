@@ -1,8 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MailKit.Security;
+using Microsoft.EntityFrameworkCore;
+using MimeKit;
 using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Notificaciones.DTO;
 using PracticaParcial.Persistence;
 using System.Diagnostics;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+
 
 namespace PracticaParcial.Models.Notificaciones
 {
@@ -11,7 +18,7 @@ namespace PracticaParcial.Models.Notificaciones
         List<Notificacion> ObtenerNotificaciones(int IdConsorcio);
         void AgregarNotificacion(Notificacion nueva);
 
-        void EnviarNotificacion(Notificacion notificacion);
+        Task EnviarNotificacion(Notificacion notificacion);
 
         Notificacion ObtenerNotificacionPorId(int idNotificacion);
         void EliminarNotificacion(Notificacion notificacion);
@@ -33,7 +40,7 @@ namespace PracticaParcial.Models.Notificaciones
 
             List<Notificacion> notificaciones = db.Notificaciones.
                                         Where(n => n.consorcio.Id == IdConsorcio)
-                                        .ToList(); ;
+                                        .ToList(); 
 
             return notificaciones;
         }
@@ -44,9 +51,18 @@ namespace PracticaParcial.Models.Notificaciones
             db.SaveChanges();
         }
 
-        public void EnviarNotificacion(Notificacion notificacion)
+        public async Task EnviarNotificacion(Notificacion notificacion)
         {
-            //TODO: Aca agregar el ENVIO de mail
+            List<string> mailPropietarios = db.Unidades
+                .Where(u => u.Consorcio.Id == notificacion.consorcio.Id)
+                .Select(u=>u.EmailPropietario)  
+                .ToList();
+
+            foreach (string mailPropietario in mailPropietarios)
+            {            
+                await EnviarNotificacionPorSMTP(mailPropietario, notificacion.Titulo, notificacion.Descripcion);
+            }
+
 
             notificacion.FechaDeEnvio = DateOnly.FromDateTime(DateTime.Now);
             db.Notificaciones.Update(notificacion);
@@ -73,6 +89,52 @@ namespace PracticaParcial.Models.Notificaciones
             notificacion.Descripcion = notiModel.Descripcion;
             db.Notificaciones.Update(notificacion);
             db.SaveChanges();
+        }
+        public async Task EnviarNotificacionPorSMTP(string destino, string titulo, string descripcion)
+        {
+            var email = new MimeMessage();
+            //TODO agregar un MAIL real para que pueda ejecutarse la funcion
+            string mailDelTp = "TpPW3@gmail.com";
+            string claveDeAplicacion = "";
+
+            email.From.Add(
+                new MailboxAddress(
+                    "Mi Aplicación",
+                    mailDelTp));
+
+            email.To.Add(
+                MailboxAddress.Parse(destino));
+
+            email.Subject = titulo;
+
+            email.Body = new TextPart("plain")
+            {
+                Text = descripcion
+            };
+
+            try
+            {
+                using var smtp = new SmtpClient();
+
+                smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                await smtp.ConnectAsync(
+                    "smtp.gmail.com",
+                    587,
+                    SecureSocketOptions.StartTls);
+
+                await smtp.AuthenticateAsync(
+                    mailDelTp,
+                    claveDeAplicacion);
+
+                await smtp.SendAsync(email);
+
+                await smtp.DisconnectAsync(true);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

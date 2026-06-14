@@ -78,7 +78,7 @@ namespace PracticaParcial.Controllers
 
             if (Request.Form["accion"] == "Enviar")
             {
-                _notificacionesLogica.EnviarNotificacion(nueva);
+                await _notificacionesLogica.EnviarNotificacion(nueva);
             }
 
 
@@ -98,14 +98,14 @@ namespace PracticaParcial.Controllers
             return RedirectToAction("Index", new { id = IdConsorcio }); ;
         }
 
-        public IActionResult Enviar(int id)
+        public async Task<IActionResult> Enviar(int id)
         {
             Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(id);
             int IdConsorcio = noti.consorcio.Id;
 
             if (noti.FechaDeEnvio == null)
             {
-                _notificacionesLogica.EnviarNotificacion(noti);
+               await _notificacionesLogica.EnviarNotificacion(noti);
             }
 
             return RedirectToAction("Index", new { id = IdConsorcio }); ;
