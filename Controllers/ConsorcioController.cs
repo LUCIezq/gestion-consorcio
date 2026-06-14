@@ -5,6 +5,8 @@ using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Consorcios.DTOs;
 using PracticaParcial.shared;
 
+
+//Deberiamos simplificar la logica de Guardar un consorcio. Actualmente tenemos 3 acciones distintas para guardar un consorcio, lo que genera codigo repetido. Podriamos unificar esa logica en una sola accion y luego redirigir a la vista correspondiente segun la opcion elegida por el usuario (crear otro consorcio, crear unidad, etc). Esto haria el codigo mas limpio y facil de mantener.
 namespace PracticaParcial.Controllers
 {
     [Authorize]
@@ -149,25 +151,37 @@ namespace PracticaParcial.Controllers
         public async Task<IActionResult> Editar(int id)
         {
             Guid userId = ClaimsExtension.GetUserId(User);
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
+            Consorcio? consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
 
             if (consorcio == null)
             {
                 return RedirectToAction("Index", "Consorcio");
             }
-            ViewBag.ConsorcioNombre = consorcio.Nombre;
-            CreateConsorcioViewModel model = new CreateConsorcioViewModel
-            {
-                Nombre = consorcio.Nombre,
-                Calle = consorcio.Calle,
-                Ciudad = consorcio.Ciudad,
-                CodigoPostal = consorcio.CodigoPostal,
-                DiaVencimientoExpensas = consorcio.DiaVencimientoExpensas,
-                Latitud = consorcio.Latitud,
-                Longitud = consorcio.Longitud,
-                Provincia = consorcio.Provincia
-            };
+
+            CreateConsorcioViewModel model = CreateConsorcioViewModel.FromEntity(consorcio);
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Editar(int id, CreateConsorcioViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            Guid userId = ClaimsExtension.GetUserId(User);
+            EditarConsorcioResponse response = await _consorcioService.EditarConsorcio(id, model, userId);
+
+            if (!response.Success)
+            {
+                ModelState.AddModelError(string.Empty, response.Message);
+                return View(model);
+            }
+
+            TempData["SuccessMessage"] = response.Message;
+            return RedirectToAction("Index", "Consorcio");
         }
     }
 }
