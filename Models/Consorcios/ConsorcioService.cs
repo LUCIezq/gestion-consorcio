@@ -98,5 +98,35 @@ namespace PracticaParcial.Models.Consorcios
         {
             return await _consorcioRepository.ObtenerConsorcios(userId);
         }
+
+        public async Task<EditarConsorcioResponse> EditarConsorcio(int id, CreateConsorcioViewModel model, Guid userId)
+        {
+            Consorcio? buscado = await _consorcioRepository.BuscarConsorcioPorId(id, userId);
+
+            if (buscado == null)
+            {
+                return new EditarConsorcioResponse
+                {
+                    Success = false,
+                    Message = "No se encontró el consorcio a editar."
+                };
+            }
+
+            buscado.Nombre = model.Nombre;
+            buscado.Calle = model.Calle;
+            buscado.Ciudad = model.Ciudad;
+            buscado.Provincia = model.Provincia;
+            buscado.CodigoPostal = model.CodigoPostal;
+            buscado.DiaVencimientoExpensas = model.DiaVencimientoExpensas;
+            buscado.Latitud = model.Latitud;
+            buscado.Longitud = model.Longitud;
+
+            await _consorcioRepository.EditarConsorcio(buscado);
+            return new EditarConsorcioResponse
+            {
+                Success = true,
+                Message = "Consorcio editado exitosamente."
+            };
+        }
     }
 }

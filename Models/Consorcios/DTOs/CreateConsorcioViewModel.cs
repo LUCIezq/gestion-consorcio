@@ -38,5 +38,20 @@ namespace PracticaParcial.Models.Consorcios.DTOs
         [Required(ErrorMessage = "El campo Longitud es obligatorio.")]
         [Range(-180.0, 180.0, ErrorMessage = "La longitud debe estar entre -180 y 180 grados.")]
         public required double Longitud { get; set; }
+
+        public static CreateConsorcioViewModel FromEntity(Consorcio consorcio)
+        {
+            return new CreateConsorcioViewModel
+            {
+                Nombre = consorcio.Nombre,
+                Calle = consorcio.Calle,
+                Provincia = consorcio.Provincia,
+                Ciudad = consorcio.Ciudad,
+                CodigoPostal = consorcio.CodigoPostal,
+                DiaVencimientoExpensas = consorcio.DiaVencimientoExpensas,
+                Latitud = consorcio.Latitud,
+                Longitud = consorcio.Longitud
+            };
+        }
     }
 }

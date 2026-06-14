@@ -7,7 +7,7 @@ public class GastoRepository : IGastoRepository
 {
     private readonly UnidadDbContext _db;
 
-    public GastoRepository(UnidadDbContext db   )
+    public GastoRepository(UnidadDbContext db)
     {
         _db = db;
     }
@@ -41,9 +41,9 @@ public class GastoRepository : IGastoRepository
 
     public Gasto ObtenerPorId(int id)
     {
-       return _db.Gastos
-                      .Include(g => g.TipoGasto)
-                      .FirstOrDefault(g => g.Id == id);
+        return _db.Gastos
+                       .Include(g => g.TipoGasto)
+                       .FirstOrDefault(g => g.Id == id);
     }
 
     public List<TipoGasto> ObtenerTiposGasto()

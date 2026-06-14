@@ -23,6 +23,12 @@ namespace PracticaParcial.Persistence.Consorcios
                 c.UserId == userId);
         }
 
+        public async Task EditarConsorcio(Consorcio consorcio)
+        {
+            _dbContext.Consorcios.Update(consorcio);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<Consorcio?> BuscarConsorcioPorId(int id, Guid userId)
         {
             return await _dbContext.Consorcios.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
