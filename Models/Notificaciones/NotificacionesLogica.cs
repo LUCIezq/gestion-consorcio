@@ -59,7 +59,7 @@ namespace PracticaParcial.Models.Notificaciones
                 .ToList();
 
             foreach (string mailPropietario in mailPropietarios)
-            {            
+            {
                 await EnviarNotificacionPorSMTP(mailPropietario, notificacion.Titulo, notificacion.Descripcion);
             }
 
@@ -93,9 +93,8 @@ namespace PracticaParcial.Models.Notificaciones
         public async Task EnviarNotificacionPorSMTP(string destino, string titulo, string descripcion)
         {
             var email = new MimeMessage();
-            //TODO agregar un MAIL real para que pueda ejecutarse la funcion
-            string mailDelTp = "TpPW3@gmail.com";
-            string claveDeAplicacion = "";
+            string mailDelTp = "tpconsorciospw3@gmail.com";
+            string claveDeAplicacion = "twsm qwyn zzlc elwf";
 
             email.From.Add(
                 new MailboxAddress(
