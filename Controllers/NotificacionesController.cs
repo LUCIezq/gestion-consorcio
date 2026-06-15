@@ -132,9 +132,9 @@ namespace PracticaParcial.Controllers
             return RedirectToAction("Index", new { id = notiModel.IdConsorcio }); ;
         }
 
-        public IActionResult VerDetalle(int id)
+        public IActionResult VerDetalle(int Id)
         {
-            Notificacion noti= _notificacionesLogica.ObtenerNotificacionPorId(id);
+            Notificacion noti= _notificacionesLogica.ObtenerNotificacionPorId(Id);
 
             return View(noti);
         }
