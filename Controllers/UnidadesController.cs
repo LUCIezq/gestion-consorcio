@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Unidades;
 using PracticaParcial.Models.Unidades.DTOs;
+using PracticaParcial.Models.Users;
 using PracticaParcial.Persistence.Consorcios;
 using PracticaParcial.shared;
 using System.Runtime.CompilerServices;
@@ -24,35 +25,36 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index(int id)
+
+        public async Task<IActionResult> Index(int id, int pagina = 1)
         {
+            int consorcioId = id;
             Guid userId = ClaimsExtension.GetUserId(User);
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
 
-            if (consorcio == null)
-            {
-                //TempData["ErrorMessage"] = "No se encontró el consorcio.";
-                return RedirectToAction("Index", "Consorcio");
-            }
+            var resultado = _unidadLogica.ObtenerUnidadesPorConsorcio(consorcioId, pagina);
 
-            var unidadesBd = _unidadLogica.ObtenerUnidadesPorConsorcio(id);
-
-            var viewModels = unidadesBd
+            var viewModels = resultado.Unidades
                 .Select(UnidadViewModel.FromEntity)
                 .ToList();
 
-            ViewBag.ConsorcioId = id;
-            ViewBag.ConsorcioNombre = consorcio?.Nombre ?? "Consorcio Desconocido";
+            int cantidadPorPagina = 5;
+            int totalPaginas = (int)Math.Ceiling((double)resultado.TotalRegistros / cantidadPorPagina);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
+
+            ViewBag.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
+            ViewBag.ConsorcioId = consorcioId;
+            ViewBag.PaginaActual = pagina;
+            ViewBag.TotalPaginas = totalPaginas;
 
             return View(viewModels);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Agregar(int id)
+        public async Task<IActionResult> Agregar(int ConsorcioId)
         {
-            int consorcioId = id;
+            int consorcioId = ConsorcioId;
             Guid userId = ClaimsExtension.GetUserId(User);
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(ConsorcioId, userId);
 
             if (consorcio == null)
             {
@@ -62,18 +64,28 @@ namespace PracticaParcial.Controllers
 
             var viewModel = new UnidadViewModel
             {
-                IdConsorcio = id,
+                IdConsorcio = ConsorcioId,
                 NombreConsorcio = consorcio != null ? consorcio.Nombre : "Consorcio Desconocido"
             };
 
             return View(viewModel);
         }
 
+
+
         [HttpPost]
         public async Task<IActionResult> Agregar(UnidadViewModel unidadVM, string accionBoton)
         {
             if (!ModelState.IsValid)
                 return View(unidadVM);
+
+            bool yaExiste = await _unidadLogica.ExisteUnidadEnConsorcio(unidadVM.Nombre, unidadVM.IdConsorcio);
+
+            if (yaExiste)
+            {
+                ModelState.AddModelError("Nombre", $"La unidad '{unidadVM.Nombre}' ya está registrada en este consorcio.");
+                return View(unidadVM);
+            }
 
             var nuevaUnidad = unidadVM.ToEntity();
             nuevaUnidad.FechaCreacion = DateOnly.FromDateTime(DateTime.Now);
@@ -111,11 +123,13 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpPost, ActionName("Eliminar")]
-        public async Task<IActionResult> EliminarConfirmado(int id)
+        public async Task<IActionResult> EliminarConfirmado(int id, int idConsorcio)
         {
             Guid userId = ClaimsExtension.GetUserId(User);
+
             await _unidadLogica.EliminarUnidad(id, userId);
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", new { id = idConsorcio });
         }
 
         [HttpGet]
@@ -137,21 +151,34 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(UnidadViewModel unidadVM)
+        public async Task<IActionResult> Editar(UnidadViewModel unidadVM)
         {
             if (!ModelState.IsValid)
                 return View(unidadVM);
+
+            bool yaExiste = await _unidadLogica.ExisteUnidadEnConsorcio(unidadVM.Nombre, unidadVM.IdConsorcio, unidadVM.IdUnidad);
+
+            if (yaExiste)
+            {
+                ModelState.AddModelError("Nombre", $"La unidad '{unidadVM.Nombre}' ya está registrada en este consorcio.");
+                return View(unidadVM); 
+            }
+
             Guid userId = ClaimsExtension.GetUserId(User);
             var unidadExistente = _unidadLogica.ObtenerUnidadPorId(unidadVM.IdUnidad, userId);
+
             if (unidadExistente == null)
                 return NotFound();
+
             unidadExistente.Nombre = unidadVM.Nombre;
             unidadExistente.NombrePropietario = unidadVM.NombrePropietario;
             unidadExistente.ApellidoPropietario = unidadVM.ApellidoPropietario;
             unidadExistente.EmailPropietario = unidadVM.EmailPropietario;
             unidadExistente.Superficie = unidadVM.Superficie.Value;
+
             _unidadLogica.ActualizarUnidad(unidadExistente);
-            return RedirectToAction("Index");
+
+            return RedirectToAction("Index", new { id = unidadVM.IdConsorcio });
         }
     }
 }

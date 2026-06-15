@@ -8,8 +8,9 @@ namespace PracticaParcial.Models.Unidades
         void AgregarUnidad(Unidad unidad);
         Task EliminarUnidad(int id, Guid userId);
         List<Unidad> ObtenerUnidades();
-        List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio);
-        public Unidad? ObtenerUnidadPorId(int id, Guid userId);
+        (List<Unidad> Unidades, int TotalRegistros) ObtenerUnidadesPorConsorcio(int idConsorcio, int pagina);
+        public Unidad? ObtenerUnidadPorId(int id , Guid userId);
+        Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio, int? idUnidadAExcluir = null);
     }
 
     public class UnidadesLogica : IUnidadesLogica
@@ -23,15 +24,18 @@ namespace PracticaParcial.Models.Unidades
 
         public List<Unidad> ObtenerUnidades()
         {
+
             return db.Unidades
-             .Include(u => u.Consorcio)
-             .OrderBy(u => u.Nombre)
-             .ToList();
+            .Include(u => u.Consorcio)
+            .OrderBy(u => u.Nombre)
+            .ToList();
         }
 
-        public Unidad? ObtenerUnidadPorId(int id, Guid userId)
+        public Unidad? ObtenerUnidadPorId(int id , Guid userId)
         {
-            return db.Unidades.Include(u => u.Consorcio).FirstOrDefault(u => u.IdUnidad == id && u.Consorcio.UserId == userId);
+            return db.Unidades
+                     .Include(u => u.Consorcio)
+                     .FirstOrDefault(u => u.IdUnidad == id);
         }
 
         public void AgregarUnidad(Unidad unidad)
@@ -56,16 +60,41 @@ namespace PracticaParcial.Models.Unidades
             db.SaveChanges();
         }
 
-        public List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio)
+        public (List<Unidad> Unidades, int TotalRegistros) ObtenerUnidadesPorConsorcio(int idConsorcio, int pagina)
         {
-            return db.Unidades
-                     .Include(u => u.Consorcio)
-                     .Where(u => u.Consorcio.Id == idConsorcio)
-                     .OrderBy(u => u.Nombre)
-                     .ToList();
-        }
-    }
+            int cantidadPorPagina = 5;
 
+            var query = db.Unidades
+                .Include(u => u.Consorcio)
+                .Where(u => u.Consorcio.Id == idConsorcio);
+
+            int totalRegistros = query.Count();
+
+            var unidades = query
+                .OrderBy(u => u.Nombre)
+                .Skip((pagina - 1) * cantidadPorPagina)
+                .Take(cantidadPorPagina)
+                .ToList();
+
+            return (unidades, totalRegistros);
+        }
+
+
+
+        public async Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio, int? idUnidadAExcluir = null)
+        {
+            var query = db.Unidades.Where(u => u.Nombre.ToLower() == nombre.ToLower() && u.Consorcio.Id == idConsorcio);
+
+            if (idUnidadAExcluir.HasValue)
+            {
+                query = query.Where(u => u.IdUnidad != idUnidadAExcluir.Value);
+            }
+
+            return await query.AnyAsync();
+        }
+
+
+    }
 
 }
 
