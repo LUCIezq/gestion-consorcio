@@ -13,7 +13,7 @@
                 <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
             </li>
             <li class="breadcrumb-item text-primary">
-                @ViewBag.ConsorcioNombreb
+                @ViewBag.ConsorcioNombre
             </li>
             <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Notificaciones</li>
         </ol>
@@ -57,11 +57,11 @@
                     <td class="fw-bold text-primary">
                         @if (notificacion.FechaDeEnvio == null)
                         {
-                            <a asp-action="Editar" asp-route-idNotificacion="@notificacion.Id" class="text-decoration-none"">@notificacion.Titulo</a>
+                            <a asp-action="Editar" asp-route-idNotificacion="@notificacion.Id" class="text-decoration-none">@notificacion.Titulo</a>
                         }
                         else
                         {
-                            <a asp-action=" VerDetalle" asp-route-id="@notificacion.Id"
+                            <a asp-action="VerDetalle" asp-route-id="@notificacion.Id"
                                class="text-decoration-none">@notificacion.Titulo</a>
                         }
                     </td>
