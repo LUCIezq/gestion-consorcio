@@ -64,20 +64,38 @@
                             <th class="border-0">Expensas por Unidad</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach (var expensa in Model.Expensas)
-                        {
-                            <tr>
-                                <td class="text-muted">@expensa.Anio</td>
-                                <td class="text-muted">@expensa.Mes</td>
-                                <td class="text-muted">@expensa.TotalGastos</td>
-                                <td class="text-muted">@expensa.MontoPorUnidad</td>
-                            </tr>
-                        }
+                    <tbody id="expensasBody">
                     </tbody>
                 </table>
             </div>
         </div>
 
     </main>
+    @section Scripts
+    {
+        <script>
+
+                const consorcioId = @Model.ConsorcioId;
+
+                fetch(`/api/ExpensasApi/${consorcioId}`)
+                    .then(response => response.json())
+                    .then(expensas => {
+
+                        const tbody =
+                            document.getElementById("expensasBody");
+
+                        expensas.forEach(expensa => {
+
+                            tbody.innerHTML += `
+                                <tr>
+                                    <td>${expensa.anio}</td>
+                                    <td>${expensa.mes}</td>
+                                    <td>$${expensa.totalGastos}</td>
+                                    <td>$${expensa.montoPorUnidad}</td>
+                                </tr>
+                            `;
+                        });
+                    });
+        </script>
+    }
 </div>
