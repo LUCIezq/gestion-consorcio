@@ -11,6 +11,7 @@ namespace PracticaParcial.Models.Unidades
         (List<Unidad> Unidades, int TotalRegistros) ObtenerUnidadesPorConsorcio(int idConsorcio, int pagina);
         public Unidad? ObtenerUnidadPorId(int id , Guid userId);
         Task<bool> ExisteUnidadEnConsorcio(string nombre, int idConsorcio, int? idUnidadAExcluir = null);
+        List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio);
     }
 
     public class UnidadesLogica : IUnidadesLogica
@@ -30,6 +31,14 @@ namespace PracticaParcial.Models.Unidades
             .OrderBy(u => u.Nombre)
             .ToList();
         }
+        public List<Unidad> ObtenerUnidadesPorConsorcio(int idConsorcio)
+        {
+            return db.Unidades
+                .Include(u => u.Consorcio)
+                .Where(u => u.Consorcio.Id == idConsorcio)
+                .OrderBy(u => u.Nombre)
+                .ToList();
+        }
 
         public Unidad? ObtenerUnidadPorId(int id , Guid userId)
         {
@@ -37,6 +46,7 @@ namespace PracticaParcial.Models.Unidades
                      .Include(u => u.Consorcio)
                      .FirstOrDefault(u => u.IdUnidad == id);
         }
+
 
         public void AgregarUnidad(Unidad unidad)
         {

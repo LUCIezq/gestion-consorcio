@@ -1,6 +1,7 @@
-﻿using PracticaParcial.Models.Unidades;
+﻿using Microsoft.AspNetCore.Mvc;
+using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Reserva;
-using Microsoft.AspNetCore.Mvc;
+using PracticaParcial.Models.Unidades;
 
 namespace PracticaParcial.Controllers
 {
@@ -13,33 +14,36 @@ namespace PracticaParcial.Controllers
             _reservaLogica = reservaLogica;
             _unidadesLogica = unidadesLogica;
         }
-        public IActionResult Index()
+        public IActionResult Index(int consorcioId)
         {
-            return View(_reservaLogica.ObtenerReservas());
+            ViewBag.ConsorcioId = consorcioId;
+            return View(_reservaLogica.ObtenerReservas(consorcioId));
         }
 
-        public IActionResult Agregar()
+        public IActionResult Agregar(int consorcioId)
         {
-            ViewBag.Unidades = _unidadesLogica.ObtenerUnidades();
+            ViewBag.Unidades = _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
+            ViewBag.ConsorcioId = consorcioId;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Agregar(ReservaSUM reserva)
+        public IActionResult Agregar(ReservaSUM reserva, int consorcioId)
         {
             if (ModelState.IsValid)
             {
                 _reservaLogica.AgregarReserva(reserva);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { consorcioId = consorcioId });
             }
-            ViewBag.Unidades = _unidadesLogica.ObtenerUnidades();
+            ViewBag.Unidades = _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
+            ViewBag.ConsorcioId = consorcioId;
             return View(reserva);
         }
 
-        public IActionResult Eliminar(int id)
+        public IActionResult Eliminar(int id, int consorcioId)
         {
             _reservaLogica.EliminarReserva(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { consorcioId = consorcioId });
         }
     }
 }

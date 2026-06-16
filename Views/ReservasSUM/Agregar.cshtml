@@ -3,7 +3,7 @@
     Layout = "_UsuarioLayout";
     ViewData["Title"] = "Agregar Reserva de SUM";
 }
-<form asp-action="Agregar" method="post">
+<form asp-action="Agregar" method="post" asp-route-consorcioId="@ViewBag.ConsorcioId">
     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
     <label asp-for="Fecha">Fecha</label>
     <input asp-for="Fecha" type="date" class="form-control" />

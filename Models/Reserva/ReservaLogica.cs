@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 namespace PracticaParcial.Models.Reserva;
 
+using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Persistence;
 public interface IReservaLogica
 {
-    List<ReservaSUM> ObtenerReservas();
+    List<ReservaSUM> ObtenerReservas(int consorcioId);
     void AgregarReserva(ReservaSUM reserva);
     void EliminarReserva(int id);
     ReservaSUM ObtenerPorId(int id);
@@ -18,12 +19,13 @@ public class ReservaLogica : IReservaLogica
     {
         this.db = db;
     }
-    public List<ReservaSUM> ObtenerReservas()
+    public List<ReservaSUM> ObtenerReservas(int consorcioId)
     {
         return db.ReservasSUM
-            .Include(r => r.Unidad)
-            .OrderBy(r => r.Fecha)
-            .ToList();
+        .Include(r => r.Unidad)
+        .Where(r => r.Unidad.Consorcio.Id == consorcioId)
+        .OrderBy(r => r.Fecha)
+        .ToList();
     }
     public void AgregarReserva(ReservaSUM reserva)
     {
