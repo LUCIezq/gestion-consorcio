@@ -100,9 +100,7 @@ namespace PracticaParcial.Controllers
             if (accionBoton == "guardar_nuevo")
             {
                 TempData["MensajeExito"] = $"Unidad {unidadVM.Nombre} creada con éxito";
-                ModelState.Clear();
-
-                return View(new UnidadViewModel { IdConsorcio = unidadVM.IdConsorcio });
+                return RedirectToAction("Agregar", new { consorcioId = unidadVM.IdConsorcio });
             }
 
             return RedirectToAction("Index", new { id = unidadVM.IdConsorcio });
