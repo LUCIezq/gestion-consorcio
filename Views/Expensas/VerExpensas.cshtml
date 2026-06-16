@@ -4,15 +4,22 @@
     Layout = "_UsuarioLayout";
 }
 @section Breadcrumb {
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent p-0 m-0" style="font-size: 1.1rem;">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb mb-0" style="font-size: 12px; font-weight: 500;">
             <li class="breadcrumb-item">
-                <a asp-controller="Consorcio" asp-action="Index" class="text-decoration-none">Mis Consorcios</a>
+                <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio">
+                    Mis Consorcios
+                </a>
             </li>
-            <li class="breadcrumb-item text-primary">
-                @Model.NombreConsorcio
+            <li class="breadcrumb-item">
+                <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio"
+                   asp-route-id="@Model.ConsorcioId">
+                    @Model.NombreConsorcio
+                </a>
             </li>
-            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page">Expensas</li>
+            <li class="breadcrumb-item active text-primary fw-bold" aria-current="page">
+                Expensas
+            </li>
         </ol>
     </nav>
 }
@@ -87,13 +94,13 @@
                         expensas.forEach(expensa => {
 
                             tbody.innerHTML += `
-                                <tr>
-                                    <td>${expensa.anio}</td>
-                                    <td>${expensa.mes}</td>
-                                    <td>$${expensa.totalGastos}</td>
-                                    <td>$${expensa.montoPorUnidad}</td>
-                                </tr>
-                            `;
+                                                                                        <tr>
+                                                                                            <td>${expensa.anio}</td>
+                                                                                            <td>${expensa.mes}</td>
+                                                                                            <td>$${expensa.totalGastos}</td>
+                                                                                            <td>$${expensa.montoPorUnidad}</td>
+                                                                                        </tr>
+                                                                                    `;
                         });
                     });
         </script>

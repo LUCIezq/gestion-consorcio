@@ -4,6 +4,31 @@
     ViewData["Title"] = "Agregar Gasto";
 }
 
+@section Breadcrumb {
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ul class="breadcrumb mb-0" style="font-size: 12px; font-weight: 500;">
+            <li class="breadcrumb-item">
+                <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio">
+                    Mis Consorcios
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio"
+                   asp-route-id="@ViewBag.ConsorcioId">
+                    @ViewBag.nombreConsorcio
+                </a>
+            </li>
+            <li class="breadcrumb-item active text-primary" aria-current="page">
+                Gastos
+            </li>
+            <li class="breadcrumb-item active text-primary fw-bold" aria-current="page">
+                Agregar
+            </li>
+        </ul>
+    </nav>
+}
+
+
 <div class="main-wrapper">
     <main class="canvas-area">
         <div class="mb-4">

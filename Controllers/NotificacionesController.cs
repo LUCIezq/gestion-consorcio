@@ -105,7 +105,7 @@ namespace PracticaParcial.Controllers
 
             if (noti.FechaDeEnvio == null)
             {
-               await _notificacionesLogica.EnviarNotificacion(noti);
+                await _notificacionesLogica.EnviarNotificacion(noti);
             }
 
             return RedirectToAction("Index", new { id = IdConsorcio }); ;
@@ -127,14 +127,14 @@ namespace PracticaParcial.Controllers
         {
             Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(notiModel.IdNotificacion);
 
-            _notificacionesLogica.ActualizarNotificacion(noti,notiModel);
+            _notificacionesLogica.ActualizarNotificacion(noti, notiModel);
 
             return RedirectToAction("Index", new { id = notiModel.IdConsorcio }); ;
         }
 
         public IActionResult VerDetalle(int Id)
         {
-            Notificacion noti= _notificacionesLogica.ObtenerNotificacionPorId(Id);
+            Notificacion noti = _notificacionesLogica.ObtenerNotificacionPorId(Id);
 
             return View(noti);
         }

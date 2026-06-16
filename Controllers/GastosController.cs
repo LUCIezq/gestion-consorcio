@@ -40,6 +40,7 @@ namespace PracticaParcial.Controllers
             ViewBag.Consorcio = consorcio!.Nombre;
             ViewBag.TiposGasto = _gastosService.ObtenerTiposGasto();
             ViewBag.IdConsorcio = id;
+            ViewBag.nombreConsorcio = consorcio.Nombre;
 
             var model = new GastoViewModel
             {

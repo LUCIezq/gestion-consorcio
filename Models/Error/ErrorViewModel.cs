@@ -1,3 +1,4 @@
+
 namespace PracticaParcial.Models;
 
 public class ErrorViewModel

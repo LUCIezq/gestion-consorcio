@@ -6,11 +6,13 @@
 }
 
 <div class="container mt-4">
-    
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold">Unidades</h2>
-        <a asp-action="Agregar" asp-controller="Unidades" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-primary fw-bold shadow-sm">
-            Nueva Unidad
+
+        <a asp-controller="Unidades" asp-action="Agregar" asp-route-consorcioId="@ViewBag.ConsorcioId"
+           class="btn btn-outline-primary fw-bold shadow-sm d-flex align-items-center gap-2">
+            <i class="bi bi-plus-circle"></i> Nueva Unidad
         </a>
     </div>
 
@@ -23,22 +25,23 @@
     }
 
     <nav aria-label="breadcrumb" class="mb-3">
-    <ol class="breadcrumb mb-0" style="font-size: 12px; font-weight: 500;">
-        <li class="breadcrumb-item">
-            <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio">
-                Mis Consorcios
-            </a>
-        </li>
-        <li class="breadcrumb-item">
-            <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio" asp-route-id="@ViewBag.ConsorcioId">
-                Consorcio "@ViewBag.NombreConsorcio"
-            </a>
-        </li>
-        <li class="breadcrumb-item active text-primary fw-bold" aria-current="page">
-            Unidades
-        </li>
-    </ol>
-</nav>
+        <ol class="breadcrumb mb-0" style="font-size: 12px; font-weight: 500;">
+            <li class="breadcrumb-item">
+                <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio">
+                    Mis Consorcios
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio"
+                   asp-route-id="@ViewBag.ConsorcioId">
+                    @ViewBag.NombreConsorcio
+                </a>
+            </li>
+            <li class="breadcrumb-item active text-primary fw-bold" aria-current="page">
+                Unidades
+            </li>
+        </ol>
+    </nav>
 
     <div class="table-responsive shadow-sm rounded">
         <table class="table table-bordered table-striped table-hover text-center mb-0 align-middle">
@@ -48,7 +51,8 @@
                     <th scope="col">Apellido</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Mail</th>
-                    <th scope="col">Acciones</th> </tr>
+                    <th scope="col">Acciones</th>
+                </tr>
             </thead>
             <tbody class="bg-white">
                 @if (Model != null && Model.Any())
@@ -61,12 +65,12 @@
                             <td>@item.NombrePropietario</td>
                             <td>@item.EmailPropietario</td>
                             <td>
-                                <a asp-action="Editar" asp-controller="Unidades" asp-route-id="@item.IdUnidad" 
+                                <a asp-action="Editar" asp-controller="Unidades" asp-route-id="@item.IdUnidad"
                                    class="btn btn-link text-primary text-decoration-none p-0 me-3">
                                     Editar
                                 </a>
 
-                                <a asp-action="Eliminar" asp-controller="Unidades" asp-route-id="@item.IdUnidad" 
+                                <a asp-action="Eliminar" asp-controller="Unidades" asp-route-id="@item.IdUnidad"
                                    class="btn btn-link text-danger text-decoration-none p-0">
                                     Eliminar
                                 </a>
@@ -88,10 +92,9 @@
     {
         <nav aria-label="Paginación de Unidades" class="mt-4">
             <ul class="pagination justify-content-center">
-                
+
                 <li class="page-item @(ViewBag.PaginaActual == 1 ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index" asp-controller="Unidades" 
-                       asp-route-id="@ViewBag.ConsorcioId" 
+                    <a class="page-link" asp-action="Index" asp-controller="Unidades" asp-route-id="@ViewBag.ConsorcioId"
                        asp-route-pagina="@(ViewBag.PaginaActual - 1)">
                         Previous
                     </a>
@@ -100,8 +103,7 @@
                 @for (int i = 1; i <= ViewBag.TotalPaginas; i++)
                 {
                     <li class="page-item @(i == ViewBag.PaginaActual ? "active" : "")">
-                        <a class="page-link" asp-action="Index" asp-controller="Unidades" 
-                           asp-route-id="@ViewBag.ConsorcioId" 
+                        <a class="page-link" asp-action="Index" asp-controller="Unidades" asp-route-id="@ViewBag.ConsorcioId"
                            asp-route-pagina="@i">
                             @i
                         </a>
@@ -109,8 +111,7 @@
                 }
 
                 <li class="page-item @(ViewBag.PaginaActual == ViewBag.TotalPaginas ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index" asp-controller="Unidades" 
-                       asp-route-id="@ViewBag.ConsorcioId" 
+                    <a class="page-link" asp-action="Index" asp-controller="Unidades" asp-route-id="@ViewBag.ConsorcioId"
                        asp-route-pagina="@(ViewBag.PaginaActual + 1)">
                         Next
                     </a>
