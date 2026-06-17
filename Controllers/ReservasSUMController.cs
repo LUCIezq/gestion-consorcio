@@ -32,11 +32,58 @@ namespace PracticaParcial.Controllers
         {
             if (ModelState.IsValid)
             {
-                _reservaLogica.AgregarReserva(reserva);
-                return RedirectToAction("Index", new { consorcioId = consorcioId });
+                try
+                {
+                    _reservaLogica.AgregarReserva(reserva);
+                    return RedirectToAction("Index", new { consorcioId = consorcioId });
+                }
+                catch (Exception ex) 
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
             }
             ViewBag.Unidades = _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
             ViewBag.ConsorcioId = consorcioId;
+            return View(reserva);
+        }
+
+        public IActionResult Editar(int id, int consorcioId)
+        {
+            var reserva = _reservaLogica.ObtenerPorId(id);
+
+            if (reserva == null)
+                return NotFound();
+
+            ViewBag.Unidades =
+                _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
+
+            ViewBag.ConsorcioId = consorcioId;
+
+            return View(reserva);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(ReservaSUM reserva, int consorcioId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _reservaLogica.ActualizarReserva(reserva);
+
+                    return RedirectToAction("Index", new { consorcioId });
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+            }
+
+            ViewBag.Unidades =
+                _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
+
+            ViewBag.ConsorcioId = consorcioId;
+
             return View(reserva);
         }
 

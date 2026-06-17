@@ -1,0 +1,49 @@
+﻿@model PracticaParcial.Models.Reserva.ReservaSUM
+@{
+    Layout = "_UsuarioLayout";
+    ViewData["Title"] = "Editar Reservas";
+}
+
+<form asp-action="Editar"
+      method="post"
+      asp-route-consorcioId="@ViewBag.ConsorcioId">
+
+    <input asp-for="Id" type="hidden" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="text-danger">
+    </div>
+
+    <label asp-for="Fecha"></label>
+    <input asp-for="Fecha"
+           type="date"
+           class="form-control" />
+
+    <label asp-for="Turno"></label>
+    <select asp-for="Turno" class="form-control">
+        <option value="1">Mediodia</option>
+        <option value="2">Noche</option>
+    </select>
+
+    <label asp-for="UnidadId"></label>
+    <select asp-for="UnidadId" class="form-control">
+
+        @foreach (var unidad in ViewBag.Unidades)
+        {
+            <option value="@unidad.IdUnidad">
+                @unidad.Nombre
+            </option>
+        }
+
+    </select>
+
+    <label asp-for="Observaciones"></label>
+    <textarea asp-for="Observaciones"
+              class="form-control">
+    </textarea>
+
+    <button class="btn btn-primary">
+        Guardar cambios
+    </button>
+
+</form>

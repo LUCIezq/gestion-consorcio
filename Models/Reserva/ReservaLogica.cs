@@ -29,8 +29,24 @@ public class ReservaLogica : IReservaLogica
     }
     public void AgregarReserva(ReservaSUM reserva)
     {
+        var unidad = db.Unidades
+        .Include(u => u.Consorcio)
+        .FirstOrDefault(u => u.IdUnidad == reserva.UnidadId);
+
+        if (unidad == null)
+        {
+            throw new Exception("La unidad no existe.");
+        }
+
+        int consorcioId = unidad.Consorcio.Id;
+
         bool existe = db.ReservasSUM
-            .Any(r => r.Fecha == reserva.Fecha && r.Turno == reserva.Turno);
+            .Include(r => r.Unidad)
+            .ThenInclude(u => u.Consorcio)
+            .Any(r =>
+                r.Unidad.Consorcio.Id == consorcioId &&
+                r.Fecha == reserva.Fecha &&
+                r.Turno == reserva.Turno);
 
         if (existe)
         {
@@ -57,8 +73,20 @@ public class ReservaLogica : IReservaLogica
     }
     public void ActualizarReserva(ReservaSUM reserva)
     {
+        var unidad = db.Unidades
+            .Include(u => u.Consorcio)
+            .FirstOrDefault(u => u.IdUnidad == reserva.UnidadId);
+
+        int consorcioId = unidad.Consorcio.Id;
+
         bool existe = db.ReservasSUM
-            .Any(r => r.Id != reserva.Id && r.Fecha == reserva.Fecha && r.Turno == reserva.Turno);
+            .Include(r => r.Unidad)
+            .ThenInclude(u => u.Consorcio)
+            .Any(r =>
+                r.Id != reserva.Id &&
+                r.Unidad.Consorcio.Id == consorcioId &&
+                r.Fecha == reserva.Fecha &&
+                r.Turno == reserva.Turno);
 
         if (existe)
         {
