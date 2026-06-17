@@ -48,7 +48,7 @@ namespace PracticaParcial.Controllers
             {
                 try
                 {
-                    _reservaLogica.AgregarReserva(reserva);
+                    await _reservaLogica.AgregarReserva(reserva);
                     return RedirectToAction("Index", new { consorcioId = consorcioId });
                 }
                 catch (Exception ex) 
