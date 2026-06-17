@@ -13,7 +13,7 @@
             </a>
         </li>
         <li class="breadcrumb-item">
-            <a class="text-decoration-none text-muted" asp-action="Detalles" asp-controller="Consorcio"
+            <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio"
                asp-route-id="@Model.IdConsorcio">
                 @Model.NombreConsorcio
             </a>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="card-body p-4">
-             gast       <form asp-action="Editar" method="post">
+                   <form asp-action="Editar" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                         <input type="hidden" asp-for="IdUnidad" />

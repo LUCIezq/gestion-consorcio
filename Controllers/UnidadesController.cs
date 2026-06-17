@@ -25,13 +25,17 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpGet]
-
         public async Task<IActionResult> Index(int id, int pagina = 1)
         {
-            int consorcioId = id;
             Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(id, userId);
 
-            var resultado = _unidadLogica.ObtenerUnidadesPorConsorcio(consorcioId, pagina);
+            if (consorcio == null)
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
+
+            var resultado = _unidadLogica.ObtenerUnidadesPorConsorcio(id, pagina);
 
             var viewModels = resultado.Unidades
                 .Select(UnidadViewModel.FromEntity)
@@ -39,10 +43,9 @@ namespace PracticaParcial.Controllers
 
             int cantidadPorPagina = 5;
             int totalPaginas = (int)Math.Ceiling((double)resultado.TotalRegistros / cantidadPorPagina);
-            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
 
-            ViewBag.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
-            ViewBag.ConsorcioId = consorcioId;
+            ViewBag.NombreConsorcio = consorcio.Nombre;
+            ViewBag.ConsorcioId = id;
             ViewBag.PaginaActual = pagina;
             ViewBag.TotalPaginas = totalPaginas;
 
@@ -58,7 +61,7 @@ namespace PracticaParcial.Controllers
 
             if (consorcio == null)
             {
-                //-> Podriamos mandar el id a Unidades
+       
                 return RedirectToAction("Index", "Consorcio");
             }
 
@@ -137,7 +140,9 @@ namespace PracticaParcial.Controllers
             var unidad = _unidadLogica.ObtenerUnidadPorId(id, userId);
 
             if (unidad == null)
-                return NotFound();
+            {
+                return RedirectToAction("Index", "Consorcio");
+            }
 
             var viewModel = UnidadViewModel.FromEntity(unidad);
 
