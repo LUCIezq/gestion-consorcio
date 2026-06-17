@@ -3,43 +3,73 @@
     Layout = "_UsuarioLayout";
     ViewData["Title"] = "Reservas SUM";
 }
-<h2>Reservas SUM</h2>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Reservas SUM</h2>
+        <a asp-action="Agregar" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-outline-primary fw-bold shadow-sm d-flex align-items-center gap-2" ">
+            Nueva Reserva
+        </a>
+    </div>
+</div>
 
-<a asp-action="Agregar" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-primary">
-    Nueva Reserva
-</a>
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0" style="font-size:12px;font-weight:500;">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Turno</th>
-            <th>Unidad</th>
-            <th>Comentarios</th>
-            <th>Entrego Correctamente</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+        <li class="breadcrumb-item">
+            <a asp-controller="Consorcio"
+               asp-action="Index"
+               asp-route-id="@ViewBag.ConsorcioId"
+               class="text-decoration-none text-muted">
+                @ViewBag.NombreConsorcio
+            </a>
+        </li>
 
-        @foreach (var r in Model)
-        {
+        <li class="breadcrumb-item">
+            <a asp-controller="Unidades"
+               asp-action="Index"
+               asp-route-id="@ViewBag.ConsorcioId"
+               class="text-decoration-none text-muted">
+                Unidades
+            </a>
+        </li>
+
+        <li class="breadcrumb-item active text-primary fw-bold">
+            Reservas SUM
+        </li>
+    </ol>
+</nav>
+
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover text-center mb-0 align-middle">
+        <thead class="table-secondary text-muted">
             <tr>
-                <td>@r.Fecha</td>
-                <td>@r.Turno</td>
-                <td>@r.Unidad.Nombre</td>
-                <td>@r.Observaciones</td>
-                <td>@r.EntregoCorrectamente</td>
-                <td>
-                    <a asp-action="Eliminar" asp-route-id="@r.Id" asp-route-consorcioId="@ViewBag.ConsorcioId">
-                        Eliminar
-                    </a>
-                </td>
-                <td><a asp-action="Editar" asp-route-id="@r.Id" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-warning">
-                        Editar
-                    </a>
-                </td>
+                <th scope="col">Fecha</th>
+                <th scope="col">Turno</th>
+                <th scope="col">Unidad</th>
+                <th scope="col">Comentarios</th>
+                <th scope="col">Entrego Correctamente</th>
+                <th scope="col">Acciones</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody class="bg-white">
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.Fecha</td>
+                    <td>@r.Turno</td>
+                    <td>@r.Unidad.Nombre</td>
+                    <td>@r.Observaciones</td>
+                    <td>@r.EntregoCorrectamente</td>
+                    <td>
+                        <a asp-action="Editar" asp-route-id="@r.Id" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-link text-primary text-decoration-none p-0 me-3">
+                            Editar
+                        </a>
+                        <a asp-action="Eliminar" asp-route-id="@r.Id" asp-route-consorcioId="@ViewBag.ConsorcioId" class="btn btn-link text-danger text-decoration-none p-0">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

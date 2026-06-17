@@ -3,6 +3,42 @@
     Layout = "_UsuarioLayout";
     ViewData["Title"] = "Agregar Reserva de SUM";
 }
+
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0" style="font-size:12px;font-weight:500;">
+        <li class="breadcrumb-item">
+            <a asp-controller="Consorcio"
+               asp-action="Index"
+               asp-route-id="@ViewBag.ConsorcioId"
+               class="text-decoration-none text-muted">
+                @ViewBag.NombreConsorcio
+            </a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a asp-controller="Unidades"
+               asp-action="Index"
+               asp-route-id="@ViewBag.ConsorcioId"
+               class="text-decoration-none text-muted">
+                Unidades
+            </a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a asp-controller="ReservasSUM"
+               asp-action="Index"
+               asp-route-consorcioId="@ViewBag.ConsorcioId"
+               class="text-decoration-none text-muted">
+                Reservas SUM
+            </a>
+        </li>
+
+        <li class="breadcrumb-item active text-primary fw-bold">
+            Agregar
+        </li>
+    </ol>
+</nav>
+
 <form asp-action="Agregar" method="post" asp-route-consorcioId="@ViewBag.ConsorcioId">
     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
     <label asp-for="Fecha">Fecha</label>

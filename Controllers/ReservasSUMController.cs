@@ -2,6 +2,7 @@
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Reserva;
 using PracticaParcial.Models.Unidades;
+using PracticaParcial.shared;
 
 namespace PracticaParcial.Controllers
 {
@@ -9,26 +10,39 @@ namespace PracticaParcial.Controllers
     {
         private readonly IReservaLogica _reservaLogica;
         private readonly IUnidadesLogica _unidadesLogica;
-        public ReservasSUMController(IReservaLogica reservaLogica, IUnidadesLogica unidadesLogica)
+        private readonly IConsorcioService _consorcioService;
+        public ReservasSUMController(IReservaLogica reservaLogica, IUnidadesLogica unidadesLogica, IConsorcioService consorcioService)
         {
             _reservaLogica = reservaLogica;
             _unidadesLogica = unidadesLogica;
+            _consorcioService = consorcioService;
         }
-        public IActionResult Index(int consorcioId)
+
+        [HttpGet]
+        public async Task<IActionResult> Index(int consorcioId)
         {
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
+
+            ViewBag.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
             ViewBag.ConsorcioId = consorcioId;
             return View(_reservaLogica.ObtenerReservas(consorcioId));
         }
 
-        public IActionResult Agregar(int consorcioId)
+        [HttpGet]
+        public async Task<IActionResult> Agregar(int consorcioId)
         {
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
+
+            ViewBag.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
             ViewBag.Unidades = _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
             ViewBag.ConsorcioId = consorcioId;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Agregar(ReservaSUM reserva, int consorcioId)
+        public async Task<IActionResult> Agregar(ReservaSUM reserva, int consorcioId)
         {
             if (ModelState.IsValid)
             {
@@ -42,20 +56,28 @@ namespace PracticaParcial.Controllers
                     ModelState.AddModelError("", ex.Message);
                 }
             }
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
+
+            ViewBag.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
             ViewBag.Unidades = _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
             ViewBag.ConsorcioId = consorcioId;
             return View(reserva);
         }
 
-        public IActionResult Editar(int id, int consorcioId)
+        [HttpGet]
+        public async Task<IActionResult> Editar(int id, int consorcioId)
         {
             var reserva = _reservaLogica.ObtenerPorId(id);
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
 
             if (reserva == null)
                 return NotFound();
 
-            ViewBag.Unidades =
-                _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
+            ViewBag.Unidades = _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
+            ViewBag.NombreConsorcio = consorcio != null ? consorcio.Nombre : "Desconocido";
+            ViewBag.Unidades = _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
 
             ViewBag.ConsorcioId = consorcioId;
 
@@ -63,7 +85,7 @@ namespace PracticaParcial.Controllers
         }
 
         [HttpPost]
-        public IActionResult Editar(ReservaSUM reserva, int consorcioId)
+        public async Task<IActionResult> Editar(ReservaSUM reserva, int consorcioId)
         {
             if (ModelState.IsValid)
             {
@@ -78,16 +100,16 @@ namespace PracticaParcial.Controllers
                     ModelState.AddModelError("", ex.Message);
                 }
             }
+            Guid userId = ClaimsExtension.GetUserId(User);
+            var consorcio = await _consorcioService.ObtenerConsorcioPorId(consorcioId, userId);
 
-            ViewBag.Unidades =
-                _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
-
+            ViewBag.Unidades = _unidadesLogica.ObtenerUnidadesPorConsorcio(consorcioId);
             ViewBag.ConsorcioId = consorcioId;
 
             return View(reserva);
         }
 
-        public IActionResult Eliminar(int id, int consorcioId)
+        public async Task<IActionResult> Eliminar(int id, int consorcioId)
         {
             _reservaLogica.EliminarReserva(id);
             return RedirectToAction("Index", new { consorcioId = consorcioId });
