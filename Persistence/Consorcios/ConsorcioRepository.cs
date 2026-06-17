@@ -65,6 +65,7 @@ namespace PracticaParcial.Persistence.Consorcios
         {
             var query = _dbContext.Consorcios
                 .Where(c => c.UserId == userId)
+                .OrderBy(c => c.Nombre) 
                 .Select(c => new ConsorcioDetailViewModel
                 {
                     Id = c.Id,
