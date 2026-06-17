@@ -17,12 +17,11 @@ namespace PracticaParcial.Models.Notificaciones
     {
         List<Notificacion> ObtenerNotificaciones(int IdConsorcio);
         void AgregarNotificacion(Notificacion nueva);
-
         Task EnviarNotificacion(Notificacion notificacion);
-
         Notificacion ObtenerNotificacionPorId(int idNotificacion);
         void EliminarNotificacion(Notificacion notificacion);
         void ActualizarNotificacion(Notificacion notificacion, EditarNotificacionViewModel notiModel);
+        Task EnviarNotificacionPorSMTP(string destino, string titulo, string descripcion);
     }
 
     public class NotificacionesLogica : INotificacionesLogica

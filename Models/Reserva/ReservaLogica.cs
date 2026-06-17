@@ -2,11 +2,12 @@
 namespace PracticaParcial.Models.Reserva;
 
 using PracticaParcial.Models.Consorcios;
+using PracticaParcial.Models.Notificaciones;
 using PracticaParcial.Persistence;
 public interface IReservaLogica
 {
     List<ReservaSUM> ObtenerReservas(int consorcioId);
-    void AgregarReserva(ReservaSUM reserva);
+    Task AgregarReserva(ReservaSUM reserva);
     void EliminarReserva(int id);
     ReservaSUM ObtenerPorId(int id);
     void ActualizarReserva(ReservaSUM reserva);
@@ -15,9 +16,12 @@ public interface IReservaLogica
 public class ReservaLogica : IReservaLogica
 {
     private readonly UnidadDbContext db;
-    public ReservaLogica(UnidadDbContext db)
+    private readonly INotificacionesLogica _notificaciones;
+
+    public ReservaLogica(UnidadDbContext db, INotificacionesLogica notificaciones)
     {
         this.db = db;
+        this._notificaciones = notificaciones;
     }
     public List<ReservaSUM> ObtenerReservas(int consorcioId)
     {
@@ -27,7 +31,7 @@ public class ReservaLogica : IReservaLogica
         .OrderBy(r => r.Fecha)
         .ToList();
     }
-    public void AgregarReserva(ReservaSUM reserva)
+    public async Task AgregarReserva(ReservaSUM reserva)
     {
         var unidad = db.Unidades
         .Include(u => u.Consorcio)
@@ -55,6 +59,27 @@ public class ReservaLogica : IReservaLogica
 
         db.ReservasSUM.Add(reserva);
         db.SaveChanges();
+
+        try
+        {
+            await _notificaciones.EnviarNotificacionPorSMTP(
+                unidad.EmailPropietario,
+                "Reserva SUM confirmada",
+                $"""
+                Su reserva fue registrada correctamente.
+
+                Fecha: {reserva.Fecha}
+                Turno: {reserva.Turno}
+                Unidad: {unidad.Nombre}
+
+                Observaciones:
+                {reserva.Observaciones}
+                """
+            );
+        }
+        catch
+        {
+        }
     }
     public void EliminarReserva(int id)
     {
