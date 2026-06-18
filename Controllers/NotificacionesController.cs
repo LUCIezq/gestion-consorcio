@@ -57,12 +57,11 @@ namespace PracticaParcial.Controllers
                 return RedirectToAction("Index", "Consorcio");
             }
 
-            CrearNotificacionViewModel noti = new CrearNotificacionViewModel()
+            CrearNotificacionViewModel noti = new()
             {
-                IdConsorcio = buscado.Id
+                IdConsorcio = buscado.Id,
+                NombreConsorcio = buscado.Nombre
             };
-
-            ViewBag.ConsorcioNombre = buscado.Nombre;
 
             return View(noti);
         }

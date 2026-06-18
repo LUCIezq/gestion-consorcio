@@ -13,6 +13,8 @@ namespace PracticaParcial.Models.Notificaciones.DTO
         [Required(ErrorMessage = "La descripción es obligatoria.")]
         public string Descripcion { get; set; }
 
+        public string NombreConsorcio { get; set; }
+
         public Notificacion toEntity()
         {
             return new Notificacion

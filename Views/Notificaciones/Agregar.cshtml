@@ -15,7 +15,7 @@
             <li class="breadcrumb-item">
                 <a class="text-decoration-none text-muted" asp-action="Index" asp-controller="Consorcio"
                    asp-route-id="@ViewBag.ConsorcioId">
-                    @ViewBag.ConsorcioNombre
+                    @Model.NombreConsorcio
                 </a>
             </li>
             <li class="breadcrumb-item active text-primary" aria-current="page">
@@ -48,7 +48,8 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Consorcio: </label>
-                            <input class="form-control" placeholder="@ViewBag.ConsorcioNombre" disabled />
+                            <input class="form-control" asp-for="NombreConsorcio" placeholder="@Model.NombreConsorcio"
+                                   readonly />
                         </div>
 
                         <div class="mb-3">
