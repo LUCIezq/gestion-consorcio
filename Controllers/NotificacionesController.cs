@@ -70,6 +70,12 @@ namespace PracticaParcial.Controllers
         [HttpPost]
         public async Task<IActionResult> Agregar(CrearNotificacionViewModel notificacion)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return View(notificacion);
+            }
+
             Notificacion nueva = notificacion.toEntity();
             nueva.FechaDeCreacion = DateOnly.FromDateTime(DateTime.Now);
             nueva.consorcio = await obtenerConsorciosCorrespondientesAlIdDeUsuario(notificacion.IdConsorcio);
