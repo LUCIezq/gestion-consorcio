@@ -49,13 +49,13 @@ namespace PracticaParcial.Controllers
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
-         
+
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost]
-        // [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             if (!ModelState.IsValid)
@@ -94,10 +94,7 @@ namespace PracticaParcial.Controllers
 
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction("Index", "Consorcio");
-            }
+            return RedirectToAction("Index", "Consorcio");
         }
 
         [HttpPost]
