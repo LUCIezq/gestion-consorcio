@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Reserva;
 using PracticaParcial.Models.Unidades;
@@ -6,6 +7,7 @@ using PracticaParcial.shared;
 
 namespace PracticaParcial.Controllers
 {
+    [Authorize]
     public class ReservasSUMController : Controller
     {
         private readonly IReservaLogica _reservaLogica;
@@ -51,7 +53,7 @@ namespace PracticaParcial.Controllers
                     await _reservaLogica.AgregarReserva(reserva);
                     return RedirectToAction("Index", new { consorcioId = consorcioId });
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     ModelState.AddModelError("", ex.Message);
                 }

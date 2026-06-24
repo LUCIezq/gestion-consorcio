@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Expensas;
 using PracticaParcial.Models.Expensas.DTO;
@@ -6,6 +7,7 @@ using PracticaParcial.shared;
 
 namespace PracticaParcial.Controllers;
 
+[Authorize]
 public class ExpensasController : Controller
 {
     private readonly IExpensasService _expensasService;

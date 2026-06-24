@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PracticaParcial.Models.Consorcios;
 using PracticaParcial.Models.Notificaciones;
 using PracticaParcial.Models.Notificaciones.DTO;
 using PracticaParcial.shared;
-using System.Diagnostics;
-using System.Security.Claims;
 
 namespace PracticaParcial.Controllers
 {
+    [Authorize]
     public class NotificacionesController : Controller
     {
 
